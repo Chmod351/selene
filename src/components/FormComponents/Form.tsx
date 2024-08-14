@@ -7,7 +7,11 @@ import InputField from "./Input";
 import SelectField from "./Select";
 import ButtonForm from "./ButtonForm";
 
-export default function Form({ fields, onSubmit }: FormProps) {
+export default function Form({
+  fields,
+  setIsCheckoutForm,
+  onSubmit,
+}: FormProps) {
   const {
     register,
     handleSubmit,
@@ -20,7 +24,7 @@ export default function Form({ fields, onSubmit }: FormProps) {
   };
 
   return (
-    <>
+    <div className="w-full bg-white flex flex-col justify-between m-auto h-auto rounded-xl ">
       {/* retiro de pedido*/}
       <div className="w-full  my-10 bg-primary">
         <div className="w-11/12 flex justify-evenly  flex-col  mx-auto py-8">
@@ -123,11 +127,11 @@ export default function Form({ fields, onSubmit }: FormProps) {
               type="submit"
               label="PASAR AL PAGO"
               disabled={false}
-              onClick={() => {}}
+              onClick={() => setIsCheckoutForm(false)}
             />
           </div>
         </form>
       </div>
-    </>
+    </div>
   );
 }

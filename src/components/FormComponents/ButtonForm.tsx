@@ -4,9 +4,10 @@ export default function ButtonForm({ ...props }: ButtonFormProps) {
     <button
       type={props.type}
       disabled={props.disabled}
-      className="bg-black hover:bg-gray-900 text-white font-bold py-2 px-4 rounded-xl"
+      onClick={props.onClick}
+      className="bg-black hover:bg-white hover:text-black hover:border-black hover:border-2 border-black border-2 text-white font-bold py-2 px-4 rounded-sm w-full h-14"
     >
-      Submit
+      {props.label}
     </button>
   );
 }

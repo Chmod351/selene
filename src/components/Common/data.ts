@@ -1,18 +1,18 @@
 const data = [
   {
-    name: "Tops",
+    name: "TOPS",
     url: "/tops",
   },
   {
-    name: "Bottoms",
+    name: "BOTTOMS",
     url: "/bottoms",
   },
   {
-    name: "Shoes",
+    name: "SHOES",
     url: "/shoes",
   },
   {
-    name: "Accessories",
+    name: "ACCESORIES",
     url: "/accesories",
   },
 ];

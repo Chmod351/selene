@@ -3,7 +3,7 @@ import LandingCardContainer from "@/components/ProductComponents/LandingCardCont
 
 export default function Home() {
   return (
-    <main className="">
+    <main className="mt-32">
       <LandingCardContainer />
     </main>
   );

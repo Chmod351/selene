@@ -1,23 +1,30 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import EcommerceContext from "./store";
-
+interface ICart {
+  productId: string;
+  productPrice: number;
+  quantity: number;
+  color: string;
+  size: string;
+  image: string;
+}
 const EcommerceProvider = ({ children }) => {
-  const [cart, setCart] = useState([]);
-  const [total, setTotal] = useState(0);
-  const [error, setError] = useState(null);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [houseNumber, setHouseNumber] = useState("");
-  const [floor, setFloor] = useState("");
-  const [dni, setDni] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [country, setCountry] = useState("");
-  const [zipCode, setZipCode] = useState("");
-  const [email, setEmail] = useState("");
+  const [cart, setCart] = useState<any[]>([]);
+  const [total, setTotal] = useState<number>(0);
+  const [error, setError] = useState<string | null>(null);
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [houseNumber, setHouseNumber] = useState<string>("");
+  const [floor, setFloor] = useState<string>("");
+  const [dni, setDni] = useState<string>("");
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [address, setAddress] = useState<string>("");
+  const [city, setCity] = useState<string>("");
+  const [state, setState] = useState<string>("");
+  const [country, setCountry] = useState<string>("");
+  const [zipCode, setZipCode] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
 
   useEffect(() => {
     const calculateTotal = () => {
@@ -31,11 +38,11 @@ const EcommerceProvider = ({ children }) => {
   }, [cart]);
 
   const addToCart = (product: any) => {
-    const existingProduct = cart.find((p) => p.id === product.id);
+    const existingProduct = cart.find((p) => p._id === product._id);
 
     if (existingProduct) {
       const newCart = cart.map((p) => {
-        if (p.id === product.id) {
+        if (p._id === product._id) {
           return { ...p, quantity: p.quantity + 1 };
         }
         return p;
@@ -46,8 +53,8 @@ const EcommerceProvider = ({ children }) => {
     }
   };
 
-  const removeFromCart = (productId) => {
-    const newCart = cart.filter((product) => product.id !== productId);
+  const removeFromCart = (productId: string) => {
+    const newCart = cart.filter((product) => product._id !== productId);
     setCart(newCart);
   };
 

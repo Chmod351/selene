@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProps } from "@/components/FormComponents/types";
-import checkFormSchema from "./utils";
+import checkFormSchema from "@/components/FormComponents/checkoutFormSchema";
 // components
 import InputField from "./Input";
 import SelectField from "./Select";
-import ButtonForm from "./ButtonForm";
+import SubmitButton from "@/components/Ui/SubmitButton";
 
 export default function Form({
   fields,
@@ -24,7 +24,7 @@ export default function Form({
   };
 
   return (
-    <div className="w-full bg-white flex flex-col justify-between m-auto h-auto rounded-xl ">
+    <div className="w-full bg-white flex flex-col justify-between m-auto rounded-xl items-center h-full mt-28 mb-10">
       {/* retiro de pedido*/}
       <div className="w-full  my-10 bg-primary">
         <div className="w-11/12 flex justify-evenly  flex-col  mx-auto py-8">
@@ -123,7 +123,7 @@ export default function Form({
             />
           </div>
           <div className="w-11/12  justify-center mx-auto bg-primary py-2 rounded-xl">
-            <ButtonForm
+            <SubmitButton
               type="submit"
               label="PASAR AL PAGO"
               disabled={false}

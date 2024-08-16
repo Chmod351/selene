@@ -2,14 +2,17 @@
 import React, { useContext, useEffect } from "react";
 import Image from "next/image";
 import { useState } from "react";
-import InfoBar from "@/components/common/InfoBar";
-import data from "@/components/common/data";
+import InfoBar from "@/components/Ui/InfoBar";
+import data from "@/components/Common/data";
 import SlidingPane from "react-sliding-pane";
 import "react-sliding-pane/dist/react-sliding-pane.css";
 import { GiShoppingCart } from "react-icons/gi";
 import { FaShoppingCart } from "react-icons/fa";
-import EcommerceContext from "@/components/store/store";
-import { CartDesktop, CartMobile } from "./Cart";
+import EcommerceContext from "@/store/store";
+import userCart from "@/components/Ui/Cart";
+//vars
+const CartMobile = userCart.CartMobile;
+const CartDesktop = userCart.CartDesktop;
 
 function Navbar() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -17,6 +20,7 @@ function Navbar() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const { cart } = useContext(EcommerceContext);
+
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768); // Puedes ajustar el valor 768 según tus necesidades
@@ -30,6 +34,7 @@ function Navbar() {
     // Limpiar el evento cuando el componente se desmonta
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
   return (
     <>
       {isMobile ? (

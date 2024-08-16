@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import EcommerceContext from "./store.ts";
+import EcommerceContext from "./store";
 
 const EcommerceProvider = ({ children }) => {
   const [cart, setCart] = useState([]);

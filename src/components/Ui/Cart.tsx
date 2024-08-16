@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import SlidingPane from "react-sliding-pane";
-import { ButtonForm } from "../FormComponents";
+import SubmitButton from "@/components/Ui/SubmitButton";
 import Image from "next/image";
 import NextLink from "next/link";
 
@@ -33,7 +33,7 @@ function CartLogic({ cart, setIsCartOpen }) {
         </article>
       ))}
       <NextLink href="/checkout">
-        <ButtonForm
+        <SubmitButton
           label="Checkout"
           onClick={() => setIsCartOpen(false)}
           type="submit"
@@ -44,7 +44,7 @@ function CartLogic({ cart, setIsCartOpen }) {
   );
 }
 
-export function CartDesktop({ cart, setIsCartOpen, isCartOpen }: any) {
+function CartDesktop({ cart, setIsCartOpen, isCartOpen }: any) {
   return (
     <SlidingPane
       className="custom-class"
@@ -59,7 +59,7 @@ export function CartDesktop({ cart, setIsCartOpen, isCartOpen }: any) {
   );
 }
 
-export function CartMobile({ cart, setIsCartOpen, isCartOpen }: any) {
+function CartMobile({ cart, setIsCartOpen, isCartOpen }: any) {
   return (
     <SlidingPane
       className="z-40"
@@ -73,3 +73,9 @@ export function CartMobile({ cart, setIsCartOpen, isCartOpen }: any) {
     </SlidingPane>
   );
 }
+
+const userCart = {
+  CartMobile,
+  CartDesktop,
+};
+export default userCart;

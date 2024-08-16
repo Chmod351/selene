@@ -1,5 +1,6 @@
 import { ButtonFormProps } from "@/components/FormComponents/types";
-export default function ButtonForm({ ...props }: ButtonFormProps) {
+
+export default function SubmitButton({ ...props }: ButtonFormProps) {
   return (
     <button
       type={props.type}

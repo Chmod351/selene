@@ -1,13 +1,12 @@
 import React from "react";
-import Image from "next/image";
 import NextLink from "next/link";
-import data from "@/components/common/data";
+import data from "@/components/Common/data";
 import { FaTiktok } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { SiMercadopago } from "react-icons/si";
 import { BsBank2 } from "react-icons/bs";
 
-function Footer() {
+export default function Footer() {
   return (
     <footer className="bg-primary w-full  font-helvetica md:h-[406px] md:py-0 pt-10">
       <div className="md:max-w-[1100px] w-11/12 m-auto flex md:justify-between items-center h-full space-x-4 md:flex-row flex-col-reverse  ">
@@ -55,5 +54,3 @@ function Footer() {
     </footer>
   );
 }
-
-export default Footer;

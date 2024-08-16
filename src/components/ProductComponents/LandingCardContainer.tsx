@@ -1,10 +1,10 @@
-import React from "react";
+import { useQuery } from "@tanstack/react-query";
 import LandingCard from "./LandingCard";
-import MyLoader from "../common/LadingCardLoading";
+import LandingCardLoading from "@/components/Ui/LandingCardLoading";
 import SimulationOfProducts from "./data";
 
-function LandingCardContainer() {
-  const [isLoading, setIsLoading] = React.useState(false);
+export default function LandingCardContainer() {
+  const { isLoading: isLoading, data, error } = useQuery({});
 
   return (
     <section className="w-full  py-10 z-[0] ">
@@ -16,7 +16,7 @@ function LandingCardContainer() {
           {isLoading
             ? [...Array(4)].map((index) => (
                 <div key={index} className="item flex flex-row z-[-3]">
-                  <MyLoader />
+                  <LandingCardLoading />
                 </div>
               ))
             : SimulationOfProducts.map((product) => (
@@ -29,5 +29,3 @@ function LandingCardContainer() {
     </section>
   );
 }
-
-export default LandingCardContainer;

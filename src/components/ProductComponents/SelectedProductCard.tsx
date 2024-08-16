@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import EcommerceContext from "../../components/store/store";
-import { ButtonForm } from "../FormComponents";
+import EcommerceContext from "@/store/store";
+import SubmitButton from "../Ui/SubmitButton";
 import Image from "next/image";
 
 function SelectedProductCard({
@@ -84,7 +84,7 @@ function SelectedProductCard({
             </ul>
           ))}
         </div>
-        <ButtonForm
+        <SubmitButton
           label="Add to cart"
           onClick={addToCartAndCloseModal}
           disabled={false}

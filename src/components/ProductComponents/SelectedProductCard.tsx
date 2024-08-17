@@ -9,7 +9,7 @@ const api_url = "http://localhost:4000/api/v1";
 
 const fetchProductFromApi = async (productId: string) => {
   try {
-    const response = await fetch(`${api_url}/products/${productId}`);
+    const response = await fetch(`${api_url}/products/id/${productId}`);
     if (!response.ok) {
       throw new Error("Error fetching products");
     }

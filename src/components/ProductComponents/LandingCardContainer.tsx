@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import LandingCard from "./LandingCard";
 import LandingCardLoading from "@/components/Ui/LandingCardLoading";
+import ErrorScreen from "@/components/Ui/ErrorScreen";
 import { IProduct } from "@/components/ProductComponents/types";
 
 const api_url = "http://localhost:4000/api/v1";
@@ -25,17 +26,17 @@ export default function LandingCardContainer() {
   });
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return <ErrorScreen />;
   }
   return (
     <section className="w-full  py-10 z-[0] ">
-      <div className="md:max-w-[1100px] w-11/12 m-auto">
+      <div className="container w-11/12 m-auto">
         <h1 className="text-3xl font-bold font-helvetica mb-10 text-center md:text-left">
           COLECCIÓN 2024
         </h1>
-        <div className="flex flex-wrap gap-5 m-auto justify-center z-10">
+        <div className="w-full flex flex-row flex-wrap justify-center  gap-5">
           {isLoading && !data
-            ? [...Array(8)].map((index) => (
+            ? [...Array(10)].map((index) => (
                 <div key={index} className="item flex flex-row z-[-3]">
                   <LandingCardLoading />
                 </div>

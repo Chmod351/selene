@@ -42,7 +42,7 @@ function Navbar() {
         )}
 
         <nav className="bg-primary w-full h-24 font-helvetica text-sm  shadow-lg">
-          <div className="md:max-w-[1100px] w-11/12 mx-auto mb-10 flex justify-between items-center h-full">
+          <div className="container w-11/12 mx-auto mb-10 flex justify-between items-center h-full">
             <div className="flex items-center">
               <NextLink href={"/"}>
                 <Image

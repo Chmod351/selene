@@ -19,19 +19,24 @@ interface ICartProps {
 
 function CartLogic({ cart, setIsCartOpen }: ICartProps) {
   const { removeFromCart, clearCart } = useContext(EcommerceContext);
-  console.log(cart);
   return (
-    <>
-      {cart.length !== 0 && <div onClick={clearCart}>XXX</div>}
+    <div className="flex flex-col gap-4 md:w-72 w-full m-auto">
+      {cart.length !== 0 && <div onClick={clearCart}>Clear your Cart.</div>}
       {cart.length > 0 ? (
         cart.map((item) => (
           <article
-            className="md:flex flex-col gap-4 m-auto justify-center  w-full hidden"
+            className="md:flex flex-col  my-8 mx-auto justify-between w-full hidden font-helvetica   h-[510px] "
             key={item._id}
           >
-            <div onClick={() => removeFromCart(item._id)}>X</div>
-            <div className="m-auto flex flex-col gap-4 p-4">
-              <div className=" h-[260px] max-w-[460px] w-full overflow-hidden rounded-lg ">
+            <div
+              className="absolute bg-white h-10 w-10 hover:bg-gray-200 hover:cursor-pointer text-center rounded-full text-2xl flex items-center justify-center"
+              onClick={() => removeFromCart(item._id)}
+            >
+              <span className="text-center">X</span>
+            </div>
+
+            <div className="m-auto flex flex-col gap-4">
+              <div className=" w-full overflow-hidden rounded-lg ">
                 <img
                   className="w-full h-full object-cover"
                   src={item.image_url[0]}
@@ -40,40 +45,43 @@ function CartLogic({ cart, setIsCartOpen }: ICartProps) {
                   // height={260}
                 />
               </div>
-              <strong className="text-2xl max-w-[260px] overflow-hidden">
-                {item.name_es}
-              </strong>
-              <strong className="text 3xl"> ${item.price_es}</strong>
-              <div className="flex flex-row justify-between my-4">
-                <h2 className="font-semibold ">Color:</h2>
-                <ul className="flex-row gap-1" style={{ listStyle: "none" }}>
-                  <li
-                    className="w-9 h-9 hover:cursor-pointer"
-                    style={{
-                      backgroundColor: item.color,
-                      border: `3px solid ${item.color}`,
-                      borderRadius: "50%",
-                    }}
-                  ></li>
-                </ul>
+              <div className="flex flex-col gap-4">
+                <strong className="text-2xl max-w-full overflow-hidden">
+                  {item.name_es}
+                </strong>
+                <strong className="text-3xl"> ${item.price_es}</strong>
+                <div className="flex flex-row justify-between items-center">
+                  <h2 className="font-semibold ">Color:</h2>
+                  <ul className="flex-row " style={{ listStyle: "none" }}>
+                    <li
+                      className="w-9 h-9 hover:cursor-pointer"
+                      style={{
+                        backgroundColor: item.color,
+                        border: `3px solid ${item.color}`,
+                        borderRadius: "50%",
+                      }}
+                    ></li>
+                  </ul>
+                </div>
+                <div className="flex flex-row justify-between items-center ">
+                  <h2 className="font-semibold ">Talle:</h2>
+                  <ul className="flex-row gap-1" style={{ listStyle: "none" }}>
+                    <li className="text-sm bg-gray-300 font-semibold hover:bg-gray-400 hover:cursor-pointer h-9 w-9 rounded-full flex items-center justify-center">
+                      {item.size}
+                    </li>
+                  </ul>
+                </div>
+                <strong className="text 3xl">Quantity: {item.quantity}</strong>
               </div>
-              <div className="flex flex-row justify-between my-4">
-                <h2 className="font-semibold ">Talle:</h2>
-                <ul className="flex-row gap-1" style={{ listStyle: "none" }}>
-                  <li className="text-sm bg-gray-300 font-semibold hover:bg-gray-400 hover:cursor-pointer h-9 w-9 rounded-full flex items-center justify-center">
-                    {item.size}
-                  </li>
-                </ul>
-              </div>
-              <strong className="text 3xl">Quantity: {item.quantity}</strong>
             </div>
           </article>
         ))
       ) : (
-        <div className="m-auto flex justify-center h-full w-full font-helvetica item-center">
+        <div className="m-auto flex justify-center h-full w-full  item-center">
           Cart is Empty
         </div>
       )}
+      <aside className="w-full flex flex-col justify-center bg-primary"></aside>
       {cart.length > 0 && (
         <NextLink href="/checkout">
           <SubmitButton
@@ -84,7 +92,7 @@ function CartLogic({ cart, setIsCartOpen }: ICartProps) {
           />
         </NextLink>
       )}
-    </>
+    </div>
   );
 }
 

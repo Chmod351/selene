@@ -1,6 +1,6 @@
 "use client";
 import Form from "@/components/FormComponents/Form";
-import checkoutFormData from "@/components/FormComponents/data";
+import FormCheckout from "@/components/FormComponents/FormCheckout";
 import SubmitButton from "@/components/Ui/SubmitButton";
 import RadioSelected from "@/components/Ui/RadioSelected";
 import { useState } from "react";
@@ -12,11 +12,9 @@ export default function CheckoutPage() {
   return (
     <main className="container m-auto min-h-screen flex justify-center items-center  flex-col mt-10">
       {isCheckoutForm ? (
-        <Form
-          setIsCheckoutForm={setIsCheckoutForm}
-          fields={checkoutFormData}
-          onSubmit={(data) => console.log(data)}
-        />
+        <Form>
+          <FormCheckout />
+        </Form>
       ) : (
         <section className="md:w-full w-11/12 max-w-4xl mx-auto justify-center items-center flex flex-col gap-4 mt-28">
           <h1 className="md:text-3xl font-bold font-helvetica mb-8 text-2xl text-center">

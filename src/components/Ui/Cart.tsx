@@ -29,10 +29,10 @@ function CartLogic({ cart, setIsCartOpen }: ICartProps) {
             key={item._id}
           >
             <div
-              className="absolute bg-white h-10 w-10 hover:bg-gray-200 hover:cursor-pointer text-center rounded-full text-2xl flex items-center justify-center"
+              className="absolute bg-black text-white h-9 w-9 hover:bg-gray-900 hover:cursor-pointer text-center rounded-full  flex items-center justify-center"
               onClick={() => removeFromCart(item._id)}
             >
-              <span className="text-center">X</span>
+              <span className="text-center mt-1">X</span>
             </div>
 
             <div className="m-auto flex flex-col gap-4">
@@ -67,7 +67,7 @@ function CartLogic({ cart, setIsCartOpen }: ICartProps) {
                   <h2 className="font-semibold ">Talle:</h2>
                   <ul className="flex-row gap-1" style={{ listStyle: "none" }}>
                     <li className="text-sm bg-gray-300 font-semibold hover:bg-gray-400 hover:cursor-pointer h-9 w-9 rounded-full flex items-center justify-center">
-                      {item.size}
+                      <span className="text-center mt-1"> {item.size}</span>
                     </li>
                   </ul>
                 </div>

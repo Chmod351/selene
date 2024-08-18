@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import EcommerceContext from "@/store/store";
 import SubmitButton from "../Ui/SubmitButton";
@@ -66,26 +67,30 @@ function SelectedProductCard({
   }
 
   return (
-    <section className="flex md:flex-row   w-full gap-4 container">
-      <div className="md:w-full flex-col justify-between h-full m-auto md:max-w-[460px] p-4 rounded-md  max-w-11/12">
-        <article className="m-auto max-h-[490px] ">
-          <div className="w-full max-h-[360px] overflow-hidden rounded-lg mb-4">
-            <img
-              src={data?.image_url[selectedImage]}
-              alt={data?.name_es}
-              className="hover cursor-pointer object-cover rounded-lg w-full h-[360px]"
-              // width={460}
-              // height={360}
-              // objectFit="contain"
-              // className="hover cursor-pointer"
-            />
+    <section className="flex md:flex-row md:w-full gap-4 md:container w-full  m-auto">
+      <div className="md:w-full w-full flex-col justify-between h-full m-auto md:max-w-[460px] p-4 rounded-md">
+        <article className="m-auto h-full  max-h-[490px] ">
+          <div className="w-full md:max-h-[360px] overflow-hidden rounded-lg mb-4">
+            {!data?.image_url ? (
+              <div className="max-w-[460px] h-96 bg-gray-300 animate-pulse flex flex-col m-auto">
+                <p className="m-auto">Loading...</p>
+              </div>
+            ) : (
+              <Image
+                src={data?.image_url[selectedImage] || ""}
+                alt={data?.name_es || "product"}
+                className="hover cursor-pointer object-cover rounded-lg w-full md:h-[360px]  "
+                width={490}
+                height={360}
+                objectFit="responsive"
+              />
+            )}
           </div>
-
-          <div className="flex flex-row max-w-[460px] gap-4 overflow-x-scroll">
+          <div className="flex flex-row max-w-full gap-4 overflow-x-auto">
             {data?.image_url.map((image: string, index: number) => (
               <div
                 key={index}
-                className="w-[100px] h-[100px] rounded-lg"
+                className="w-[100px] h-[100px] flex-shrink-0 rounded-lg"
                 style={{
                   border:
                     selectedImage === index
@@ -93,29 +98,29 @@ function SelectedProductCard({
                       : "3px solid transparent",
                 }}
               >
-                <img
-                  className="hover cursor-pointer h-[94px] w-[100px] object-cover rounded-lg "
+                <Image
+                  className="hover cursor-pointer h-full w-full object-cover rounded-lg"
                   onClick={() => setSelectedImage(index)}
                   key={index}
                   src={image}
                   alt={data?.name_es}
-                  // width={80}
-                  // height={80}
+                  width={100}
+                  height={100}
                 />
               </div>
             ))}
           </div>
         </article>
         <aside className="w-full gap-4 flex flex-col  mt-12 rounded justify-start items-start left-0 m-auto">
-          <h1 className="text-3xl font-bold">{data.name_es}</h1>
+          <h1 className="text-3xl font-bold">{data?.name_es}</h1>
           <strong className="text-3xl">$ {data?.price_es}</strong>
 
           {/* Mostrar colores y tallas */}
           {data?.stock.map((stockItem, stockIndex) => (
-            <div key={stockIndex} className="w-full ">
+            <div key={stockIndex} className="w-full">
               <div className="flex flex-row justify-between my-4">
                 <h2 className="font-semibold ">Colores:</h2>
-                <div className="flex flex-row gap-8 items-center max-w-[460px] wrap">
+                <div className="flex flex-row  items-center max-w-full md:max-w-[460px] gap-1 wrap">
                   {stockItem.color.map((color: string) => (
                     <ul
                       className="flex-row gap-1"
@@ -140,7 +145,7 @@ function SelectedProductCard({
               </div>
               <div className="flex flex-row justify-between my-4">
                 <h2 className="font-semibold">Talles:</h2>
-                <div className="flex flex-row gap-8 items-center max-w-[460px] wrap">
+                <div className="flex flex-row  items-center md:max-w-[460px] wrap">
                   {stockItem.size.map((size: string) => (
                     <ul
                       className="flex-row gap-8"

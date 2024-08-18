@@ -37,12 +37,12 @@ function CartLogic({ cart, setIsCartOpen }: ICartProps) {
 
             <div className="m-auto flex flex-col gap-4">
               <div className=" w-full overflow-hidden rounded-lg ">
-                <img
+                <Image
                   className="w-full h-full object-cover"
                   src={item.image_url[0]}
                   alt={item.name_es}
-                  // width={260}
-                  // height={260}
+                  width={260}
+                  height={260}
                 />
               </div>
               <div className="flex flex-col gap-4">

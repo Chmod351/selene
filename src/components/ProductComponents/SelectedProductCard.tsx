@@ -79,7 +79,7 @@ function SelectedProductCard({
               <Image
                 src={data?.image_url[selectedImage] || ""}
                 alt={data?.name_es || "product"}
-                className="hover cursor-pointer object-cover rounded-lg w-full md:h-[360px]  "
+                className="hover cursor-pointer object-cover rounded-lg w-full md:h-[360px]"
                 width={490}
                 height={360}
                 objectFit="responsive"
@@ -148,12 +148,12 @@ function SelectedProductCard({
                 <div className="flex flex-row  items-center md:max-w-[460px] wrap">
                   {stockItem.size.map((size: string) => (
                     <ul
-                      className="flex-row gap-8"
+                      className="flex flex-row "
                       key={size}
                       style={{ listStyle: "none" }}
                     >
                       <li
-                        className="text-sm bg-gray-300 font-semibold hover:bg-gray-400 hover:cursor-pointer h-9 w-9 rounded-full flex items-center justify-center"
+                        className="w-9 h-9 hover:cursor-pointer bg-gray-400 rounded-full mx-[1px] "
                         style={{
                           border:
                             selectedSize === size
@@ -162,7 +162,9 @@ function SelectedProductCard({
                         }}
                         onClick={() => setSelectedSize(size)}
                       >
-                        {size}
+                        <span className="w-full h-full  flex justify-center items-center">
+                          {size}
+                        </span>
                       </li>
                     </ul>
                   ))}

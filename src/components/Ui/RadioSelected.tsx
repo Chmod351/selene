@@ -15,7 +15,7 @@ function RadioSelected({
 }) {
   return (
     <div
-      className={`font-helvetica ${isSelected ? "bg-primary" : "bg-white"} w-full rounded-md h-32 flex justify-center items-center cursor-pointer border border-2-black`}
+      className={`font-helvetica ${isSelected ? "bg-primary border-2 border-primary" : "bg-white border-2 border-black"} w-full rounded-md h-32 flex justify-center items-center cursor-pointer `}
       onClick={() => onChangeChecked(paymentMethodText)}
     >
       <input

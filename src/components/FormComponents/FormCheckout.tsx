@@ -1,7 +1,16 @@
 import React from "react";
 import InputField from "./Input";
 
-function FormCheckout({ register, errors }: any) {
+function FormCheckout({
+  register,
+  errors,
+  isDisabled,
+}: {
+  register: any;
+  errors: any;
+  isDisabled: boolean;
+  setIsCheckoutForm: any;
+}) {
   return (
     <>
       <div className="bg-primary p-8 rounded-xl">
@@ -15,8 +24,9 @@ function FormCheckout({ register, errors }: any) {
           <div className="flex flex-wrap gap-7 flex-row ">
             <div className="md:w-[48.7%] w-full">
               <InputField
+                disabled={isDisabled}
                 label="Nombre"
-                name="nombre"
+                name="name"
                 register={register}
                 errors={errors}
                 placeholder="Nombre *"
@@ -26,7 +36,8 @@ function FormCheckout({ register, errors }: any) {
             <div className="md:w-[48.7%] w-full ">
               <InputField
                 label="Apellido"
-                name="apellido"
+                disabled={isDisabled}
+                name="surname"
                 register={register}
                 errors={errors}
                 placeholder="Apellido *"
@@ -37,7 +48,8 @@ function FormCheckout({ register, errors }: any) {
           <br />
           <InputField
             label="Dirección *"
-            name="direccion"
+            disabled={isDisabled}
+            name="shippingAddress1"
             register={register}
             errors={errors}
             placeholder="Dirección *"
@@ -45,20 +57,11 @@ function FormCheckout({ register, errors }: any) {
           />
           <br />
           <div className="flex flex-wrap gap-7 ">
-            <div className="md:w-[48.7%] w-full">
+            <div className="w-full">
               <InputField
-                label="Número de casa *"
-                name="numero"
-                register={register}
-                errors={errors}
-                placeholder="Número de casa *"
-                required
-              />
-            </div>
-            <div className="md:w-[48.7%] w-full">
-              <InputField
+                disabled={isDisabled}
                 label="Piso/ Dpto / Lote (Opcional)"
-                name="piso"
+                name="floor"
                 register={register}
                 errors={errors}
                 placeholder="Piso/ Dpto / Lote (Opcional)"
@@ -69,8 +72,9 @@ function FormCheckout({ register, errors }: any) {
           <div className="flex flex-wrap gap-7">
             <div className="md:w-[48.7%] w-full">
               <InputField
+                disabled={isDisabled}
                 label="Código postal *"
-                name="codigoPostal"
+                name="zip"
                 register={register}
                 errors={errors}
                 placeholder="Código postal *"
@@ -80,7 +84,8 @@ function FormCheckout({ register, errors }: any) {
             <div className="md:w-[48.7%] w-full ">
               <InputField
                 label="Localidad *"
-                name="localidad"
+                disabled={isDisabled}
+                name="city"
                 register={register}
                 errors={errors}
                 placeholder="Localidad *"
@@ -92,6 +97,7 @@ function FormCheckout({ register, errors }: any) {
           <InputField
             label="Email *"
             name="email"
+            disabled={isDisabled}
             register={register}
             errors={errors}
             placeholder="Email *"
@@ -101,6 +107,7 @@ function FormCheckout({ register, errors }: any) {
           <br />
           <InputField
             label="País *"
+            disabled={isDisabled}
             name="country"
             register={register}
             errors={errors}
@@ -110,16 +117,18 @@ function FormCheckout({ register, errors }: any) {
           <br />
           <InputField
             label="Provincia *"
-            name="provincia"
+            name="state"
             register={register}
             errors={errors}
+            disabled={isDisabled}
             placeholder="Provincia *"
             required
           />
           <br />
           <InputField
+            disabled={isDisabled}
             label="Número de teléfono *"
-            name="telefono"
+            name="phone"
             register={register}
             errors={errors}
             placeholder="Número de teléfono *"
@@ -131,8 +140,9 @@ function FormCheckout({ register, errors }: any) {
       <br className="mb-10" />
       <div className="w-full justify-center mx-auto gap-4 bg-primary p-8 rounded-xl">
         <InputField
+          disabled={isDisabled}
           label="Comentarios (Opcional)"
-          name="comentarios"
+          name="commentaries"
           register={register}
           errors={errors}
           placeholder="Comentarios (Opcional)"
@@ -142,7 +152,9 @@ function FormCheckout({ register, errors }: any) {
           Ingrese el número de su DNI (para la factura)
           <InputField
             label="DNI"
-            name="dni"
+            required
+            disabled={isDisabled}
+            name="userIdCard"
             register={register}
             errors={errors}
             placeholder="DNI"

@@ -44,6 +44,6 @@ export interface InputFieldProps {
 export interface ButtonFormProps {
   type: "submit" | "button" | "reset";
   label: string;
-  onClick: () => void;
+  onClick?: () => void;
   disabled: boolean;
 }

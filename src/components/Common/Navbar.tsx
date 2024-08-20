@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import Image from "next/image";
 import { useState } from "react";
 import InfoBar from "@/components/Ui/InfoBar";
@@ -13,12 +13,13 @@ import EcommerceContext from "@/store/store";
 import SearchBar from "@/components/Ui/SearchBar";
 import userCart from "@/components/Ui/Cart";
 import useIsMobile from "@/hooks/useIsMobile";
+
 //vars
 const CartMobile = userCart.CartMobile;
 const CartDesktop = userCart.CartDesktop;
 
 function Navbar() {
-  const isMobile = useIsMobile();
+  const { isMobile } = useIsMobile();
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const { cart } = useContext(EcommerceContext);

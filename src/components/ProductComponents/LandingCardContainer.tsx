@@ -46,22 +46,6 @@ export default function LandingCardContainer() {
       setCurrentPage(currentPage + 1);
     }
   };
-  // useEffect(() => {
-  //   const checkScrollBottom = () => {
-  //     if (
-  //       window.scrollY + window.innerHeight >=
-  //       document.documentElement.scrollHeight
-  //     )
-  //       console.log("im at bottom");
-
-  //     if (currentPage < data?.totalPages && !isLoading) {
-  //       console.log("go to next page");
-  //       setCurrentPage(currentPage + 1);
-  //     }
-  //   };
-  //   window.addEventListener("scroll", checkScrollBottom);
-  //   return () => window.removeEventListener("scroll", checkScrollBottom);
-  // }, [data, currentPage, isLoading]);
 
   if (error) {
     return <ErrorScreen />;
@@ -71,11 +55,7 @@ export default function LandingCardContainer() {
     <section className="w-full  py-10 z-[0] ">
       <div className="container w-11/12 m-auto">
         <h1 className="text-3xl font-bold font-helvetica mb-10 text-center md:text-left">
-          {isLoading && !data ? (
-            <div className="animate-pulse md:w-80 h-10 bg-gray-400 rounded-lg w-11/12 justify-center m-auto md:ml-0" />
-          ) : (
-            "COLECCIÓN 2024"
-          )}
+          COLECCIÓN 2024
         </h1>
         <div className="w-full flex flex-row flex-wrap justify-center gap-5">
           {isLoading && currentPage === 1 && !data
@@ -102,15 +82,17 @@ export default function LandingCardContainer() {
         </div>
 
         {isLoading ? (
-          <span className="bg-gray-300 animate-pulse h-10 w-11/12 rounded-lg items-center justify-center m-auto" />
+          <div className="bg-gray-300 animate-pulse h-10 w-11/12 rounded-lg items-center justify-center m-auto" />
         ) : (
           newArr.length < data?.totalItems && (
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center my-10 ">
               <span className="text-gray-400">
                 {newArr.length} of {data?.totalItems} products
               </span>
 
-              <button onClick={goToNextPage}>See more products</button>
+              <button onClick={goToNextPage} className="mt-4">
+                Ver los siguientes productos
+              </button>
             </div>
           )
         )}

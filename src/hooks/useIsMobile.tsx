@@ -1,7 +1,12 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
-function useIsMobile() {
+function useIsMobile(): {
+  isMobile: boolean;
+  isModalOpen: boolean;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+} {
   const [isMobile, setIsMobile] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -17,7 +22,7 @@ function useIsMobile() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  return isMobile;
+  return { isMobile, isModalOpen, setIsModalOpen };
 }
 
 export default useIsMobile;

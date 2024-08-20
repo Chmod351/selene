@@ -3,16 +3,26 @@ import Form from "@/components/FormComponents/Form";
 import FormCheckout from "@/components/FormComponents/FormCheckout";
 import SubmitButton from "@/components/Ui/SubmitButton";
 import RadioSelected from "@/components/Ui/RadioSelected";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useContext } from "react";
+import EcommerceContext from "@/store/store";
+import { IProduct } from "@/components/ProductComponents/types";
 
 export default function CheckoutPage() {
   const [isCheckoutForm, setIsCheckoutForm] = useState<boolean>(true);
   const [fieldChecked, setFieldChecked] = useState<string>("mercado-pago");
+  const { cart }: { cart: IProduct[] } = useContext(EcommerceContext);
 
+  useEffect(() => {
+    // if does not have product, go back to home
+    if (cart.length === 0) {
+      window.location.href = "/";
+    }
+  }, [cart.length]);
   return (
     <main className="container m-auto min-h-screen flex justify-center items-center  flex-col mt-10">
       {isCheckoutForm ? (
-        <Form>
+        <Form setIsCheckoutForm={setIsCheckoutForm}>
           <FormCheckout />
         </Form>
       ) : (

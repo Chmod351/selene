@@ -2,6 +2,65 @@ import React, { useState } from "react";
 import { useIsQuerySearch } from "@/hooks/useIsQuerySearch";
 import SlidingPane from "react-sliding-pane";
 import { FaSearch } from "react-icons/fa";
+import { IProduct } from "@/components/ProductComponents/types";
+import Image from "next/image";
+
+function SearchResultsLogic({
+  data,
+  error,
+  isLoading,
+}: {
+  data: IProduct[] | undefined;
+  error: Error | null;
+  isLoading: boolean;
+}) {
+  if (error) {
+    console.log(error);
+    return <p>Error</p>;
+  }
+
+  if (data && data.length === 0) {
+    return <p className="text-center">No results found</p>;
+  }
+
+  return (
+    <div className="w-full flex flex-row flex-wrap justify-center gap-5">
+      {isLoading && !data
+        ? [...Array(4)].map((_, index) => (
+            <div
+              key={index}
+              className="item flex flex-row z-[-3] w-full gap-4 bg-white"
+            >
+              <div className="w-[100px] h-[100px] flex-shrink-0 rounded-lg bg-gray-300 animate-pulse" />
+              <div className="flex flex-col gap-4 ml-4">
+                <div className="w-36 h-4  rounded-lg bg-gray-300 animate-pulse " />
+
+                <div className="w-20 h-4  rounded-lg bg-gray-600 animate-pulse " />
+              </div>
+            </div>
+          ))
+        : data?.map((product: IProduct) => (
+            <div key={product._id}>
+              <div className="flex flex-row max-w-full gap-4 overflow-x-auto">
+                <div className="w-[100px] h-[100px] flex-shrink-0 rounded-lg">
+                  <Image
+                    className="hover cursor-pointer h-full w-full object-cover rounded-lg"
+                    src={product.image_url[0]}
+                    alt={product.name_es}
+                    width={100}
+                    height={100}
+                  />
+                </div>
+                <aside>
+                  <p>{product.name_es}</p>
+                  <strong>${product.price_es}</strong>
+                </aside>
+              </div>
+            </div>
+          ))}
+    </div>
+  );
+}
 
 function SearchBarComponent({
   handleSearch,
@@ -18,7 +77,7 @@ function SearchBarComponent({
       <input
         type="text"
         placeholder="Search"
-        className="outline-none"
+        className="outline-none w-full"
         value={query || ""}
         onChange={handleSearch}
         onKeyDown={handleClickWithQuery}
@@ -33,12 +92,14 @@ function SlidingPaneSearch({
   handleSearch,
   handleClickWithQuery,
   query,
+  children,
 }: {
   setIsSearchOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isSearchOpen: boolean;
   handleSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleClickWithQuery: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   query: string | null;
+  children: React.ReactNode;
 }) {
   return (
     <SlidingPane
@@ -48,11 +109,14 @@ function SlidingPaneSearch({
       onRequestClose={() => setIsSearchOpen(false)}
       width="100%"
     >
-      <SearchBarComponent
-        handleSearch={handleSearch}
-        handleClickWithQuery={handleClickWithQuery}
-        query={query}
-      />
+      <div className="mb-4">
+        <SearchBarComponent
+          handleSearch={handleSearch}
+          handleClickWithQuery={handleClickWithQuery}
+          query={query}
+        />
+      </div>
+      {children}
     </SlidingPane>
   );
 }
@@ -63,6 +127,9 @@ function SearchBar() {
   const { data, error, isLoading } = useIsQuerySearch(query);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value === "") {
+      setQuery(null);
+    }
     setQuery(e.target.value);
   };
 
@@ -82,6 +149,15 @@ function SearchBar() {
             handleClickWithQuery={handleClickWithQuery}
             query={query}
           />
+          {data?.data?.length > 0 || isLoading ? (
+            <div className="w-[400px] rounded-lg fixed max-h-80 h-full bg-white overflow-auto">
+              <SearchResultsLogic
+                data={data?.data}
+                error={error}
+                isLoading={isLoading}
+              />
+            </div>
+          ) : null}
         </div>
         <button
           className="w-8 h-8 md:hidden"
@@ -101,7 +177,13 @@ function SearchBar() {
         handleSearch={handleSearch}
         handleClickWithQuery={handleClickWithQuery}
         query={query}
-      />
+      >
+        <SearchResultsLogic
+          data={data?.data}
+          error={error}
+          isLoading={isLoading}
+        />
+      </SlidingPaneSearch>
     </>
   );
 }

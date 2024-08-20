@@ -19,13 +19,14 @@ interface ICartProps {
 
 function CartLogic({ cart, setIsCartOpen }: ICartProps) {
   const { removeFromCart, clearCart } = useContext(EcommerceContext);
+
   return (
     <div className="flex flex-col gap-4 md:w-72 w-full m-auto">
       {cart.length !== 0 && <div onClick={clearCart}>Clear your Cart.</div>}
       {cart.length > 0 ? (
         cart.map((item) => (
           <article
-            className="md:flex flex-col  my-8 mx-auto justify-between w-full hidden font-helvetica   h-[510px] "
+            className="md:flex flex-col  my-8 mx-auto justify-between w-full  font-helvetica   h-[510px] "
             key={item._id}
           >
             <div

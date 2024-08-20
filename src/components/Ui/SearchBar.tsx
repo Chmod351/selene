@@ -3,21 +3,39 @@ import { useIsQuerySearch } from "@/hooks/useIsQuerySearch";
 import SlidingPane from "react-sliding-pane";
 import { FaSearch } from "react-icons/fa";
 import { IProduct } from "@/components/ProductComponents/types";
+import { useUrl } from "@/store/UrlProvider";
 import Image from "next/image";
 
 function SearchResultsLogic({
   data,
   error,
   isLoading,
+  setQuery,
 }: {
+  setQuery: React.Dispatch<React.SetStateAction<string | null>>;
   data: IProduct[] | undefined;
   error: Error | null;
   isLoading: boolean;
 }) {
+  const { setUrl } = useUrl();
+
   if (error) {
     console.log(error);
     return <p>Error</p>;
   }
+
+  const addParamToUrl = (newId: string) => {
+    const currentUrl = new URL(window.location.href);
+    currentUrl.searchParams.set("productId", newId);
+    const newUrl = currentUrl.toString();
+    setUrl(newUrl); // Actualiza el estado del contexto
+    window.history.pushState({}, "", newUrl);
+  };
+
+  const handleClick = (id: string) => {
+    setQuery(null);
+    addParamToUrl(id);
+  };
 
   if (data && data.length === 0) {
     return <p className="text-center">No results found</p>;
@@ -40,7 +58,11 @@ function SearchResultsLogic({
             </div>
           ))
         : data?.map((product: IProduct) => (
-            <div key={product._id}>
+            <article
+              onClick={() => handleClick(product._id)}
+              key={product._id}
+              className="cursor-pointer  overflow-hidden font-helvetica"
+            >
               <div className="flex flex-row max-w-full gap-4 overflow-x-auto">
                 <div className="w-[100px] h-[100px] flex-shrink-0 rounded-lg">
                   <Image
@@ -56,7 +78,7 @@ function SearchResultsLogic({
                   <strong>${product.price_es}</strong>
                 </aside>
               </div>
-            </div>
+            </article>
           ))}
     </div>
   );
@@ -152,6 +174,7 @@ function SearchBar() {
           {data?.data?.length > 0 || isLoading ? (
             <div className="w-[400px] rounded-lg fixed max-h-80 h-full bg-white overflow-auto">
               <SearchResultsLogic
+                setQuery={setQuery}
                 data={data?.data}
                 error={error}
                 isLoading={isLoading}
@@ -179,6 +202,7 @@ function SearchBar() {
         query={query}
       >
         <SearchResultsLogic
+          setQuery={setQuery}
           data={data?.data}
           error={error}
           isLoading={isLoading}

@@ -4,7 +4,7 @@ import EcommerceProvider from "../store/EcommerceProvider";
 import Navbar from "@/components/Common/Navbar";
 import Footer from "@/components/Common/Footer";
 import QueryClientProvider from "@/store/QueryProvider";
-
+import { UrlProvider } from "@/store/UrlProvider";
 import { Inter } from "next/font/google";
 
 import "./globals.css";
@@ -26,9 +26,11 @@ export default function RootLayout({
       <body className={inter.className}>
         <EcommerceProvider>
           <QueryClientProvider>
-            <Navbar />
-            {children}
-            <Footer />
+            <UrlProvider>
+              <Navbar />
+              {children}
+              <Footer />
+            </UrlProvider>
           </QueryClientProvider>
         </EcommerceProvider>
       </body>

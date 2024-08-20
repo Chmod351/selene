@@ -14,7 +14,6 @@ const fetchProductFromApi = async (productId: string) => {
     if (!response.ok) {
       throw new Error("Error fetching products");
     }
-
     const data: IProduct = await response.json();
     if (data) {
       return data;
@@ -40,9 +39,8 @@ function SelectedProductCard({
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState(0);
-
+  console.log(productId);
   const { addToCart } = useContext(EcommerceContext);
-
   const addToCartAndCloseModal = () => {
     addToCart({ ...data, color: selectedColor, size: selectedSize });
     setIsProductViewOpen(false);
@@ -63,14 +61,14 @@ function SelectedProductCard({
 
   if (error) {
     console.log(error);
-    return <p>Error</p>;
+    return <p className="text-center">Error</p>;
   }
 
   return (
-    <section className="flex md:flex-row md:w-full gap-4 md:container w-full  m-auto">
+    <div className="flex md:flex-row md:w-full gap-4 md:container w-full  m-auto">
       <div className="md:w-full w-full flex-col justify-between h-full m-auto md:max-w-[460px] p-4 rounded-md">
-        <article className="m-auto h-full  max-h-[490px] ">
-          <div className="w-full md:max-h-[360px] overflow-hidden rounded-lg mb-4">
+        <div className="m-auto h-full  max-h-[490px] ">
+          <article className="w-full md:max-h-[360px] overflow-hidden rounded-lg mb-4">
             {!data?.image_url ? (
               <div className="max-w-[460px] h-96 bg-gray-300 animate-pulse flex flex-col m-auto">
                 <p className="m-auto">Loading...</p>
@@ -85,10 +83,10 @@ function SelectedProductCard({
                 objectFit="responsive"
               />
             )}
-          </div>
+          </article>
           <div className="flex flex-row max-w-full gap-4 overflow-x-auto">
             {data?.image_url.map((image: string, index: number) => (
-              <div
+              <article
                 key={index}
                 className="w-[100px] h-[100px] flex-shrink-0 rounded-lg"
                 style={{
@@ -107,10 +105,10 @@ function SelectedProductCard({
                   width={100}
                   height={100}
                 />
-              </div>
+              </article>
             ))}
           </div>
-        </article>
+        </div>
         <aside className="w-full gap-4 flex flex-col  mt-12 rounded justify-start items-start left-0 m-auto">
           <h1 className="text-3xl font-bold">{data?.name_es}</h1>
           <strong className="text-3xl">$ {data?.price_es}</strong>
@@ -174,7 +172,7 @@ function SelectedProductCard({
           ))}
           <div className=" w-full">
             <SubmitButton
-              label="Add to cart"
+              label="ADD TO CART"
               onClick={addToCartAndCloseModal}
               disabled={selectedColor && selectedSize ? false : true}
               type="button"
@@ -183,7 +181,7 @@ function SelectedProductCard({
           <p>{data?.description_es}</p>
         </aside>
       </div>
-    </section>
+    </div>
   );
 }
 

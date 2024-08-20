@@ -10,11 +10,13 @@ function SearchResultsLogic({
   data,
   error,
   isLoading,
+  setIsSearchOpen,
   setQuery,
 }: {
   setQuery: React.Dispatch<React.SetStateAction<string | null>>;
   data: IProduct[] | undefined;
   error: Error | null;
+  setIsSearchOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isLoading: boolean;
 }) {
   const { setUrl } = useUrl();
@@ -34,6 +36,7 @@ function SearchResultsLogic({
 
   const handleClick = (id: string) => {
     setQuery(null);
+    setIsSearchOpen(false);
     addParamToUrl(id);
   };
 
@@ -174,6 +177,7 @@ function SearchBar() {
           {data?.data?.length > 0 || isLoading ? (
             <div className="w-[400px] rounded-lg fixed max-h-80 h-full bg-white overflow-auto">
               <SearchResultsLogic
+                setIsSearchOpen={setIsSearchOpen}
                 setQuery={setQuery}
                 data={data?.data}
                 error={error}
@@ -202,6 +206,7 @@ function SearchBar() {
         query={query}
       >
         <SearchResultsLogic
+          setIsSearchOpen={setIsSearchOpen}
           setQuery={setQuery}
           data={data?.data}
           error={error}

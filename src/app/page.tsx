@@ -8,13 +8,19 @@ import { useUrl } from "@/store/UrlProvider";
 export default function Home() {
   const { isMobile, isModalOpen, setIsModalOpen } = useIsMobile();
   const [productId, setProductId] = useState<string | null>(null);
-  const { url } = useUrl();
+  const { url, setUrl } = useUrl();
 
   useEffect(() => {
     setProductId(url.split("=")[1]);
     setIsModalOpen(true);
-  }, [url, setIsModalOpen]);
+  }, [url, setIsModalOpen, setUrl]);
 
+  const handleCloseModalAndClearUrlId = () => {
+    setProductId(null);
+    setIsModalOpen(false);
+    setUrl("");
+    window.history.pushState({}, "", "/");
+  };
   return (
     <main className="mt-32">
       <LandingCardContainer />
@@ -24,7 +30,7 @@ export default function Home() {
           closeIcon={<div>X</div>}
           isOpen={isModalOpen}
           width={isMobile ? "95%" : "700px"}
-          onRequestClose={() => setIsModalOpen(false)}
+          onRequestClose={handleCloseModalAndClearUrlId}
         >
           <SelectedProductCard
             productId={productId}

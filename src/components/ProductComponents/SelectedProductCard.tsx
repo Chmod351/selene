@@ -39,7 +39,6 @@ function SelectedProductCard({
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState(0);
-  console.log(productId);
   const { addToCart } = useContext(EcommerceContext);
   const addToCartAndCloseModal = () => {
     addToCart({ ...data, color: selectedColor, size: selectedSize });

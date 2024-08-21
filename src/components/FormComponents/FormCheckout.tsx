@@ -5,11 +5,12 @@ function FormCheckout({
   register,
   errors,
   isDisabled,
+  defaultValue,
 }: {
   register: any;
   errors: any;
   isDisabled: boolean;
-  setIsCheckoutForm: any;
+  defaultValue: any;
 }) {
   return (
     <>
@@ -26,7 +27,8 @@ function FormCheckout({
               <InputField
                 disabled={isDisabled}
                 label="Nombre"
-                name="name"
+                defaultValue={defaultValue.firstName}
+                name="firstName"
                 register={register}
                 errors={errors}
                 placeholder="Nombre *"
@@ -37,7 +39,8 @@ function FormCheckout({
               <InputField
                 label="Apellido"
                 disabled={isDisabled}
-                name="surname"
+                name="lastName"
+                defaultValue={defaultValue.lastName}
                 register={register}
                 errors={errors}
                 placeholder="Apellido *"
@@ -49,6 +52,7 @@ function FormCheckout({
           <InputField
             label="Dirección *"
             disabled={isDisabled}
+            defaultValue={defaultValue.shippingAddress1}
             name="shippingAddress1"
             register={register}
             errors={errors}
@@ -60,6 +64,7 @@ function FormCheckout({
             <div className="w-full">
               <InputField
                 disabled={isDisabled}
+                defaultValue={defaultValue.floor}
                 label="Piso/ Dpto / Lote (Opcional)"
                 name="floor"
                 register={register}
@@ -75,6 +80,7 @@ function FormCheckout({
                 disabled={isDisabled}
                 label="Código postal *"
                 name="zip"
+                defaultValue={defaultValue.zip}
                 register={register}
                 errors={errors}
                 placeholder="Código postal *"
@@ -85,6 +91,7 @@ function FormCheckout({
               <InputField
                 label="Localidad *"
                 disabled={isDisabled}
+                defaultValue={defaultValue.city}
                 name="city"
                 register={register}
                 errors={errors}
@@ -98,6 +105,7 @@ function FormCheckout({
             label="Email *"
             name="email"
             disabled={isDisabled}
+            defaultValue={defaultValue.email}
             register={register}
             errors={errors}
             placeholder="Email *"
@@ -109,6 +117,7 @@ function FormCheckout({
             label="País *"
             disabled={isDisabled}
             name="country"
+            defaultValue={defaultValue.country}
             register={register}
             errors={errors}
             placeholder="País *"
@@ -119,6 +128,7 @@ function FormCheckout({
             label="Provincia *"
             name="state"
             register={register}
+            defaultValue={defaultValue.state}
             errors={errors}
             disabled={isDisabled}
             placeholder="Provincia *"
@@ -128,7 +138,8 @@ function FormCheckout({
           <InputField
             disabled={isDisabled}
             label="Número de teléfono *"
-            name="phone"
+            name="phoneNumber"
+            defaultValue={defaultValue.phoneNumber}
             register={register}
             errors={errors}
             placeholder="Número de teléfono *"
@@ -143,6 +154,7 @@ function FormCheckout({
           disabled={isDisabled}
           label="Comentarios (Opcional)"
           name="commentaries"
+          defaultValue={defaultValue.commentaries}
           register={register}
           errors={errors}
           placeholder="Comentarios (Opcional)"
@@ -154,6 +166,7 @@ function FormCheckout({
             label="DNI"
             required
             disabled={isDisabled}
+            defaultValue={defaultValue.userIdCard}
             name="userIdCard"
             register={register}
             errors={errors}

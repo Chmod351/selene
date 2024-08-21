@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import checkFormSchema from "@/components/FormComponents/checkoutFormSchema";
 import PaymentInfo from "@/components/Ui/PaymentInfo";
 import SubmitButton from "@/components/Ui/SubmitButton";
+import EcommerceContext from "@/store/store";
+import { DataProps } from "@/store/store";
 
 interface FormProps {
   children: React.ReactNode;
@@ -14,8 +16,19 @@ function Form({ children, setIsCheckoutForm }: FormProps) {
   const { register, handleSubmit, formState } = useForm({
     resolver: zodResolver(checkFormSchema),
   });
-
+  const { userData, setUserData } = useContext(EcommerceContext);
   const [deliveryMode, setDeveliveryMode] = useState<string | null>(null);
+
+  const handleDataAndMoveToNextStep = (data: DataProps) => {
+    if (formState.isValid) {
+      console.log(data);
+      setUserData({
+        ...data,
+      });
+      setIsCheckoutForm(false);
+    }
+  };
+
   console.log(formState.isValid);
 
   return (
@@ -31,7 +44,9 @@ function Form({ children, setIsCheckoutForm }: FormProps) {
                 value="Pickup"
                 {...register("deliveryMode")}
                 checked={deliveryMode === "Pickup"}
-                onChange={() => setDeveliveryMode("Pickup")}
+                onChange={() =>
+                  setUserData({ ...userData, deliveryMode: "Pickup" })
+                }
               />
               Retirar por sucursal de correo
             </label>
@@ -42,7 +57,9 @@ function Form({ children, setIsCheckoutForm }: FormProps) {
                 value="Standard"
                 {...register("deliveryMode")}
                 checked={deliveryMode === "Standard"}
-                onChange={() => setDeveliveryMode("Standard")}
+                onChange={() =>
+                  setUserData({ ...userData, deliveryMode: "Standard" })
+                }
               />
               Envío estándar a domicilio
             </label>
@@ -53,7 +70,9 @@ function Form({ children, setIsCheckoutForm }: FormProps) {
                 value="Express_CABA"
                 {...register("deliveryMode")}
                 checked={deliveryMode === "Express_CABA"}
-                onChange={() => setDeveliveryMode("Express_CABA")}
+                onChange={() =>
+                  setUserData({ ...userData, deliveryMode: "Express_CABA" })
+                }
               />
               Moto mensajería 24 hs - CABA
             </label>
@@ -64,20 +83,23 @@ function Form({ children, setIsCheckoutForm }: FormProps) {
                 value="Express_GBA"
                 {...register("deliveryMode")}
                 checked={deliveryMode === "Express_GBA"}
-                onChange={() => setDeveliveryMode("Express_GBA")}
+                onChange={() =>
+                  setUserData({ ...userData, deliveryMode: "Express_GBA" })
+                }
               />
               Moto mensajería 24 hs - GBA
             </label>
           </div>
         </div>
-        <div className="w-1/2 animate-pulse h-52 bg-gray-600"></div>
+        <div className="w-1/2 "> asdsadas</div>
       </div>
 
       <div className="w-full bg-white flex flex-col justify-between m-auto h-auto rounded-xl">
-        <form onSubmit={handleSubmit((data) => console.log(data))}>
+        <form onSubmit={handleSubmit(handleDataAndMoveToNextStep)}>
           {React.Children.map(children, (child) => {
             return React.cloneElement(child as React.ReactElement<any>, {
               register,
+              defaultValue: userData,
               isDisabled: !deliveryMode ? true : false,
               errors: formState.errors,
             });

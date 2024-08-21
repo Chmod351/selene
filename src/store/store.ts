@@ -1,4 +1,20 @@
 import { createContext } from "react";
+export interface DataProps {
+  firstName: string;
+  lastName: string;
+  floor: string;
+  shippingAddress1: string;
+  city: string;
+  commentaries: string;
+  deliveryMode: string;
+  country: string;
+  email: string;
+  phoneNumber: string;
+  state: string;
+  userIdCard: string;
+  zip: string;
+  paymentMethod: string;
+}
 
 const EcommerceContext = createContext({
   // cart functions
@@ -10,30 +26,23 @@ const EcommerceContext = createContext({
   total: 0,
 
   // user form information
-  firstName: "",
-  setFirstName: (name) => {},
-  lastName: "",
-  setLastName: (name) => {},
-  houseNumber: "",
-  setHouseNumber: (number) => {},
-  floor: "",
-  setFloor: (floor) => {},
-  phoneNumber: "",
-  setPhoneNumber: (phone) => {},
-  address: "",
-  setAddress: (address) => {},
-  city: "",
-  setCity: (city) => {},
-  state: "",
-  setState: (state) => {},
-  country: "",
-  setCountry: (country) => {},
-  zipCode: "",
-  setZipCode: (zip) => {},
-  email: "",
-  setEmail: (email) => {},
-  dni: "",
-  setDni: (dni) => {},
+  setUserData: (data: DataProps) => {},
+  userData: {
+    firstName: "",
+    lastName: "",
+    floor: "",
+    shippingAddress1: "",
+    city: "",
+    commentaries: "",
+    deliveryMode: "",
+    country: "",
+    email: "",
+    phoneNumber: "",
+    state: "",
+    userIdCard: "",
+    zip: "",
+    paymentMethod: "",
+  },
 });
 
 export default EcommerceContext;

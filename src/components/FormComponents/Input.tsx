@@ -9,8 +9,10 @@ function InputField({
   type = "text",
   disabled,
   required,
+  defaultValue,
 }: {
   label: string;
+  defaultValue?: string | number;
   name: string;
   register: any;
   errors: any;
@@ -33,6 +35,7 @@ function InputField({
         placeholder={placeholder}
         type={type}
         disabled={disabled}
+        defaultValue={defaultValue}
       />
       {error && (
         <span className="text-red-500 text-sm mt-1">{error.message}</span>

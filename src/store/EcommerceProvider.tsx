@@ -1,31 +1,30 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import EcommerceContext from "./store";
-interface ICart {
-  productId: string;
-  productPrice: number;
-  quantity: number;
-  color: string;
-  size: string;
-  image: string;
-}
+import { DataProps } from "./store";
+
 const EcommerceProvider = ({ children }) => {
   const [cart, setCart] = useState<any[]>([]);
   const [total, setTotal] = useState<number>(0);
-  const [error, setError] = useState<string | null>(null);
-  const [firstName, setFirstName] = useState<string>("");
-  const [lastName, setLastName] = useState<string>("");
-  const [houseNumber, setHouseNumber] = useState<string>("");
-  const [floor, setFloor] = useState<string>("");
-  const [dni, setDni] = useState<string>("");
-  const [phoneNumber, setPhoneNumber] = useState<string>("");
-  const [address, setAddress] = useState<string>("");
-  const [city, setCity] = useState<string>("");
-  const [state, setState] = useState<string>("");
-  const [country, setCountry] = useState<string>("");
-  const [zipCode, setZipCode] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
 
+  const [userData, setUserDataInfo] = useState<DataProps>({
+    firstName: "",
+    lastName: "",
+    floor: "",
+    shippingAddress1: "",
+    city: "",
+    commentaries: "",
+    deliveryMode: "",
+    country: "",
+    email: "",
+    phoneNumber: "",
+    state: "",
+    userIdCard: "",
+    zip: "",
+    paymentMethod: "",
+  });
+
+  // Cargar el carrito y el total desde localStorage cuando se monta el componente
   useEffect(() => {
     const calculateTotal = () => {
       const totalAmount = cart.reduce(
@@ -33,10 +32,39 @@ const EcommerceProvider = ({ children }) => {
         0,
       );
       setTotal(totalAmount);
+      localStorage.setItem("total", JSON.stringify(total));
     };
     calculateTotal();
-  }, [cart]);
+  }, [cart, total]);
 
+  // Cargar datos desde localStorage cuando se monta el componente
+
+  useEffect(() => {
+    const loadFromLocalStorage = async () => {
+      const savedCart = localStorage.getItem("cart");
+      const savedTotal = localStorage.getItem("total");
+      const savedUserDetails = localStorage.getItem("userDetails");
+
+      if (savedCart) {
+        const parsedCart = JSON.parse(savedCart);
+        setCart(parsedCart);
+      }
+
+      if (savedTotal) {
+        const parsedTotal = Number(JSON.parse(savedTotal));
+        setTotal(parsedTotal);
+      }
+
+      if (savedUserDetails) {
+        const parsedUserDetails = JSON.parse(savedUserDetails);
+        setUserData(parsedUserDetails);
+      }
+    };
+
+    loadFromLocalStorage();
+  }, []);
+
+  // helpers
   const addToCart = (product: any) => {
     const existingProduct = cart.find((p) => p._id === product._id);
 
@@ -48,8 +76,10 @@ const EcommerceProvider = ({ children }) => {
         return p;
       });
       setCart(newCart);
+      localStorage.setItem("cart", JSON.stringify(cart));
     } else {
       setCart([...cart, { ...product, quantity: 1 }]);
+      localStorage.setItem("cart", JSON.stringify(cart));
     }
   };
 
@@ -59,17 +89,28 @@ const EcommerceProvider = ({ children }) => {
   };
 
   const clearCart = () => {
+    localStorage.removeItem("cart");
+    localStorage.removeItem("total");
     setCart([]);
   };
 
   const checkout = () => {
-    // Aquí puedes agregar la lógica para el checkout,
-    // como validar datos, procesar el pago, etc.
     console.log("Procesando checkout...");
-    // Limpiar el carrito después de un checkout exitoso
+
     clearCart();
   };
+  const setUserData = (data: DataProps) => {
+    setUserDataInfo({
+      ...data,
+    });
 
+    localStorage.setItem(
+      "userDetails",
+      JSON.stringify({
+        ...data,
+      }),
+    );
+  };
   return (
     <EcommerceContext.Provider
       value={{
@@ -79,31 +120,8 @@ const EcommerceProvider = ({ children }) => {
         checkout,
         cart,
         total,
-        firstName,
-        setFirstName,
-        lastName,
-        setLastName,
-        houseNumber,
-        setHouseNumber,
-        floor,
-        setFloor,
-        phoneNumber,
-        setPhoneNumber,
-        address,
-        setAddress,
-        city,
-        setCity,
-        state,
-        setState,
-        country,
-        setCountry,
-        zipCode,
-        setZipCode,
-        email,
-        setEmail,
-        dni,
-        setDni,
-        error,
+        userData,
+        setUserData,
       }}
     >
       {children}

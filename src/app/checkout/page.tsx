@@ -3,22 +3,14 @@ import Form from "@/components/FormComponents/Form";
 import FormCheckout from "@/components/FormComponents/FormCheckout";
 import SubmitButton from "@/components/Ui/SubmitButton";
 import RadioSelected from "@/components/Ui/RadioSelected";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useContext } from "react";
 import EcommerceContext from "@/store/store";
-import { IProduct } from "@/components/ProductComponents/types";
 
 export default function CheckoutPage() {
   const [isCheckoutForm, setIsCheckoutForm] = useState<boolean>(true);
-  const [fieldChecked, setFieldChecked] = useState<string>("mercado-pago");
-  const { cart }: { cart: IProduct[] } = useContext(EcommerceContext);
+  const { setUserData, userData } = useContext(EcommerceContext);
 
-  useEffect(() => {
-    // if does not have product, go back to home
-    if (cart.length === 0) {
-      window.location.href = "/";
-    }
-  }, [cart.length]);
   return (
     <main className="container m-auto min-h-screen flex justify-center items-center  flex-col mt-10">
       {isCheckoutForm ? (
@@ -31,16 +23,20 @@ export default function CheckoutPage() {
             Selecciona un Método de Pago
           </h1>
           <RadioSelected
-            fieldChecked={fieldChecked}
-            paymentMethodText="Mercado Pago"
-            isSelected={fieldChecked === "Mercado Pago"}
-            onChangeChecked={(value) => setFieldChecked(value)}
+            fieldChecked={userData.paymentMethod}
+            paymentMethodText="MERCADO PAGO"
+            isSelected={userData.paymentMethod === "MERCADO PAGO"}
+            onChangeChecked={(value) =>
+              setUserData({ ...userData, paymentMethod: value })
+            }
           />
           <RadioSelected
-            fieldChecked={fieldChecked}
-            paymentMethodText="Tarjeta de Credito"
-            isSelected={fieldChecked === "Tarjeta de Credito"}
-            onChangeChecked={(value) => setFieldChecked(value)}
+            fieldChecked={userData.paymentMethod}
+            paymentMethodText="TRANSFERENCIA"
+            isSelected={userData.paymentMethod === "TRANSFERENCIA"}
+            onChangeChecked={(value) =>
+              setUserData({ ...userData, paymentMethod: value })
+            }
           />
           <p>
             Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet, consetetur
@@ -64,7 +60,7 @@ export default function CheckoutPage() {
               label="CONFIRMAR MÉTODO DE PAGO"
               type="submit"
               onClick={() => setIsCheckoutForm(false)}
-              disabled={false}
+              disabled={userData.paymentMethod === ""}
             />
           </div>
         </section>

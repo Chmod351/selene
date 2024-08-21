@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import Image from "next/image";
 import SlidingPane from "react-sliding-pane";
 import React from "react";
@@ -12,20 +13,27 @@ const LandingCard = React.memo(function LandingCard({
   product: IProduct;
 }) {
   const { isMobile, isModalOpen, setIsModalOpen } = useIsMobile();
+  const [imageSelected, setImageSelected] = useState<number>(0);
+
+  const handleChangeImageOfProductsOnHover = () => {
+    setImageSelected((imageSelected + 1) % product.image_url.length);
+  };
 
   return (
     <>
       <article
-        className="min-max-h-[420px] h-full p-1 overflow-hidden  w-[240px] flex flex-col justify-center font-helvetica m-auto hover:cursor-pointer hover:shadow-2xl gap-5"
+        className="min-max-h-[420px] h-full p-2 overflow-hidden  w-[240px] flex flex-col justify-center font-helvetica m-auto hover:cursor-pointer  gap-4"
         onClick={() => setIsModalOpen(true)}
       >
         <Image
-          src={product.image_url[0]}
+          src={product.image_url[imageSelected]}
           alt={product.name_es}
           className="w-full h-[330px] object-cover rounded-lg"
           width="240"
           height="330"
           objectFit="cover"
+          onMouseOver={handleChangeImageOfProductsOnHover}
+          onMouseOut={() => setImageSelected(0)}
         />
         <div className=" justify-left left-0 max-w-[240px]   w-full overflow-hidden">
           <div className="flex flex-col m-auto h-[60px] ">

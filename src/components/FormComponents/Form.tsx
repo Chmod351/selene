@@ -7,17 +7,16 @@ import SubmitButton from "@/components/Ui/SubmitButton";
 
 interface FormProps {
   children: React.ReactNode;
+  setIsCheckoutForm: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function Form({ children, setIsCheckoutForm }: FormProps) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
+  const { register, handleSubmit, formState } = useForm({
     resolver: zodResolver(checkFormSchema),
   });
+
   const [deliveryMode, setDeveliveryMode] = useState<string | null>(null);
+  console.log(formState.isValid);
 
   return (
     <div className="w-full bg-white flex flex-col justify-between m-auto rounded-xl items-center h-full mt-28 mb-10">
@@ -29,7 +28,6 @@ function Form({ children, setIsCheckoutForm }: FormProps) {
               <input
                 type="radio"
                 className="mr-2"
-                name="deliveryMode"
                 value="Pickup"
                 {...register("deliveryMode")}
                 checked={deliveryMode === "Pickup"}
@@ -41,7 +39,6 @@ function Form({ children, setIsCheckoutForm }: FormProps) {
               <input
                 type="radio"
                 className="mr-2"
-                name="deliveryMode"
                 value="Standard"
                 {...register("deliveryMode")}
                 checked={deliveryMode === "Standard"}
@@ -53,7 +50,6 @@ function Form({ children, setIsCheckoutForm }: FormProps) {
               <input
                 type="radio"
                 className="mr-2"
-                name="deliveryMode"
                 value="Express_CABA"
                 {...register("deliveryMode")}
                 checked={deliveryMode === "Express_CABA"}
@@ -65,7 +61,6 @@ function Form({ children, setIsCheckoutForm }: FormProps) {
               <input
                 type="radio"
                 className="mr-2"
-                name="deliveryMode"
                 value="Express_GBA"
                 {...register("deliveryMode")}
                 checked={deliveryMode === "Express_GBA"}
@@ -84,18 +79,16 @@ function Form({ children, setIsCheckoutForm }: FormProps) {
             return React.cloneElement(child as React.ReactElement<any>, {
               register,
               isDisabled: !deliveryMode ? true : false,
-              errors,
+              errors: formState.errors,
             });
           })}
-          <div className="w-full" onClick={() => setIsCheckoutForm(true)}>
-            <PaymentInfo>
-              <SubmitButton
-                disabled={deliveryMode ? false : true}
-                label="Confirmar pedido"
-                type="submit"
-              />
-            </PaymentInfo>
-          </div>
+          <PaymentInfo>
+            <SubmitButton
+              disabled={deliveryMode ? false : true}
+              label="Confirmar pedido"
+              type="submit"
+            />
+          </PaymentInfo>
         </form>
       </div>
     </div>

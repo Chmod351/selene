@@ -17,7 +17,6 @@ function Form({ children, setIsCheckoutForm }: FormProps) {
     resolver: zodResolver(checkFormSchema),
   });
   const { userData, setUserData } = useContext(EcommerceContext);
-  const [deliveryMode, setDeveliveryMode] = useState<string | null>(null);
 
   const handleDataAndMoveToNextStep = (data: DataProps) => {
     if (formState.isValid) {
@@ -43,7 +42,7 @@ function Form({ children, setIsCheckoutForm }: FormProps) {
                 className="mr-2"
                 value="Pickup"
                 {...register("deliveryMode")}
-                checked={deliveryMode === "Pickup"}
+                checked={userData.deliveryMode === "Pickup"}
                 onChange={() =>
                   setUserData({ ...userData, deliveryMode: "Pickup" })
                 }
@@ -56,7 +55,7 @@ function Form({ children, setIsCheckoutForm }: FormProps) {
                 className="mr-2"
                 value="Standard"
                 {...register("deliveryMode")}
-                checked={deliveryMode === "Standard"}
+                checked={userData.deliveryMode === "Standard"}
                 onChange={() =>
                   setUserData({ ...userData, deliveryMode: "Standard" })
                 }
@@ -69,7 +68,7 @@ function Form({ children, setIsCheckoutForm }: FormProps) {
                 className="mr-2"
                 value="Express_CABA"
                 {...register("deliveryMode")}
-                checked={deliveryMode === "Express_CABA"}
+                checked={userData.deliveryMode === "Express_CABA"}
                 onChange={() =>
                   setUserData({ ...userData, deliveryMode: "Express_CABA" })
                 }
@@ -82,7 +81,7 @@ function Form({ children, setIsCheckoutForm }: FormProps) {
                 className="mr-2"
                 value="Express_GBA"
                 {...register("deliveryMode")}
-                checked={deliveryMode === "Express_GBA"}
+                checked={userData.deliveryMode === "Express_GBA"}
                 onChange={() =>
                   setUserData({ ...userData, deliveryMode: "Express_GBA" })
                 }
@@ -100,13 +99,13 @@ function Form({ children, setIsCheckoutForm }: FormProps) {
             return React.cloneElement(child as React.ReactElement<any>, {
               register,
               defaultValue: userData,
-              isDisabled: !deliveryMode ? true : false,
+              isDisabled: !userData.deliveryMode ? true : false,
               errors: formState.errors,
             });
           })}
           <PaymentInfo>
             <SubmitButton
-              disabled={deliveryMode ? false : true}
+              disabled={userData.deliveryMode ? false : true}
               label="Confirmar pedido"
               type="submit"
             />

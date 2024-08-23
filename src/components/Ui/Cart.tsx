@@ -18,11 +18,11 @@ function CartLogic({ cart, setIsCartOpen }: ICartProps) {
         cart.map((item) => (
           <article
             className="md:flex flex-col  my-8 mx-auto justify-between w-full  font-helvetica   h-[510px] "
-            key={item._id}
+            key={item._id + item.color}
           >
             <div
               className="absolute bg-black text-white h-9 w-9 hover:bg-gray-900 hover:cursor-pointer text-center rounded-full  flex items-center justify-center"
-              onClick={() => removeFromCart(item._id)}
+              onClick={() => removeFromCart(item._id + item.color)}
             >
               <span className="text-center mt-1">X</span>
             </div>

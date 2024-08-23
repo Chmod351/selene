@@ -27,10 +27,7 @@ const EcommerceProvider = ({ children }) => {
   // Cargar el carrito y el total desde localStorage cuando se monta el componente
   useEffect(() => {
     const calculateTotal = () => {
-      const totalAmount = cart.reduce(
-        (acc, product) => acc + product.price * product.quantity,
-        0,
-      );
+      const totalAmount = cart.reduce((a, b) => a + b.price_es * b.quantity, 0);
       setTotal(totalAmount);
       localStorage.setItem("total", JSON.stringify(total));
     };
@@ -65,26 +62,43 @@ const EcommerceProvider = ({ children }) => {
   }, []);
 
   // helpers
-  const addToCart = (product: any) => {
-    const existingProduct = cart.find((p) => p._id === product._id);
 
-    if (existingProduct) {
-      const newCart = cart.map((p) => {
-        if (p._id === product._id) {
-          return { ...p, quantity: p.quantity + 1 };
-        }
-        return p;
-      });
+  const addToCart = (product: any) => {
+    console.log(product);
+    const existingProductInCart = cart.find(
+      (p) =>
+        p._id === product._id &&
+        p.color === product.color &&
+        p.size === product.size,
+    );
+
+    if (existingProductInCart) {
+      // Si el producto ya existe en el carrito con el mismo color y tamaño, simplemente incrementa la cantidad
+      //
+      console.log("existingProductInCart", existingProductInCart);
+      const newCart = cart.map((p) =>
+        p._id === product._id &&
+        p.color === product.color &&
+        p.size === product.size
+          ? { ...p, quantity: p.quantity + 1 }
+          : p,
+      );
       setCart(newCart);
-      localStorage.setItem("cart", JSON.stringify(cart));
+      localStorage.setItem("cart", JSON.stringify(newCart));
     } else {
+      // Si el producto no existe en el carrito, lo agregas normalmente
       setCart([...cart, { ...product, quantity: 1 }]);
-      localStorage.setItem("cart", JSON.stringify(cart));
+      localStorage.setItem(
+        "cart",
+        JSON.stringify([...cart, { ...product, quantity: 1 }]),
+      );
     }
   };
 
   const removeFromCart = (productId: string) => {
-    const newCart = cart.filter((product) => product._id !== productId);
+    const newCart = cart.filter(
+      (product) => product._id + product.color !== productId,
+    );
     setCart(newCart);
   };
 

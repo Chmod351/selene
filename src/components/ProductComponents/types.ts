@@ -72,12 +72,6 @@ export interface IUserBody {
   username: string;
 }
 
-export interface MySessionData {
-  loggedin?: boolean;
-  user?: {
-    type?: string;
-  };
-}
 interface OrderItems {
   productId: IProduct;
   productPrice: number;

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import checkFormSchema from "@/components/FormComponents/checkoutFormSchema";
@@ -6,11 +6,7 @@ import PaymentInfo from "@/components/Ui/PaymentInfo";
 import SubmitButton from "@/components/Ui/SubmitButton";
 import EcommerceContext from "@/store/store";
 import { DataProps } from "@/store/store";
-
-interface FormProps {
-  children: React.ReactNode;
-  setIsCheckoutForm: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import { FormProps } from "@/components/FormComponents/types";
 
 function Form({ children, setIsCheckoutForm }: FormProps) {
   const { register, handleSubmit, formState } = useForm({

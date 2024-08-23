@@ -1,4 +1,4 @@
-import { FieldError } from "react-hook-form";
+import React from "react";
 
 export interface SelectFieldProps {
   onChange: (event: any) => void;
@@ -11,22 +11,8 @@ export interface SelectFieldProps {
   options: { value: string | number; label: string }[];
 }
 export interface FormProps {
-  onSubmit: (data: any) => void;
-  fields: {
-    type: string;
-    name: string;
-    label: string;
-    placeholder: string;
-    required?: boolean;
-    defaultValue?: string | number;
-    value: string | number;
-    onChange: (event: any) => void;
-    onClick: () => void;
-    disabled: boolean;
-    options: { value: string | number; label: string }[];
-    errors: any;
-    register?: any;
-  }[];
+  children: React.ReactNode;
+  setIsCheckoutForm: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export interface InputFieldProps {
   type: string;

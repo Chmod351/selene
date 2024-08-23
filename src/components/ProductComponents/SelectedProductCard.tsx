@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import EcommerceContext from "@/store/store";
@@ -7,6 +7,40 @@ import SubmitButton from "../Ui/SubmitButton";
 import { IProduct } from "@/components/ProductComponents/types";
 
 const api_url = "http://localhost:4000/api/v1";
+
+type Sizes =
+  | "XS"
+  | "S"
+  | "M"
+  | "L"
+  | "XL"
+  | "XXL"
+  | "XXXL"
+  | "XXXXL"
+  | "25"
+  | "26"
+  | "27"
+  | "28"
+  | "29"
+  | "30"
+  | "31"
+  | "32"
+  | "33"
+  | "34"
+  | "35"
+  | "36"
+  | "37"
+  | "38"
+  | "39"
+  | "40"
+  | "41"
+  | "42"
+  | "43"
+  | "44"
+  | "45"
+  | "46"
+  | "47"
+  | "48";
 
 const fetchProductFromApi = async (productId: string) => {
   try {
@@ -37,13 +71,41 @@ function SelectedProductCard({
     refetchOnWindowFocus: false,
   });
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
-  const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [selectedSize, setSelectedSize] = useState<Sizes | null>(null);
   const [selectedImage, setSelectedImage] = useState(0);
+  const [isProductAvaliable, setIsProductAvaliable] = useState<
+    boolean | undefined
+  >(true);
   const { addToCart } = useContext(EcommerceContext);
   const addToCartAndCloseModal = () => {
     addToCart({ ...data, color: selectedColor, size: selectedSize });
     setIsProductViewOpen(false);
   };
+  const allColors = Array.from(
+    new Set(data?.stock.flatMap((stockItem) => stockItem.color) || []),
+  );
+  const allSizes = Array.from(
+    new Set(data?.stock.flatMap((stockItem) => stockItem.size) || []),
+  );
+  const isCombinationAvailable = useCallback(
+    (color: string, size: Sizes) => {
+      return data?.stock.some(
+        (stockItem) =>
+          stockItem.color.includes(color) &&
+          stockItem.size.includes(size) &&
+          stockItem.quantity > 0,
+      );
+    },
+    [data?.stock],
+  );
+
+  useEffect(() => {
+    if (selectedSize && selectedColor) {
+      const isAvaliable = isCombinationAvailable(selectedColor, selectedSize);
+      setIsProductAvaliable(isAvaliable);
+      console.log(isAvaliable);
+    }
+  }, [selectedColor, selectedSize, isCombinationAvailable]);
 
   if (isLoading && !data) {
     return (
@@ -111,69 +173,78 @@ function SelectedProductCard({
         <aside className="w-full gap-4 flex flex-col  mt-12 rounded justify-start items-start left-0 m-auto">
           <h1 className="text-3xl font-bold">{data?.name_es}</h1>
           <strong className="text-3xl">$ {data?.price_es}</strong>
-
-          {/* Mostrar colores y tallas */}
-          {data?.stock.map((stockItem, stockIndex) => (
-            <div key={stockIndex} className="w-full">
-              <div className="flex flex-row justify-between my-4">
-                <h2 className="font-semibold ">Colores:</h2>
-                <div className="flex flex-row  items-center max-w-full md:max-w-[460px] gap-1 wrap">
-                  {stockItem.color.map((color: string) => (
-                    <ul
-                      className="flex-row gap-1"
-                      key={color}
-                      style={{ listStyle: "none" }}
-                    >
-                      <li
-                        onClick={() => setSelectedColor(color)}
-                        className="w-9 h-9 hover:cursor-pointer"
-                        style={{
-                          backgroundColor: color,
-                          border:
-                            selectedColor !== color
-                              ? `3px solid ${color}`
-                              : "3px solid orange",
-                          borderRadius: "50%",
-                        }}
-                      ></li>
-                    </ul>
-                  ))}
-                </div>
-              </div>
-              <div className="flex flex-row justify-between my-4">
-                <h2 className="font-semibold">Talles:</h2>
-                <div className="flex flex-row  items-center md:max-w-[460px] wrap">
-                  {stockItem.size.map((size: string) => (
-                    <ul
-                      className="flex flex-row "
-                      key={size}
-                      style={{ listStyle: "none" }}
-                    >
-                      <li
-                        className="w-9 h-9 hover:cursor-pointer bg-gray-400 rounded-full mx-[1px] "
-                        style={{
-                          border:
-                            selectedSize === size
+          {/* Mostrar colores y talles */}
+          <div className="w-full">
+            <div className="flex flex-row justify-between my-4">
+              <h2 className="font-semibold">Colores:</h2>
+              <div className="flex flex-row items-center max-w-full md:max-w-[460px] gap-1 wrap">
+                {allColors.map((color: string) => (
+                  <ul
+                    className="flex-row gap-1"
+                    key={color}
+                    style={{ listStyle: "none" }}
+                  >
+                    <li
+                      onClick={() => setSelectedColor(color)}
+                      className="w-9 h-9 hover:cursor-pointer"
+                      style={{
+                        backgroundColor: color,
+                        border:
+                          selectedColor !== color
+                            ? color === "white"
                               ? "3px solid black"
-                              : "3px solid transparent",
-                        }}
-                        onClick={() => setSelectedSize(size)}
-                      >
-                        <span className="w-full h-full  flex justify-center items-center">
-                          {size}
-                        </span>
-                      </li>
-                    </ul>
-                  ))}
-                </div>
+                              : `3px solid ${color}`
+                            : "3px solid orange",
+                        borderRadius: "50%",
+                      }}
+                    ></li>
+                  </ul>
+                ))}
               </div>
             </div>
-          ))}
+            <div className="flex flex-row justify-between my-4">
+              <h2 className="font-semibold">Talles:</h2>
+              <div className="flex flex-row items-center max-w-full md:max-w-[460px] gap-1 wrap">
+                {" "}
+                {allSizes.map((size) => (
+                  <ul
+                    className="flex flex-row"
+                    key={size}
+                    style={{ listStyle: "none" }}
+                  >
+                    <li
+                      className="w-9 h-9 hover:cursor-pointer bg-gray-400 rounded-full "
+                      style={{
+                        border:
+                          selectedSize === size
+                            ? "3px solid black"
+                            : "3px solid transparent",
+                      }}
+                      onClick={() => setSelectedSize(size)}
+                    >
+                      <span className="w-full h-full flex justify-center items-center">
+                        {size}
+                      </span>
+                    </li>
+                  </ul>
+                ))}
+              </div>
+            </div>
+          </div>{" "}
+          {!isProductAvaliable && (
+            <span className="text-red-500">
+              No nos quedan unidades disponibles :(
+            </span>
+          )}
           <div className=" w-full">
             <SubmitButton
               label="ADD TO CART"
               onClick={addToCartAndCloseModal}
-              disabled={selectedColor && selectedSize ? false : true}
+              disabled={
+                isProductAvaliable && selectedColor && selectedSize
+                  ? false
+                  : true
+              }
               type="button"
             />
           </div>

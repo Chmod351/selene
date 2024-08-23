@@ -3,19 +3,10 @@ import SlidingPane from "react-sliding-pane";
 import SubmitButton from "@/components/Ui/SubmitButton";
 import Image from "next/image";
 import NextLink from "next/link";
-import { IProduct } from "@/components/ProductComponents/types";
+
 import EcommerceContext from "@/store/store";
 
-interface ICartProduct extends IProduct {
-  color: string;
-  size: string;
-  quantity: number;
-}
-
-interface ICartProps {
-  cart: ICartProduct[];
-  setIsCartOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import { ICartProps, ICart } from "@/components/Ui/types";
 
 function CartLogic({ cart, setIsCartOpen }: ICartProps) {
   const { removeFromCart, clearCart } = useContext(EcommerceContext);
@@ -97,29 +88,14 @@ function CartLogic({ cart, setIsCartOpen }: ICartProps) {
   );
 }
 
-function CartDesktop({ cart, setIsCartOpen, isCartOpen }: any) {
-  return (
-    <SlidingPane
-      className="custom-class"
-      closeIcon={<div>X</div>}
-      isOpen={isCartOpen}
-      title="This is your Cart."
-      width="700px"
-      onRequestClose={() => setIsCartOpen(false)}
-    >
-      <CartLogic cart={cart} setIsCartOpen={setIsCartOpen} />
-    </SlidingPane>
-  );
-}
-
-function CartMobile({ cart, setIsCartOpen, isCartOpen }: any) {
+function Cart({ cart, setIsCartOpen, isCartOpen, isMobile }: ICart) {
   return (
     <SlidingPane
       className="z-40"
       closeIcon={<div>X</div>}
       isOpen={isCartOpen}
       title="This is your Cart."
-      width=""
+      width={isMobile ? "100%" : "700px"}
       onRequestClose={() => setIsCartOpen(false)}
     >
       <CartLogic cart={cart} setIsCartOpen={setIsCartOpen} />
@@ -127,8 +103,4 @@ function CartMobile({ cart, setIsCartOpen, isCartOpen }: any) {
   );
 }
 
-const userCart = {
-  CartMobile,
-  CartDesktop,
-};
-export default userCart;
+export default Cart;

@@ -11,12 +11,10 @@ import { GiShoppingCart } from "react-icons/gi";
 import { FaShoppingCart } from "react-icons/fa";
 import EcommerceContext from "@/store/store";
 import SearchBar from "@/components/Ui/SearchBar";
-import userCart from "@/components/Ui/Cart";
+import Cart from "@/components/Ui/Cart";
 import useIsMobile from "@/hooks/useIsMobile";
 
 //vars
-const CartMobile = userCart.CartMobile;
-const CartDesktop = userCart.CartDesktop;
 
 function Navbar() {
   const { isMobile } = useIsMobile();
@@ -28,19 +26,12 @@ function Navbar() {
     <div className="w-full fixed top-0 ">
       <InfoBar text="Envíos a todo el país!" />
       <nav>
-        {isMobile ? (
-          <CartMobile
-            cart={cart}
-            setIsCartOpen={setIsCartOpen}
-            isCartOpen={isCartOpen}
-          />
-        ) : (
-          <CartDesktop
-            cart={cart}
-            setIsCartOpen={setIsCartOpen}
-            isCartOpen={isCartOpen}
-          />
-        )}
+        <Cart
+          cart={cart}
+          setIsCartOpen={setIsCartOpen}
+          isCartOpen={isCartOpen}
+          isMobile={isMobile}
+        />
 
         <nav className="bg-primary w-full h-24 font-helvetica text-sm  shadow-lg">
           <div className="container w-11/12 mx-auto mb-10 flex justify-between items-center h-full">

@@ -18,3 +18,12 @@ export interface ICart {
   isCartOpen: boolean;
   isMobile: boolean;
 }
+
+// Radio Select
+export interface IRadioSelectProps {
+  fieldChecked: string;
+  paymentMethodText: string;
+  defaultChecked?: boolean;
+  isSelected: boolean;
+  onChangeChecked: (value: string) => void;
+}

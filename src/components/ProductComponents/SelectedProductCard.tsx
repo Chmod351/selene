@@ -103,7 +103,6 @@ function SelectedProductCard({
     if (selectedSize && selectedColor) {
       const isAvaliable = isCombinationAvailable(selectedColor, selectedSize);
       setIsProductAvaliable(isAvaliable);
-      console.log(isAvaliable);
     }
   }, [selectedColor, selectedSize, isCombinationAvailable]);
 

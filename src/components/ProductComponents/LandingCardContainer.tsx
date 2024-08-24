@@ -42,7 +42,6 @@ export default function LandingCardContainer() {
 
   const goToNextPage = () => {
     if (currentPage < data?.totalPages && !isLoading) {
-      console.log("go to next page");
       setCurrentPage(currentPage + 1);
     }
   };

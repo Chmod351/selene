@@ -75,7 +75,6 @@ const EcommerceProvider = ({ children }) => {
     if (existingProductInCart) {
       // Si el producto ya existe en el carrito con el mismo color y tamaño, simplemente incrementa la cantidad
       //
-      console.log("existingProductInCart", existingProductInCart);
       const newCart = cart.map((p) =>
         p._id === product._id &&
         p.color === product.color &&

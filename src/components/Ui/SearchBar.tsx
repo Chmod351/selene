@@ -161,7 +161,6 @@ function SearchBar() {
   const handleClickWithQuery = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      console.log("Search query:", query);
     }
   };
 

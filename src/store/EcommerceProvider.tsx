@@ -87,10 +87,16 @@ const EcommerceProvider = ({ children }) => {
       localStorage.setItem("cart", JSON.stringify(newCart));
     } else {
       // Si el producto no existe en el carrito, lo agregas normalmente
-      setCart([...cart, { ...product, quantity: 1 }]);
+      setCart([
+        ...cart,
+        { ...product, productPrice: product.price_es, quantity: 1 },
+      ]);
       localStorage.setItem(
         "cart",
-        JSON.stringify([...cart, { ...product, quantity: 1 }]),
+        JSON.stringify([
+          ...cart,
+          { ...product, productPrice: product.price_es, quantity: 1 },
+        ]),
       );
     }
   };

@@ -15,16 +15,14 @@ function Form({ children, setIsCheckoutForm }: FormProps) {
   const { userData, setUserData } = useContext(EcommerceContext);
 
   const handleDataAndMoveToNextStep = (data: DataProps) => {
+    console.log(data);
     if (formState.isValid) {
-      console.log(data);
       setUserData({
         ...data,
       });
       setIsCheckoutForm(false);
     }
   };
-
-  console.log(formState.isValid);
 
   return (
     <div className="w-full bg-white flex flex-col justify-between m-auto rounded-xl items-center h-full mt-28 mb-10">
@@ -102,7 +100,7 @@ function Form({ children, setIsCheckoutForm }: FormProps) {
           <PaymentInfo>
             <SubmitButton
               disabled={userData.deliveryMode ? false : true}
-              label="Confirmar pedido"
+              label="CONFIRMAR PEDIDO"
               type="submit"
             />
           </PaymentInfo>

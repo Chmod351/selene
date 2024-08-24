@@ -21,7 +21,6 @@ type UseIsQuerySearchResult = {
 };
 
 function useIsQuerySearch(query: string | null): UseIsQuerySearchResult {
-  console.log(query);
   const { isLoading, data, error } = useQuery<IProduct[], Error>({
     queryKey: ["products", query],
     queryFn: () => fetchProductsFromApi(query || ""),

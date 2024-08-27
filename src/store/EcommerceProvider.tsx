@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import EcommerceContext from "./store";
 import { DataProps } from "./store";
-import { IOrder } from "@/components/Ui/types";
+import { IOrder } from "@/app/checkout/types";
 
 const EcommerceProvider = ({ children }: any) => {
   const [cart, setCart] = useState<any[]>([]);

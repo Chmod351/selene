@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
-function useIsMobile(): {
-  isMobile: boolean;
-  isModalOpen: boolean;
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-} {
+import { UseIsMobileResult } from "@/hooks/types";
+
+function useIsMobile(): UseIsMobileResult {
   const [isMobile, setIsMobile] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 

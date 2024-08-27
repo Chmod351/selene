@@ -4,7 +4,11 @@ import { useQuery } from "@tanstack/react-query";
 import EcommerceContext from "@/store/store";
 import SubmitButton from "../Ui/SubmitButton";
 
-import { IProduct, Sizes } from "@/components/ProductComponents/types";
+import {
+  IProduct,
+  Sizes,
+  SelectedProductCardProps,
+} from "@/components/ProductComponents/types";
 
 const fetchProductFromApi = async (productId: string) => {
   try {
@@ -27,10 +31,7 @@ const fetchProductFromApi = async (productId: string) => {
 function SelectedProductCard({
   productId,
   setIsProductViewOpen,
-}: {
-  productId: string;
-  setIsProductViewOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
+}: SelectedProductCardProps) {
   const { isLoading, data, error } = useQuery({
     queryKey: ["product"],
     queryFn: () => fetchProductFromApi(productId),

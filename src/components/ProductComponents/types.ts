@@ -1,3 +1,4 @@
+import React from "react";
 export interface IProduct {
   _id: any;
   name_es: string;
@@ -89,3 +90,8 @@ export type Sizes =
   | "46"
   | "47"
   | "48";
+
+export interface SelectedProductCardProps {
+  productId: string;
+  setIsProductViewOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}

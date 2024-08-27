@@ -43,7 +43,12 @@ const createOrder = async ({
       },
       body: JSON.stringify(requestBody),
     });
+
+    if (!response.ok) {
+      throw new Error("Error creating order");
+    }
     const result = await response.json();
+    localStorage.clear();
     return result;
   } catch (e) {
     /* handle error */
@@ -55,7 +60,8 @@ export default function CheckoutPage() {
   initMercadoPago("TEST-67887a30-bd16-4aad-82cd-15bd779c3006");
   const { isMobile, isModalOpen, setIsModalOpen } = useIsMobile();
   const [isCheckoutForm, setIsCheckoutForm] = useState<boolean>(true);
-  const { setUserData, userData, total, cart } = useContext(EcommerceContext);
+  const { setUserData, userData, total, cart, clearCart } =
+    useContext(EcommerceContext);
   const [isLoading, setIsLoading] = useState(false);
   const [isErr, setIsErr] = useState<Error | null>(null);
   const [orderId, setOrderId] = useState<string | null>(null);
@@ -71,7 +77,6 @@ export default function CheckoutPage() {
   useEffect(() => {
     window.scroll({ top: 0, behavior: "smooth" });
   });
-  console.log(orderId);
   return (
     <main className="container m-auto min-h-screen flex justify-center items-center  flex-col mt-10">
       {isCheckoutForm ? (
@@ -131,9 +136,7 @@ export default function CheckoutPage() {
                   initialization={{
                     amount: total,
                   }}
-                  onSubmit={async () => {
-                    console.log("success");
-                  }}
+                  onSubmit={async () => {}}
                 />
               ) : userData.paymentMethod === "TRANSFERENCIA" ? (
                 isLoading ? (
@@ -177,10 +180,10 @@ export default function CheckoutPage() {
                             userData,
                             cart,
                           });
-                          console.log(orderData); // Aquí puedes manejar la respuesta de tu servidor
                           // Por ejemplo, cerrar el modal, mostrar un mensaje de éxito, etc.
                           setOrderId(orderData._id);
                           setIsLoading(false);
+                          clearCart();
                         } catch (error) {
                           setIsLoading(false);
                           console.error(error);

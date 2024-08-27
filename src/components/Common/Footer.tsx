@@ -40,12 +40,20 @@ export default function Footer() {
             </ul>
             <div className="flex flex-col md:w-[300px] gap-4 md:gap-0">
               <div className="flex row md:space-x-4 space-x-8 py-2 md:justify-end justify-center ">
-                <div className="w-8 h-8 ">
+                <a
+                  className="w-8 h-8 "
+                  target="_blank"
+                  href="https://www.tiktok.com/@lazy.trendy?_t=8p5jFM9zbLq"
+                >
                   <FaTiktok className="w-full h-full" />
-                </div>
-                <div className="w-8 h-8 ">
+                </a>
+                <a
+                  className="w-8 h-8 "
+                  href="https://www.instagram.com/lazytrendy_"
+                  target="_blank"
+                >
                   <FaInstagram className="w-full h-full" />
-                </div>
+                </a>
               </div>
               <p className="text-center md:text-left text-sm">
                 Lorem ipsum dolor sit amet Lorem ipsum dolor sit ametLorem ipsum

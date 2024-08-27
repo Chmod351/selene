@@ -6,8 +6,6 @@ import SubmitButton from "../Ui/SubmitButton";
 
 import { IProduct } from "@/components/ProductComponents/types";
 
-const api_url = "http://localhost:4000/api/v1";
-
 type Sizes =
   | "XS"
   | "S"
@@ -44,7 +42,9 @@ type Sizes =
 
 const fetchProductFromApi = async (productId: string) => {
   try {
-    const response = await fetch(`${api_url}/products/id/${productId}`);
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_REACT_APP_API}/products/id/${productId}`,
+    );
     if (!response.ok) {
       throw new Error("Error fetching products");
     }
@@ -76,17 +76,21 @@ function SelectedProductCard({
   const [isProductAvaliable, setIsProductAvaliable] = useState<
     boolean | undefined
   >(true);
+
   const { addToCart } = useContext(EcommerceContext);
   const addToCartAndCloseModal = () => {
     addToCart({ ...data, color: selectedColor, size: selectedSize });
     setIsProductViewOpen(false);
   };
+
   const allColors = Array.from(
     new Set(data?.stock.flatMap((stockItem) => stockItem.color) || []),
   );
+
   const allSizes = Array.from(
     new Set(data?.stock.flatMap((stockItem) => stockItem.size) || []),
   );
+
   const isCombinationAvailable = useCallback(
     (color: string, size: Sizes) => {
       return data?.stock.some(
@@ -174,7 +178,7 @@ function SelectedProductCard({
           <strong className="text-3xl">$ {data?.price_es}</strong>
           {/* Mostrar colores y talles */}
           <div className="w-full">
-            <div className="flex flex-row justify-between my-4">
+            <div className="flex flex-row justify-between my-4 h-9 items-center">
               <h2 className="font-semibold">Colores:</h2>
               <div className="flex flex-row items-center max-w-full md:max-w-[460px] gap-1 wrap">
                 {allColors.map((color: string) => (
@@ -201,18 +205,17 @@ function SelectedProductCard({
                 ))}
               </div>
             </div>
-            <div className="flex flex-row justify-between my-4">
+            <div className="flex flex-row justify-between my-4 h-9 items-center">
               <h2 className="font-semibold">Talles:</h2>
-              <div className="flex flex-row items-center max-w-full md:max-w-[460px] gap-1 wrap">
-                {" "}
+              <div className="flex flex-row items-center max-w-full md:max-w-[460px] gap-1 wrap h-9 ">
                 {allSizes.map((size) => (
                   <ul
-                    className="flex flex-row"
+                    className="flex flex-row "
                     key={size}
                     style={{ listStyle: "none" }}
                   >
                     <li
-                      className="w-9 h-9 hover:cursor-pointer bg-gray-400 rounded-full "
+                      className="w-9 h-9 hover:cursor-pointer hover:bg-gray-400 rounded-full font-semibold text-sm"
                       style={{
                         border:
                           selectedSize === size

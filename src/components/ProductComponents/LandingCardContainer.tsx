@@ -1,50 +1,12 @@
-import { useState, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
 import LandingCard from "./LandingCard";
 import LandingCardLoading from "@/components/Ui/LandingCardLoading";
 import ErrorScreen from "@/components/Ui/ErrorScreen";
 import { IProduct } from "@/components/ProductComponents/types";
-
-const api_url = "http://localhost:4000/api/v1";
-
-const fetchProductsFromApi = async ({
-  currentPage,
-}: {
-  currentPage: number;
-}) => {
-  const response = await fetch(`${api_url}/products?page=${currentPage}`);
-  if (!response.ok) {
-    throw new Error("Error fetching products");
-  }
-  const data = await response.json();
-  return data;
-};
+import usePagination from "@/hooks/usePagination";
 
 export default function LandingCardContainer() {
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [newArr, setNewArr] = useState<IProduct[] | []>([]);
-  const {
-    isLoading: isLoading,
-    data,
-    error,
-  } = useQuery({
-    queryKey: ["products", currentPage],
-    queryFn: () => fetchProductsFromApi({ currentPage }),
-    refetchOnWindowFocus: false,
-    keepPreviousData: true,
-  });
-
-  useEffect(() => {
-    if (data && !isLoading) {
-      setNewArr((prevArr) => [...prevArr, ...data.data]);
-    }
-  }, [data, isLoading]);
-
-  const goToNextPage = () => {
-    if (currentPage < data?.totalPages && !isLoading) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
+  const { currentPage, goToNextPage, products, error, isLoading, data } =
+    usePagination();
 
   if (error) {
     return <ErrorScreen />;
@@ -63,7 +25,7 @@ export default function LandingCardContainer() {
                   <LandingCardLoading />
                 </div>
               ))
-            : newArr.map((product: IProduct) => (
+            : products.map((product: IProduct) => (
                 <div key={product._id}>
                   <LandingCard product={product} />
                 </div>
@@ -83,10 +45,10 @@ export default function LandingCardContainer() {
         {isLoading ? (
           <div className="bg-gray-300 animate-pulse h-10 w-11/12 rounded-lg items-center justify-center m-auto" />
         ) : (
-          newArr.length < data?.totalItems && (
+          products.length < data?.totalItems && (
             <div className="flex flex-col items-center my-10 ">
-              <span className="text-gray-400">
-                {newArr.length} of {data?.totalItems} products
+              <span className="text-gray-400 font-helvetica">
+                {products.length} of {data?.totalItems} products
               </span>
 
               <button onClick={goToNextPage} className="mt-4">

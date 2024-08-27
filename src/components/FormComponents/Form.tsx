@@ -23,7 +23,7 @@ function Form({ children, setIsCheckoutForm }: FormProps) {
       setIsCheckoutForm(false);
     }
   };
-
+  console.log(formState.isValid);
   return (
     <div className="w-full bg-white flex flex-col justify-between m-auto rounded-xl items-center h-full mt-28 mb-10">
       {/* retiro de pedido */}

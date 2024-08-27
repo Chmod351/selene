@@ -19,11 +19,11 @@ const data = [
 export const data2 = [
   {
     name: "TERMS & CONDITIONS",
-    url: "/terms-en",
+    url: "/terms_en",
   },
   {
     name: "PRIVACY POLICY",
-    url: "/privacy-en",
+    url: "/privacy_en",
   },
   {
     name: "+54 9 11 3230-0253",

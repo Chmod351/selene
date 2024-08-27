@@ -1,17 +1,13 @@
 import React from "react";
 import InputField from "./Input";
+import { FormCheckoutProps } from "@/components/FormComponents/types";
 
 function FormCheckout({
   register,
   errors,
   isDisabled,
   defaultValue,
-}: {
-  register: any;
-  errors: any;
-  isDisabled: boolean;
-  defaultValue: any;
-}) {
+}: FormCheckoutProps) {
   return (
     <>
       <div className="bg-primary p-8 rounded-xl">

@@ -4,41 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import EcommerceContext from "@/store/store";
 import SubmitButton from "../Ui/SubmitButton";
 
-import { IProduct } from "@/components/ProductComponents/types";
-
-type Sizes =
-  | "XS"
-  | "S"
-  | "M"
-  | "L"
-  | "XL"
-  | "XXL"
-  | "XXXL"
-  | "XXXXL"
-  | "25"
-  | "26"
-  | "27"
-  | "28"
-  | "29"
-  | "30"
-  | "31"
-  | "32"
-  | "33"
-  | "34"
-  | "35"
-  | "36"
-  | "37"
-  | "38"
-  | "39"
-  | "40"
-  | "41"
-  | "42"
-  | "43"
-  | "44"
-  | "45"
-  | "46"
-  | "47"
-  | "48";
+import { IProduct, Sizes } from "@/components/ProductComponents/types";
 
 const fetchProductFromApi = async (productId: string) => {
   try {

@@ -72,20 +72,17 @@ export interface IUserBody {
   username: string;
 }
 
-export interface MySessionData {
-  loggedin?: boolean;
-  user?: {
-    type?: string;
-  };
-}
 interface OrderItems {
   productId: IProduct;
   productPrice: number;
   quantity: number;
+  color: string;
+  size: string;
 }
+
 export interface IOrder {
-  _id: any;
-  products: [OrderItems];
+  commentaries: string;
+  deliveryMode: string;
   orderItems: [OrderItems];
   shippingAddress1: string;
   shippingAddress2: string;

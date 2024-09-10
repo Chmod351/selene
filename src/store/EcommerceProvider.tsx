@@ -2,11 +2,16 @@
 import React, { useState, useEffect, useMemo } from "react";
 import EcommerceContext from "./store";
 import { DataProps } from "./store";
-import { IOrder } from "@/app/checkout/types";
-
+const precios = {
+  Pickup: 4500,
+  Delivery: 6000,
+  CABA: 5500,
+  GBA: 7500,
+};
 const EcommerceProvider = ({ children }: any) => {
-  const [cart, setCart] = useState<any[]>([]);
+  const [cart, setCart] = useState<any>([]);
   const [total, setTotal] = useState<number>(0);
+  const [correoprecio, setCorreoprecio] = useState<number>(precios.Delivery);
 
   const [userData, setUserDataInfo] = useState<DataProps>({
     firstName: "",
@@ -29,11 +34,26 @@ const EcommerceProvider = ({ children }: any) => {
   useEffect(() => {
     const calculateTotal = () => {
       const totalAmount = cart.reduce((a, b) => a + b.price_es * b.quantity, 0);
-      setTotal(totalAmount);
+      if (userData.deliveryMode === "PickUp") {
+        setCorreoprecio(precios.Pickup);
+      }
+      if (userData.deliveryMode === "Express_CABA") {
+        setCorreoprecio(precios.CABA);
+      }
+      if (userData.deliveryMode === "Express_GBA") {
+        setCorreoprecio(precios.GBA);
+      }
+      if (userData.deliveryMode === "Standard") {
+        setCorreoprecio(precios.Delivery);
+      }
+
+      const total = totalAmount + correoprecio;
+      setTotal(total);
       localStorage.setItem("total", JSON.stringify(total));
     };
+
     calculateTotal();
-  }, [cart, total]);
+  }, [cart, total, userData.deliveryMode, correoprecio]);
 
   // Cargar datos desde localStorage cuando se monta el componente
 
@@ -61,12 +81,10 @@ const EcommerceProvider = ({ children }: any) => {
 
     loadFromLocalStorage();
   }, []);
-
   // helpers
 
   const addToCart = useMemo(
     () => (product: any) => {
-      console.log(product);
       const existingProductInCart = cart.find(
         (p) =>
           p._id === product._id &&
@@ -77,12 +95,18 @@ const EcommerceProvider = ({ children }: any) => {
       if (existingProductInCart) {
         // Si el producto ya existe en el carrito con el mismo color y tamaño, simplemente incrementa la cantidad
         //
-        const newCart = cart.map((p) =>
-          p._id === product._id &&
-          p.color === product.color &&
-          p.size === product.size
-            ? { ...p, quantity: p.quantity + 1 }
-            : p,
+        const newCart = cart.map(
+          (p: {
+            _id: string;
+            color: string;
+            size: string;
+            quantity: number;
+          }) =>
+            p._id === product._id &&
+            p.color === product.color &&
+            p.size === product.size
+              ? { ...p, quantity: p.quantity + 1 }
+              : p,
         );
         setCart(newCart);
         localStorage.setItem("cart", JSON.stringify(newCart));
@@ -106,7 +130,8 @@ const EcommerceProvider = ({ children }: any) => {
 
   const removeFromCart = (productId: string) => {
     const newCart = cart.filter(
-      (product) => product._id + product.color !== productId,
+      (product: { _id: string; color: string; size: string }) =>
+        product._id + product.color !== productId,
     );
     setCart(newCart);
   };
@@ -114,13 +139,14 @@ const EcommerceProvider = ({ children }: any) => {
   const clearCart = () => {
     localStorage.removeItem("cart");
     localStorage.removeItem("total");
+    localStorage.removeItem("userDetails");
     setCart([]);
   };
 
-  const createOrder = async () => {
-    console.log("creating order");
+  const createOrder = async (paymentId: string | null) => {
     try {
-      const requestBody: IOrder = {
+      const requestBody = {
+        paymentId: paymentId ?? null,
         orderItems: cart,
         totalPrice: total,
         deliveryMode: userData.deliveryMode,
@@ -130,11 +156,12 @@ const EcommerceProvider = ({ children }: any) => {
           ...userData,
           surname: userData.lastName,
           name: userData.firstName,
+          phone: userData.phoneNumber,
           dateOrdered: new Date(),
         },
       };
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_REACT_APP_API}/create/orders`,
+        `${process.env.NEXT_PUBLIC_REACT_APP_API}/orders/create`,
         {
           method: "POST",
           headers: {
@@ -143,18 +170,15 @@ const EcommerceProvider = ({ children }: any) => {
           body: JSON.stringify(requestBody),
         },
       );
-      console.log(response);
       if (!response.ok) {
         throw new Error("Error creating order");
       }
       const order = await response.json();
-      console.log("order created", order._id);
       clearCart();
       return order._id;
     } catch (e) {
       /* handle error */
       console.log(e);
-      throw new Error("Error creating order");
     }
   };
 

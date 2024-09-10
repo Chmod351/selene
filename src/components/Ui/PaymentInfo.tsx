@@ -4,6 +4,7 @@ import EcommerceContext from "@/store/store";
 function PaymentInfo({ children }: any) {
   const {
     cart,
+    total,
   }: {
     cart: {
       _id: string;
@@ -11,6 +12,7 @@ function PaymentInfo({ children }: any) {
       price_es: number;
       quantity: number;
     }[];
+    total: number;
   } = useContext(EcommerceContext);
   return (
     <div className="w-full min-h-[230px]  bg-primary rounded-xl font-helvetica py-8">
@@ -25,8 +27,9 @@ function PaymentInfo({ children }: any) {
             </span>
           </ul>
         ))}
+        <br />
         <strong className="text-3xl">
-          Total: ${cart.reduce((a, b) => a + b.price_es * b.quantity, 0)}
+          Total con Entrega/Retiro incluido: ${total}
         </strong>
         {children}
       </div>

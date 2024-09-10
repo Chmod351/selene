@@ -21,7 +21,7 @@ const EcommerceContext = createContext({
   addToCart: (product) => {},
   removeFromCart: (productId) => {},
   clearCart: () => {},
-  createOrder: () => {},
+  createOrder: (paymentId: string | null) => {},
   cart: [],
   total: 0,
 

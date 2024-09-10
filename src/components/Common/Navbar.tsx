@@ -32,17 +32,16 @@ function Navbar() {
           isCartOpen={isCartOpen}
           isMobile={isMobile}
         />
-
         <nav className="bg-primary w-full h-24 font-helvetica text-sm  shadow-lg">
           <div className="container w-11/12 mx-auto mb-10 flex justify-between items-center h-full">
             <div className="flex items-center w-[50px] h-[50px]">
               {isMobile ? (
                 <Image
                   className="cursor-pointer"
-                  src="/bird-colorful-logo.png"
+                  src="/logo.png"
                   alt="logo"
-                  width={50}
-                  height={50}
+                  width={150}
+                  height={150}
                   layout="intrinsic"
                   style={{ width: "100%", height: "100%" }}
                   objectFit="contain"
@@ -51,10 +50,10 @@ function Navbar() {
               ) : (
                 <NextLink href={"/"}>
                   <Image
-                    src="/bird-colorful-logo.png"
+                    src="/logo.png"
                     alt="logo"
-                    width={50}
-                    height={50}
+                    width={1000}
+                    height={1000}
                     layout="intrinsic"
                     style={{ width: "100%", height: "100%" }}
                     objectFit="contain"
@@ -62,7 +61,6 @@ function Navbar() {
                 </NextLink>
               )}
             </div>
-
             <div className="md:flex space-x-4  hidden">
               {data.map((item) => (
                 <React.Fragment key={item.name}>
@@ -90,7 +88,6 @@ function Navbar() {
               </div>
             </div>
           </div>
-
           <SlidingPane
             closeIcon={<div>X</div>}
             isOpen={isNavbarOpen}

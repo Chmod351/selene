@@ -70,8 +70,8 @@ export default function Footer() {
                 mission is to offer stylish clothing that not only feels great
                 but also aligns with your values. We delve into every detail to
                 ensure our products provide ultimate comfort while staying true
-                to our ethical standards. Join us in embracing fashion that's
-                both fashionable and kind to the world.
+                to our ethical standards. Join us in embracing fashion
+                that&apos;s both fashionable and kind to the world.
               </p>
             </div>
           </div>

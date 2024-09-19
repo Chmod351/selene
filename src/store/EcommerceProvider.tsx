@@ -143,10 +143,16 @@ const EcommerceProvider = ({ children }: any) => {
     setCart([]);
   };
 
-  const createOrder = async (paymentId: string | null) => {
+  const createOrder = async (paymentId: {
+    installments: number;
+    paymentMethodId: string;
+    payer: { email: string; identification: { type: string; number: string } };
+    token: string;
+    transaction_amount: number;
+  }) => {
     try {
       const requestBody = {
-        paymentId: paymentId ?? null,
+        mercadoPagoInfo: paymentId ?? null,
         orderItems: cart,
         totalPrice: total,
         deliveryMode: userData.deliveryMode,

@@ -21,8 +21,13 @@ function InputField({
   disabled?: boolean;
   required?: boolean;
 }) {
-  const error = errors?.[name.split(".").join("?.")];
-
+  let error;
+  if (errors.isArray) {
+    error = errors?.[0]?.[name.split(".").join("?.")];
+  } else {
+    error = errors?.[name.split(".").join("?.")];
+  }
+  console.log(error);
   return (
     <div className="flex flex-col w-full ">
       <label className="font-helvetica text-sm font-bold">{label}</label>
@@ -32,7 +37,7 @@ function InputField({
         }`}
         {...register(name, { required })}
         placeholder={placeholder}
-        type={type}
+        type={type ? type : "text"}
         disabled={disabled}
         defaultValue={defaultValue}
       />

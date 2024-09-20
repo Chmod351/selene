@@ -14,13 +14,16 @@ import SearchBar from "@/components/Ui/SearchBar";
 import Cart from "@/components/Ui/Cart";
 import useIsMobile from "@/hooks/useIsMobile";
 
-//vars
-
 function Navbar() {
   const { isMobile } = useIsMobile();
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const { cart } = useContext(EcommerceContext);
+
+  const addQueryToParams = (query: string) => {
+    const urlParams = (document.location.href = `categories/?q=${query}`);
+    return urlParams;
+  };
 
   return (
     <div className="w-full fixed top-0 ">
@@ -63,8 +66,14 @@ function Navbar() {
             </div>
             <div className="md:flex space-x-4  hidden">
               {data.map((item) => (
+                // we need to add its item.name as a query parameter
                 <React.Fragment key={item.name}>
-                  <p className="cursor-pointer hover:underline">{item.name}</p>
+                  <p
+                    className="cursor-pointer hover:underline"
+                    onClick={() => addQueryToParams(item.url)}
+                  >
+                    {item.name}
+                  </p>
                 </React.Fragment>
               ))}
             </div>

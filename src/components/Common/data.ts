@@ -1,19 +1,19 @@
 const data = [
   {
     name: "TOPS",
-    url: "/tops",
+    url: "top",
   },
   {
     name: "BOTTOMS",
-    url: "/bottoms",
+    url: "bottom",
   },
   {
     name: "SHOES",
-    url: "/shoes",
+    url: "shoe",
   },
   {
     name: "ACCESORIES",
-    url: "/accesories",
+    url: "accesorie",
   },
 ];
 export const data2 = [

@@ -21,18 +21,26 @@ function PaymentMethod() {
     useContext(EcommerceContext);
 
   const [isLoading, setIsLoading] = useState(false);
+
   const [isErr, setIsErr] = useState<string | null>(null);
   const [orderId, setOrderId] = useState<any | null>(null);
 
-  const handlePayment = async (paymentId: string | null) => {
+  const handlePayment = async (mercadoPagoInfo: {
+    installments: number;
+    paymentMethodId: string;
+    payer: { email: string; identification: { type: string; number: string } };
+    token: string;
+    transaction_amount: number;
+  }) => {
     try {
       setIsErr(null);
 
-      if (userData.paymentMethod === mp && paymentId) {
-        const id: any = await createOrder(paymentId);
+      if (userData.paymentMethod !== mp) {
+        const id: any = await createOrder();
         setOrderId(id);
       }
-      const id = createOrder(null);
+      console.log(mercadoPagoInfo);
+      const id = await createOrder(mercadoPagoInfo);
       console.log(id);
       setOrderId(id);
 
@@ -83,6 +91,7 @@ function PaymentMethod() {
       </SlidingPane>
     );
   }
+
   return (
     <section className="md:w-full w-11/12 max-w-4xl mx-auto justify-center items-center flex flex-col gap-4 mt-28">
       <h1 className="md:text-3xl font-bold font-helvetica mb-8 text-2xl text-center">
@@ -145,14 +154,14 @@ function PaymentMethod() {
             userData.paymentMethod === mp &&
             isCardPaymentMounted ? (
               <CardPayment
+                locale="es-AR"
                 initialization={{
                   amount: total,
                 }}
                 onSubmit={async (data) => {
                   if (data && data.token) {
-                    console.log(data, data.token);
                     setIsLoading(true);
-                    handlePayment(data.token);
+                    handlePayment(data);
                   }
                 }}
               />

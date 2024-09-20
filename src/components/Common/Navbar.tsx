@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import InfoBar from "@/components/Ui/InfoBar";
 import data from "@/components/Common/data";
+import { adminNavBar } from "@/components/Common/data";
 import SlidingPane from "react-sliding-pane";
 import NextLink from "next/link";
 import "react-sliding-pane/dist/react-sliding-pane.css";
@@ -13,12 +14,14 @@ import EcommerceContext from "@/store/store";
 import SearchBar from "@/components/Ui/SearchBar";
 import Cart from "@/components/Ui/Cart";
 import useIsMobile from "@/hooks/useIsMobile";
+import useAdmin from "@/hooks/useAdminHook";
 
 function Navbar() {
   const { isMobile } = useIsMobile();
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const { cart } = useContext(EcommerceContext);
+  const { isAdmin } = useAdmin();
 
   const addQueryToParams = (query: string) => {
     const urlParams = (document.location.href = `categories/?q=${query}`);
@@ -65,17 +68,30 @@ function Navbar() {
               )}
             </div>
             <div className="md:flex space-x-4  hidden">
-              {data.map((item) => (
-                // we need to add its item.name as a query parameter
-                <React.Fragment key={item.name}>
-                  <p
-                    className="cursor-pointer hover:underline"
-                    onClick={() => addQueryToParams(item.url)}
-                  >
-                    {item.name}
-                  </p>
-                </React.Fragment>
-              ))}
+              {!isAdmin &&
+                data.map((item) => (
+                  // we need to add its item.name as a query parameter
+                  <React.Fragment key={item.name}>
+                    <p
+                      className="cursor-pointer hover:underline"
+                      onClick={() => addQueryToParams(item.url)}
+                    >
+                      {item.name}
+                    </p>
+                  </React.Fragment>
+                ))}
+              {isAdmin &&
+                adminNavBar.map((item) => (
+                  // we need to add its item.name as a query parameter
+                  <React.Fragment key={item.name}>
+                    <NextLink
+                      className="cursor-pointer hover:underline"
+                      href={item.url}
+                    >
+                      {item.name}
+                    </NextLink>
+                  </React.Fragment>
+                ))}
             </div>
             <div className="flex space-x-4">
               <SearchBar />

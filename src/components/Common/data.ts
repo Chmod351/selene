@@ -34,4 +34,19 @@ export const data2 = [
     url: "mailto:email@selene.com",
   },
 ];
+
+export const adminNavBar = [
+  {
+    name: "Creador",
+    url: "/admin",
+  },
+  {
+    name: "Ventas",
+    url: "/sales",
+  },
+  {
+    name: "Dashboard",
+    url: "/dashboard",
+  },
+];
 export default data;

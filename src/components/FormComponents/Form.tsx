@@ -15,7 +15,6 @@ function Form({ children, setIsCheckoutForm }: FormProps) {
   const { userData, setUserData } = useContext(EcommerceContext);
 
   const handleDataAndMoveToNextStep = (data: DataProps) => {
-    console.log(data);
     if (formState.isValid) {
       setUserData({
         ...data,
@@ -34,7 +33,7 @@ function Form({ children, setIsCheckoutForm }: FormProps) {
               <input
                 type="radio"
                 className="mr-2"
-                value="Pickup"
+                value="PickUp"
                 {...register("deliveryMode")}
                 checked={userData.deliveryMode === "Pickup"}
                 onChange={() =>

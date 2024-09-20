@@ -1,19 +1,19 @@
 const data = [
   {
     name: "TOPS",
-    url: "/tops",
+    url: "top",
   },
   {
     name: "BOTTOMS",
-    url: "/bottoms",
+    url: "bottom",
   },
   {
     name: "SHOES",
-    url: "/shoes",
+    url: "shoe",
   },
   {
     name: "ACCESORIES",
-    url: "/accesories",
+    url: "accesorie",
   },
 ];
 export const data2 = [
@@ -32,6 +32,21 @@ export const data2 = [
   {
     name: "email@selene.com",
     url: "mailto:email@selene.com",
+  },
+];
+
+export const adminNavBar = [
+  {
+    name: "Creador",
+    url: "/admin",
+  },
+  {
+    name: "Ventas",
+    url: "/sales",
+  },
+  {
+    name: "Dashboard",
+    url: "/dashboard",
   },
 ];
 export default data;

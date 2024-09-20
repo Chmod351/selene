@@ -11,31 +11,44 @@ import useIsMobile from "@/hooks/useIsMobile";
 // types
 
 //const
-initMercadoPago(process.env.NEXT_PUBLIC_KEY || "");
-const mp = "MERCADO PAGO";
-const transfer = "TRANSFERENCIA";
+const mp = "Mercado Pago";
+const transfer = "Transferencia";
 
 function PaymentMethod() {
+  initMercadoPago(process.env.NEXT_PUBLIC_KEY || "");
   const { isMobile, isModalOpen, setIsModalOpen } = useIsMobile();
   const { setUserData, userData, total, createOrder } =
     useContext(EcommerceContext);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [isErr, setIsErr] = useState<Error | null>(null);
-  const [orderId, setOrderId] = useState<string | null>(null);
 
-  const handlePayment = async () => {
+  const [isErr, setIsErr] = useState<string | null>(null);
+  const [orderId, setOrderId] = useState<any | null>(null);
+
+  const handlePayment = async (mercadoPagoInfo: {
+    installments: number;
+    paymentMethodId: string;
+    payer: { email: string; identification: { type: string; number: string } };
+    token: string;
+    transaction_amount: number;
+  }) => {
     try {
       setIsErr(null);
-      setIsLoading(true);
-      const id = createOrder();
+
+      if (userData.paymentMethod !== mp) {
+        const id: any = await createOrder();
+        setOrderId(id);
+      }
+      console.log(mercadoPagoInfo);
+      const id = await createOrder(mercadoPagoInfo);
       console.log(id);
       setOrderId(id);
+
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
       console.error(error);
-      setIsErr(error.message);
+      setIsErr("Error al procesar el pago");
     }
   };
 
@@ -44,6 +57,40 @@ function PaymentMethod() {
       setIsModalOpen((prevState) => !prevState);
     }
   }, [userData.paymentMethod, setIsModalOpen]);
+
+  const [isCardPaymentMounted, setIsCardPaymentMounted] = useState(true);
+
+  const handleClose = () => {
+    if (userData.paymentMethod === mp) {
+      setIsCardPaymentMounted(false); // Desmontar el componente
+      setTimeout(() => {
+        setIsModalOpen(false); // Cerrar el modal después de desmontar
+      }, 100); // Dar un pequeño margen de tiempo para desmontar
+    } else {
+      setIsModalOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isModalOpen && userData.paymentMethod === mp) {
+      setIsCardPaymentMounted(true);
+    }
+  }, [isModalOpen, userData.paymentMethod]);
+
+  if (isErr) {
+    return (
+      <SlidingPane
+        className="z-40"
+        closeIcon={<div>X</div>}
+        isOpen={isModalOpen}
+        title=""
+        width={isMobile ? "100%" : "700px"}
+        onRequestClose={() => handleClose()}
+      >
+        <p className="text-red-500 text-center">algo salio mal</p>
+      </SlidingPane>
+    );
+  }
 
   return (
     <section className="md:w-full w-11/12 max-w-4xl mx-auto justify-center items-center flex flex-col gap-4 mt-28">
@@ -89,74 +136,80 @@ function PaymentMethod() {
           isOpen={isModalOpen}
           title=""
           width={isMobile ? "100%" : "700px"}
-          onRequestClose={() => setIsModalOpen(false)}
+          onRequestClose={() => handleClose()}
         >
           {isLoading ? (
-            <div className="flex flex-col gap-4">loading</div>
+            <div className="flex flex-col gap-4 w-full h-full justify-center items-center">
+              Cargando...
+              <div className="w-10 h-10 bg-gray-400 animate-spin  "></div>
+            </div>
           ) : (
-            isErr && <div className="flex flex-col gap-4">{isErr.message}</div>
+            isErr && <div className="flex flex-col gap-4">{isErr}</div>
           )}
-          {!isLoading &&
-          !isErr &&
-          !orderId &&
-          userData.paymentMethod &&
-          userData.paymentMethod === mp ? (
-            <CardPayment
-              initialization={{
-                amount: total,
-              }}
-              onSubmit={async (data) => {
-                if (data && data.token) {
-                  console.log(data);
-                  handlePayment();
-                }
-              }}
-            />
-          ) : (
-            !isLoading &&
+          <div id="cardPaymentBrick_container">
+            {!isLoading &&
             !isErr &&
-            userData.paymentMethod === transfer && (
-              <div className="flex flex-col gap-4">
-                <div className="flex flex-row justify-center m-auto items-center gap-4">
-                  <div className="w-24 h-24 bg-gray-400 animate-pulse rounded-full"></div>
-                </div>
-                <p>
-                  Luego de generar el numero de orden, tendrás dos horas para
-                  enviar por email el comprobante de pago
-                </p>
-                <h1>ALIAS: LAZY.TRENDY</h1>
-                <br />
-                <a
-                  href="mailto:lazytrendy@tienda.com.ar"
-                  target="_blank"
-                  className="text-xl font-bold "
-                >
-                  email:lazytrendy@tienda.com.ar
-                </a>
-                <br />
-                <strong className="text-3xl">
-                  {!orderId ? (
-                    <>TOTAL A PAGAR : $ {total}</>
-                  ) : (
-                    <> ESTE ES TU NUMERO DE ORDEN : {orderId}</>
-                  )}
-                </strong>
+            !orderId &&
+            userData.paymentMethod &&
+            userData.paymentMethod === mp &&
+            isCardPaymentMounted ? (
+              <CardPayment
+                locale="es-AR"
+                initialization={{
+                  amount: total,
+                }}
+                onSubmit={async (data) => {
+                  if (data && data.token) {
+                    setIsLoading(true);
+                    handlePayment(data);
+                  }
+                }}
+              />
+            ) : (
+              !isLoading &&
+              !isErr &&
+              userData.paymentMethod === transfer && (
+                <div className="flex flex-col gap-4">
+                  <div className="flex flex-row justify-center m-auto items-center gap-4"></div>
+                  <p>
+                    Luego de generar el numero de orden,
+                    <strong> tendrás dos horas </strong>para enviar por email el
+                    comprobante de pago
+                  </p>
+                  <h1>ALIAS: LAZY.TRENDY</h1>
+                  <br />
+                  <a
+                    href="mailto:lazytrendy@tienda.com.ar"
+                    target="_blank"
+                    className="text-xl font-bold"
+                  >
+                    email:lazytrendy@tienda.com.ar
+                  </a>
+                  <br />
+                  <strong className="text-3xl">
+                    {!orderId ? (
+                      <>TOTAL A PAGAR : $ {total}</>
+                    ) : (
+                      <> ESTE ES TU NUMERO DE ORDEN : {orderId} </>
+                    )}
+                  </strong>
 
-                <SubmitButton
-                  label={`GENERAR ORDEN POR:$ ${total}`}
-                  onClick={handlePayment}
-                  type="button"
-                  disabled={isLoading || orderId ? true : false}
-                />
-                <br />
-                <p className="text-sm text-gray-400">
-                  las transferencias no son reembolsables Tenes que enviar el
-                  comprobante en un plazo de 2hs o el pedido se cancela
-                  automaticamente Gracias por tu compra!
-                </p>
-              </div>
-            )
-          )}
+                  <SubmitButton
+                    label={`GENERAR ORDEN POR:$ ${total}`}
+                    onClick={() => handlePayment()}
+                    type="button"
+                    disabled={isLoading || orderId ? true : false}
+                  />
+                  <br />
+                  <p className="text-sm text-gray-400">
+                    las transferencias no son reembolsables Tenes que enviar el
+                    comprobante en un plazo de 2hs o el pedido se cancela
+                    automaticamente Gracias por tu compra!
+                  </p>
+                </div>
+              )
+            )}
+          </div>
         </SlidingPane>
       </div>
     </section>

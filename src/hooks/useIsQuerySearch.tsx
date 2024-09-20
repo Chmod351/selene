@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-const api_url = "http://localhost:4000/api/v1";
+const api_url = process.env.NEXT_PUBLIC_REACT_APP_API;
 import { IProduct } from "@/components/ProductComponents/types";
+import { UseIsQuerySearchResult } from "@/hooks/types";
 
 async function fetchProductsFromApi(query: string): Promise<IProduct[]> {
   if (query) {
@@ -13,12 +14,6 @@ async function fetchProductsFromApi(query: string): Promise<IProduct[]> {
   }
   return [];
 }
-
-type UseIsQuerySearchResult = {
-  data: IProduct[] | undefined;
-  error: Error | null;
-  isLoading: boolean;
-};
 
 function useIsQuerySearch(query: string | null): UseIsQuerySearchResult {
   const { isLoading, data, error } = useQuery<IProduct[], Error>({

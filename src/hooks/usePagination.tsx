@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { IProduct } from "@/components/ProductComponents/types";
+import { UsePaginationResult } from "@/hooks/types";
 
 const fetchProductsFromApi = async ({
   currentPage,
@@ -17,7 +18,7 @@ const fetchProductsFromApi = async ({
   return data;
 };
 
-export default function usePagination() {
+export default function usePagination(): UsePaginationResult {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [products, setProducts] = useState<IProduct[] | []>([]);
   const {

@@ -27,3 +27,28 @@ export interface IRadioSelectProps {
   isSelected: boolean;
   onChangeChecked: (value: string) => void;
 }
+
+// SEARCH
+
+export interface SearchResultsLogicProps {
+  setQuery: React.Dispatch<React.SetStateAction<string | null>>;
+  data: IProduct[] | undefined;
+  error: Error | null;
+  setIsSearchOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isLoading: boolean;
+}
+
+export interface SearchBarComponentProps {
+  handleSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleClickWithQuery: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  query: string | null;
+}
+
+export interface SlidingPaneSearchProps {
+  setIsSearchOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isSearchOpen: boolean;
+  handleSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleClickWithQuery: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  query: string | null;
+  children: React.ReactNode;
+}

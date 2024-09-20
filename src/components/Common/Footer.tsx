@@ -6,6 +6,7 @@ import { FaInstagram } from "react-icons/fa";
 import { SiMercadopago } from "react-icons/si";
 import { BsBank2 } from "react-icons/bs";
 import InfoBar from "@/components/Ui/InfoBar";
+import Image from "next/image";
 
 const calculateYear = new Date().getFullYear();
 
@@ -15,7 +16,15 @@ export default function Footer() {
       <footer className="bg-primary w-full  font-helvetica md:h-[406px] md:py-0 pt-10 ">
         <div className="md:container w-11/12 m-auto flex  items-center  h-full ">
           <div className="space-x-4 md:flex-row flex-col-reverse flex md:justify-between m-auto w-full md:h-56">
-            <div className="md:w-[300px] h-[220px] bg-gray-400 animate-pulse rounded-lg md:p-0 md:my-0 my-8"></div>
+            <Image
+              width={300}
+              height={220}
+              layout="intrinsic"
+              objectFit="contain"
+              className="md:w-[300px] h-[220px]  rounded-lg md:p-0 md:my-0 my-8"
+              src="/logo.png"
+              alt="logo"
+            />
             <ul className="flex flex-col space-y-4 my-8 md:my-0">
               {data.map((item) => (
                 <li key={item.name} className="m-auto md:m-0">
@@ -56,10 +65,13 @@ export default function Footer() {
                 </a>
               </div>
               <p className="text-center md:text-left text-sm">
-                Lorem ipsum dolor sit amet Lorem ipsum dolor sit ametLorem ipsum
-                dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit
-                ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem
-                ipsum
+                Welcome to Lazy Trendy! We’re a small brand committed to
+                creating ethically made, comfy, and cute fashion pieces. Our
+                mission is to offer stylish clothing that not only feels great
+                but also aligns with your values. We delve into every detail to
+                ensure our products provide ultimate comfort while staying true
+                to our ethical standards. Join us in embracing fashion
+                that&apos;s both fashionable and kind to the world.
               </p>
             </div>
           </div>

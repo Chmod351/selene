@@ -33,3 +33,27 @@ export interface ButtonFormProps {
   onClick?: () => void;
   disabled: boolean;
 }
+
+export interface FormCheckoutProps {
+  register: any;
+  errors: any;
+  isDisabled: boolean;
+  defaultValue: {
+    firstName: string;
+    lastName: string;
+    address: string;
+    city: string;
+    postalCode: string;
+    phoneNumber: string;
+    email: string;
+    deliveryMode: string;
+    zip: string;
+    country: string;
+    state: string;
+    userIdCard: string;
+    floor: string;
+    commentaries: string;
+    paymentMethod: string;
+    shippingAddress1: string;
+  };
+}

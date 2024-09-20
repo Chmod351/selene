@@ -21,19 +21,23 @@ function InputField({
   disabled?: boolean;
   required?: boolean;
 }) {
-  // Desestructuración del error específico del campo basado en el `name`
-  const error = errors?.[name.split(".").join("?.")]; // Accede al error anidado
-
+  let error;
+  if (errors.isArray) {
+    error = errors?.[0]?.[name.split(".").join("?.")];
+  } else {
+    error = errors?.[name.split(".").join("?.")];
+  }
+  console.log(error);
   return (
     <div className="flex flex-col w-full ">
-      <label className="font-helvetica text-sm hidden ">{label}</label>
+      <label className="font-helvetica text-sm font-bold">{label}</label>
       <input
         className={`rounded p-4 mt-1 placeholder:text-black  outline-none ${
           error ? "border-red-500" : "border-gray-300"
         }`}
         {...register(name, { required })}
         placeholder={placeholder}
-        type={type}
+        type={type ? type : "text"}
         disabled={disabled}
         defaultValue={defaultValue}
       />

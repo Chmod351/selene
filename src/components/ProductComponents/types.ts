@@ -1,3 +1,4 @@
+import React from "react";
 export interface IProduct {
   _id: any;
   name_es: string;
@@ -56,49 +57,41 @@ export interface IProduct {
   updatedAt?: Date;
 }
 
-export interface IUser {
-  _id: any;
-  username: string;
-  password: string;
-  email: string;
-  type: "admin" | "customer";
-  createdAt?: Date;
-  updatedAt?: Date;
-}
+export type Sizes =
+  | "XS"
+  | "S"
+  | "M"
+  | "L"
+  | "XL"
+  | "XXL"
+  | "XXXL"
+  | "XXXXL"
+  | "25"
+  | "26"
+  | "27"
+  | "28"
+  | "29"
+  | "30"
+  | "31"
+  | "32"
+  | "33"
+  | "34"
+  | "35"
+  | "36"
+  | "37"
+  | "38"
+  | "39"
+  | "40"
+  | "41"
+  | "42"
+  | "43"
+  | "44"
+  | "45"
+  | "46"
+  | "47"
+  | "48";
 
-export interface IUserBody {
-  email: string;
-  password: string;
-  username: string;
-}
-
-interface OrderItems {
-  productId: IProduct;
-  productPrice: number;
-  quantity: number;
-  color: string;
-  size: string;
-}
-
-export interface IOrder {
-  commentaries: string;
-  deliveryMode: string;
-  orderItems: [OrderItems];
-  shippingAddress1: string;
-  shippingAddress2: string;
-  paymentMethod: string;
-  paymentStatus: "Pending" | "Failed" | "Success";
-  status: "Pending" | "Processing" | "Shipped" | "Delivered" | "Cancelled";
-  totalPrice: number;
-  userData: {
-    city: string;
-    country: string;
-    dateOrdered: Date;
-    email: string;
-    name: string;
-    phone: string;
-    phone2: string;
-    surname: string;
-    zip: string;
-  };
+export interface SelectedProductCardProps {
+  productId: string;
+  setIsProductViewOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }

@@ -1,16 +1,16 @@
 const dataLeft = [
   {
     label: "Categorias",
-    name: "categories",
+    name: "category",
     required: true,
     type: "text",
     placeholder: "Tops, Bottoms, Shoes, Accesories",
   },
   {
     label: "Collecion/Season",
-    name: "season",
-    required: true,
+    name: "seasson",
     type: "text",
+    required: true,
     placeholder: "Temporada: Invierno, Verano, Otono, Primavera etc",
   },
   {
@@ -63,25 +63,11 @@ const dataLeft = [
     placeholder: "www.IMAGEN_PRINCIPAL.com",
   },
   {
-    label: "Proveedor",
-    name: "provider",
-    required: true,
-    type: "text",
-    placeholder: "Nombre Del Proveedor",
-  },
-  {
     label: "url imagen secundaria",
     name: "image1",
     required: true,
     type: "text",
     placeholder: "www.IMAGEN_SECUNDARIA.com",
-  },
-  {
-    label: "Costo del Proveedor",
-    name: "provider_cost",
-    required: true,
-    type: "number",
-    placeholder: "Precio sin $",
   },
   {
     label: "url imagen tercearia",
@@ -96,6 +82,13 @@ const dataLeft = [
     required: true,
     type: "text",
     placeholder: "www.IMAGEN_ULTIMA.com",
+  },
+  {
+    label: "Peso en gramos",
+    name: "weight",
+    required: true,
+    type: "text",
+    placeholder: "2000",
   },
 ];
 

@@ -1,6 +1,6 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ErrorScreen from "@/components/Ui/ErrorScreen";
 
 interface UserData {
@@ -51,7 +51,7 @@ async function getOrders() {
       throw new Error("Error fetching data");
     }
     const data: Response = await res.json();
-    return data.data;
+    return data;
   } catch (e) {
     /* handle error */
     console.log(e);
@@ -112,25 +112,44 @@ function StatusColorBottom({ status }: { status: string }) {
 }
 
 function Sales() {
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [orders, setOrders] = useState([]);
   const { isLoading, data, error } = useQuery({
     queryKey: ["orders"],
     queryFn: () => getOrders(),
     refetchOnWindowFocus: false,
   });
 
+  useEffect(() => {
+    if (data && !isLoading) {
+      setOrders((prevArr) => [...prevArr, ...data.data]);
+    }
+  }, [data, isLoading]);
+
+  const goToNextPage = () => {
+    if (currentPage < (data?.totalPages ?? 0) && !isLoading) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
   if (isLoading) {
-    return <div className="text-3xl animate-pulse h-screen"></div>;
+    return (
+      <div className="text-3xl animate-pulse h-screen">
+        <p>Loading...</p>
+      </div>
+    );
   }
   if (error) {
     return <ErrorScreen />;
   }
+
   return (
     <main className="w-full h-full flex flex-col items-center justify-center mx-auto mt-32 mb-10">
       <section className="container ">
-        {data &&
-          data.map((item: Order) => {
+        {orders &&
+          orders.map((item: Order) => {
             return (
               <div
+                onClick={() => console.log(item)}
                 key={item._id}
                 className="w-full p-2 flex flex-col h-28 m-auto items-center justify-center "
               >
@@ -167,8 +186,19 @@ function Sales() {
                 <span className="w-full h-[1px] bg-gray-800" />
               </div>
             );
-          })}{" "}
+          })}
       </section>
+      {orders.length < (data?.totalItems ?? 0) && (
+        <div className="flex flex-col items-center my-10 ">
+          <span className="text-gray-400 font-helvetica">
+            {orders.length} of {data?.totalItems} orders
+          </span>
+
+          <button onClick={goToNextPage} className="mt-4">
+            Ver los siguientes pedidos
+          </button>
+        </div>
+      )}
     </main>
   );
 }

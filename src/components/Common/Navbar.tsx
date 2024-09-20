@@ -93,25 +93,27 @@ function Navbar() {
                   </React.Fragment>
                 ))}
             </div>
-            <div className="flex space-x-4">
-              <SearchBar />
-              <div
-                className="w-8 h-8 rounded-full  cursor-pointer"
-                onClick={
-                  isCartOpen
-                    ? () => setIsCartOpen(false)
-                    : () => setIsCartOpen(true)
-                }
-              >
-                {cart.length === 0 ? (
-                  <GiShoppingCart className="w-full h-full " />
-                ) : (
-                  <>
-                    <FaShoppingCart className="w-full h-full " />
-                  </>
-                )}
+            {!isAdmin && (
+              <div className="flex space-x-4">
+                <SearchBar />
+                <div
+                  className="w-8 h-8 rounded-full  cursor-pointer"
+                  onClick={
+                    isCartOpen
+                      ? () => setIsCartOpen(false)
+                      : () => setIsCartOpen(true)
+                  }
+                >
+                  {cart.length === 0 ? (
+                    <GiShoppingCart className="w-full h-full " />
+                  ) : (
+                    <>
+                      <FaShoppingCart className="w-full h-full " />
+                    </>
+                  )}
+                </div>
               </div>
-            </div>
+            )}
           </div>
           <SlidingPane
             closeIcon={<div>X</div>}

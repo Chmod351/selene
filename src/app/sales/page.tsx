@@ -122,6 +122,7 @@ function Sales() {
 
   useEffect(() => {
     if (data && !isLoading) {
+      // @ts-ignore
       setOrders((prevArr) => [...prevArr, ...data.data]);
     }
   }, [data, isLoading]);

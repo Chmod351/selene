@@ -1,6 +1,7 @@
 import React from "react";
 
 export interface SelectFieldProps {
+  // eslint-disable-next-line no-unused-vars
   onChange: (event: any) => void;
   errors: any;
   name: string;
@@ -21,6 +22,7 @@ export interface InputFieldProps {
   name: string;
   value?: string | number;
   defaultValue?: string | number;
+  // eslint-disable-next-line no-unused-vars
   onChange?: (event: any) => void;
   errors: any;
   required?: boolean;

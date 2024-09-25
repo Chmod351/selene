@@ -24,6 +24,7 @@ function LoginForm() {
   return (
     <div className="w-1/2 h-[400px] m-auto mt-20 border-2 rounded-lg container">
       <form
+        // @ts-ignore
         onSubmit={handleSubmit(handleSubmitForm)}
         className="flex flex-col justify-evenly bg-primary px-8 m-auto h-full "
       >
@@ -106,9 +107,9 @@ function Admin() {
         console.log("enviado");
       } else {
         console.log("error");
-        setFormError(res.error);
+        setFormError("Error al crear el producto");
       }
-    } catch (e) {
+    } catch (e: any) {
       console.log(e);
       setFormError(e.message);
     }

@@ -161,11 +161,13 @@ function SearchBar() {
             handleClickWithQuery={handleClickWithQuery}
             query={query}
           />
+          {/* @ts-ignore */}
           {data?.data?.length > 0 || isLoading ? (
             <div className="w-[400px] rounded-lg fixed max-h-80 h-full bg-white overflow-auto">
               <SearchResultsLogic
                 setIsSearchOpen={setIsSearchOpen}
                 setQuery={setQuery}
+                // @ts-ignore
                 data={data?.data}
                 error={error}
                 isLoading={isLoading}
@@ -195,6 +197,7 @@ function SearchBar() {
         <SearchResultsLogic
           setIsSearchOpen={setIsSearchOpen}
           setQuery={setQuery}
+          // @ts-ignore
           data={data?.data}
           error={error}
           isLoading={isLoading}

@@ -18,14 +18,18 @@ export interface DataProps {
 
 const EcommerceContext = createContext({
   // cart functions
-  addToCart: (product) => {},
-  removeFromCart: (productId) => {},
+  // eslint-disable-next-line no-unused-vars
+  addToCart: (product: any) => {},
+  // eslint-disable-next-line no-unused-vars
+  removeFromCart: (productId: string) => {},
   clearCart: () => {},
+  // eslint-disable-next-line no-unused-vars
   createOrder: (paymentId: string | null) => {},
   cart: [],
   total: 0,
 
   // user form information
+  // eslint-disable-next-line no-unused-vars
   setUserData: (data: DataProps) => {},
   userData: {
     firstName: "",

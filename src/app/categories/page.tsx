@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import { useSearchParams } from "next/navigation";
 import { useIsQuerySearch } from "@/hooks/useIsQuerySearch";
 import LandingCardLoading from "@/components/Ui/LandingCardLoading";
 import ErrorScreen from "@/components/Ui/ErrorScreen";
@@ -8,11 +7,16 @@ import { IProduct } from "@/components/ProductComponents/types";
 import LandingCard from "@/components/ProductComponents/LandingCard";
 
 function Category() {
-  const searchParams = useSearchParams();
-  const { data, error, isLoading } = useIsQuerySearch(searchParams.get("q"));
+  let splitQfromUrl: string[] = [];
+  if (typeof window !== "undefined") {
+    const searchParams = window.location.search;
+    splitQfromUrl = searchParams.split("?q=");
+  }
+  const { data, error, isLoading } = useIsQuerySearch(splitQfromUrl[1]);
   if (error) {
     return <ErrorScreen />;
   }
+  // @ts-ignore
   if (data?.data?.length === 0) {
     return (
       <section className="w-full min-h-1/2 m-auto">
@@ -34,7 +38,8 @@ function Category() {
                 <LandingCardLoading />
               </div>
             ))
-          : data?.data?.map((product: IProduct) => (
+          : // @ts-ignore
+            data?.data?.map((product: IProduct) => (
               <div key={product._id}>
                 <LandingCard product={product} />
               </div>

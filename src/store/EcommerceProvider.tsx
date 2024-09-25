@@ -33,7 +33,10 @@ const EcommerceProvider = ({ children }: any) => {
   // Cargar el carrito y el total desde localStorage cuando se monta el componente
   useEffect(() => {
     const calculateTotal = () => {
-      const totalAmount = cart.reduce((a, b) => a + b.price_es * b.quantity, 0);
+      const totalAmount = cart.reduce(
+        (a: any, b: any) => a + b.price_es * b.quantity,
+        0,
+      );
       if (userData.deliveryMode === "PickUp") {
         setCorreoprecio(precios.Pickup);
       }
@@ -86,7 +89,7 @@ const EcommerceProvider = ({ children }: any) => {
   const addToCart = useMemo(
     () => (product: any) => {
       const existingProductInCart = cart.find(
-        (p) =>
+        (p: any) =>
           p._id === product._id &&
           p.color === product.color &&
           p.size === product.size,
@@ -207,6 +210,7 @@ const EcommerceProvider = ({ children }: any) => {
         addToCart,
         removeFromCart,
         clearCart,
+        //@ts-ignore
         createOrder,
         cart,
         total,

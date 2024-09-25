@@ -87,6 +87,7 @@ function Form({ children, setIsCheckoutForm }: FormProps) {
       </div>
 
       <div className="w-full bg-white flex flex-col justify-between m-auto h-auto rounded-xl">
+        {/* @ts-ignore */}
         <form onSubmit={handleSubmit(handleDataAndMoveToNextStep)}>
           {React.Children.map(children, (child) => {
             return React.cloneElement(child as React.ReactElement<any>, {

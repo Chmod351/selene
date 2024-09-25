@@ -12,6 +12,7 @@ export default function CheckoutPage() {
     <main className="container m-auto min-h-screen flex justify-center items-center  flex-col mt-10">
       {isCheckoutForm ? (
         <Form setIsCheckoutForm={setIsCheckoutForm}>
+          {/* @ts-ignore */}
           <FormCheckout />
         </Form>
       ) : (

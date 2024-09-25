@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import { IProduct } from "@/components/ProductComponents/types";
 import React from "react";
 
@@ -25,6 +26,7 @@ export interface IRadioSelectProps {
   paymentMethodText: string;
   defaultChecked?: boolean;
   isSelected: boolean;
+  // eslint-disable-next-line no-unused-vars
   onChangeChecked: (value: string) => void;
 }
 
@@ -39,7 +41,9 @@ export interface SearchResultsLogicProps {
 }
 
 export interface SearchBarComponentProps {
+  // eslint-disable-next-line no-unused-vars
   handleSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  // eslint-disable-next-line no-unused-vars
   handleClickWithQuery: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   query: string | null;
 }
@@ -47,7 +51,9 @@ export interface SearchBarComponentProps {
 export interface SlidingPaneSearchProps {
   setIsSearchOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isSearchOpen: boolean;
+  // eslint-disable-next-line no-unused-vars
   handleSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  // eslint-disable-next-line no-unused-vars
   handleClickWithQuery: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   query: string | null;
   children: React.ReactNode;

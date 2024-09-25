@@ -3,7 +3,7 @@ const api_url = process.env.NEXT_PUBLIC_REACT_APP_API;
 import { IProduct } from "@/components/ProductComponents/types";
 import { UseIsQuerySearchResult } from "@/hooks/types";
 
-async function fetchProductsFromApi(query: string): Promise<IProduct[]> {
+async function fetchProductsFromApi(query: string) {
   if (query) {
     const response = await fetch(`${api_url}/products/search?q=${query}`);
     if (!response.ok) {

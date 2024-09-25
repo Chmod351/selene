@@ -8,6 +8,7 @@ const nextConfig = {
       "example.com",
     ],
   },
+  output: "export",
 };
 
 export default nextConfig;

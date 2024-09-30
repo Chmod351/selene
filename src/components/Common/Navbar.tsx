@@ -30,7 +30,7 @@ function Navbar() {
 
   return (
     <div className="w-full fixed top-0 ">
-      <InfoBar text="Envíos a todo el país!" />
+      <InfoBar text="" />
       <nav>
         <Cart
           cart={cart}
@@ -40,17 +40,17 @@ function Navbar() {
         />
         <nav className="bg-primary w-full h-24 font-helvetica text-sm  shadow-lg">
           <div className="container w-11/12 mx-auto mb-10 flex justify-between items-center h-full">
-            <div className="flex items-center w-[50px] h-[50px]">
+            <div className="flex items-center w-[100px] h-[100px]">
               {isMobile ? (
                 <Image
                   className="cursor-pointer"
                   src="/logo.png"
                   alt="logo"
-                  width={150}
-                  height={150}
+                  width={300}
+                  height={300}
                   layout="intrinsic"
                   style={{ width: "100%", height: "100%" }}
-                  objectFit="contain"
+                  objectFit="full"
                   onClick={() => setIsNavbarOpen(!isNavbarOpen)}
                 />
               ) : (

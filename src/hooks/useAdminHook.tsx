@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 function useAdminHook() {
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const sendFormData = async (data: FormData) => {
     setIsLoading(true);
     try {
@@ -26,24 +27,39 @@ function useAdminHook() {
     }
   };
   const handleSubmitForm = async (data: FormData) => {
-    const result = await sendFormData(data);
-    console.log(result, "asdasd");
-    if (result.message === "task done susscessfully") {
-      localStorage.setItem("adminDetails", JSON.stringify(result.session));
-      setIsAdmin(true);
-      return result;
-    } else {
-      console.log({ result });
-      return result;
+    setIsLoading(true);
+    try {
+      const result = await sendFormData(data);
+      console.log(result, "asdasd");
+      if (result && result.message === "task done susscessfully") {
+        console.log("adminDetails", result.session);
+        localStorage.setItem("adminDetails", JSON.stringify(result.session));
+        // redirigir a adminForm
+        window.location.href = "/adminForm";
+
+        setIsLoading(false);
+        setIsAdmin(true);
+        return result;
+      } else {
+        setIsLoading(false);
+
+        console.log({ result });
+
+        return result;
+      }
+    } catch (e) {
+      /* handle error */
+      console.log(e);
+      setIsLoading(false);
     }
   };
+
   useEffect(() => {
-    if (localStorage.getItem("adminDetails")) {
+    const adminDetails = localStorage.getItem("adminDetails");
+    if (adminDetails) {
       setIsAdmin(true);
-    } else {
-      setIsAdmin(false);
     }
-  }, []);
+  }, [isAdmin]);
 
   return { isAdmin, handleSubmitForm, isLoading };
 }

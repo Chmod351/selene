@@ -183,7 +183,7 @@ function Sales() {
       return data;
     } catch (e) {
       /* handle error */
-      setMsg(e.error ?? e.message);
+      setMsg("Error updating status");
       console.log(e);
     }
   };

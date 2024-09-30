@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import SlidingPane from "react-sliding-pane";
 import SubmitButton from "@/components/Ui/SubmitButton";
+import { BiSad } from "react-icons/bi";
 import Image from "next/image";
 import NextLink from "next/link";
 
@@ -69,8 +70,11 @@ function CartLogic({ cart, setIsCartOpen }: ICartProps) {
           </article>
         ))
       ) : (
-        <div className="m-auto flex justify-center h-full w-full  item-center">
-          Cart is Empty
+        <div className="m-auto flex flex-col justify-center h-[510px] w-full">
+          <div className="flex flex-col gap-4 items-center">
+            <p className="text-3xl">El Carrito esta vacío</p>
+            <BiSad className="text-9xl" />
+          </div>
         </div>
       )}
       <aside className="w-full flex flex-col justify-center bg-primary"></aside>

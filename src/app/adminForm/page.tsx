@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import useAdmin from "@/hooks/useAdminHook";
 import { dataLeft } from "../admin/formData";
 import InputField from "@/components/FormComponents/Input";
 import SubmitButton from "@/components/Ui/SubmitButton";
@@ -69,6 +68,14 @@ function AdminForm() {
       setFormError(e.message);
     }
   };
+
+  useEffect(() => {
+    const adminData = localStorage.getItem("adminDetails");
+    if (!adminData) {
+      window.location.href = "/";
+    }
+  }, []);
+
   return (
     <div className="w-full h-full flex flex-col items-center justify-center mx-auto mt-32 mb-10">
       <section className="container">

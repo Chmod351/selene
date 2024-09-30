@@ -177,33 +177,38 @@ function PaymentMethod() {
                   <p>
                     Luego de generar el numero de orden,
                     <strong> tendrás dos horas </strong>para enviar por email el
-                    comprobante de pago
+                    comprobante de pago.
                   </p>
-                  <h1>ALIAS: LAZY.TRENDY</h1>
-                  <br />
-                  <a
-                    href="mailto:lazytrendy@tienda.com.ar"
-                    target="_blank"
-                    className="text-xl font-bold"
-                  >
-                    email:lazytrendy@tienda.com.ar
-                  </a>
-                  <br />
-                  <strong className="text-3xl">
-                    {!orderId ? (
-                      <>TOTAL A PAGAR : $ {total}</>
-                    ) : (
-                      <> ESTE ES TU NUMERO DE ORDEN : {orderId} </>
-                    )}
-                  </strong>
+                  <div className="flex flex-col gap-4 bg-primary p-4 rounded-lg h-[300px] ">
+                    <h1>
+                      <b>ALIAS</b>: LAZY.TRENDY
+                    </h1>
+                    <br />
+                    <a
+                      href="mailto:lazytrendy@tienda.com.ar"
+                      target="_blank"
+                      className="md:text-xl font-bold"
+                    >
+                      email:lazytrendy@tienda.com.ar
+                    </a>
 
-                  <SubmitButton
-                    label={`GENERAR ORDEN POR:$ ${total}`}
-                    // @ts-ignore
-                    onClick={() => handlePayment()}
-                    type="button"
-                    disabled={isLoading || orderId ? true : false}
-                  />
+                    <br />
+                    <strong className="md:text-3xl ">
+                      {!orderId ? (
+                        <>TOTAL A PAGAR : $ {total}</>
+                      ) : (
+                        <> ESTE ES TU NUMERO DE ORDEN : {orderId} </>
+                      )}
+                    </strong>
+
+                    <SubmitButton
+                      label={`GENERAR ORDEN POR:$ ${total}`}
+                      // @ts-ignore
+                      onClick={() => handlePayment()}
+                      type="button"
+                      disabled={isLoading || orderId ? true : false}
+                    />
+                  </div>
                   <br />
                   <p className="text-sm text-gray-400">
                     las transferencias no son reembolsables Tenes que enviar el

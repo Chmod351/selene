@@ -98,7 +98,7 @@ function Cart({ cart, setIsCartOpen, isCartOpen, isMobile }: ICart) {
       className="z-40"
       closeIcon={<div>X</div>}
       isOpen={isCartOpen}
-      title="This is your Cart."
+      title="Tu Carrito."
       width={isMobile ? "100%" : "700px"}
       onRequestClose={() => setIsCartOpen(false)}
     >

@@ -1,15 +1,18 @@
 import { SelectFieldProps } from "@/components/FormComponents/types";
+import React from "react";
+
 export default function SelectField({ ...props }: SelectFieldProps) {
   let error;
   if (props.errors.isArray) {
     error = props.errors?.[0]?.[props.name.split(".").join("?.")];
-    console.log("errrrrrrrrrrrr", error);
   } else {
     error = props.errors?.[props.name.split(".").join("?.")];
   }
   return (
     <div className="flex flex-col gap-1 w-full font-helvetica  ">
-      <label htmlFor={props.name}>{props.label}</label>
+      <label htmlFor={props.name} className="font-bold">
+        {props.label}
+      </label>
       <select
         className="rounded  p-4"
         id={props.name}
@@ -17,6 +20,7 @@ export default function SelectField({ ...props }: SelectFieldProps) {
         {...props.register}
         name={props.name}
         onChange={props.onChange}
+        // defaultValue={{ value: "", label: ""}}
         defaultValue={props.defaultValue}
       >
         {props.options.map((option: { label: string; value: string }) => (

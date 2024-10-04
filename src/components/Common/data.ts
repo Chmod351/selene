@@ -38,7 +38,7 @@ export const data2 = [
 export const adminNavBar = [
   {
     name: "Creador",
-    url: "/admin",
+    url: "/adminForm",
   },
   {
     name: "Ventas",

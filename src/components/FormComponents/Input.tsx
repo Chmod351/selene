@@ -24,15 +24,16 @@ function InputField({
   let error;
   if (errors.isArray) {
     error = errors?.[0]?.[name.split(".").join("?.")];
+    console.log("errrrrrrrrrrrr", error);
   } else {
     error = errors?.[name.split(".").join("?.")];
   }
-  console.log(error);
+
   return (
     <div className="flex flex-col w-full ">
       <label className="font-helvetica text-sm font-bold">{label}</label>
       <input
-        className={`rounded p-4 mt-1 placeholder:text-black  outline-none ${
+        className={`rounded p-4 mt-1 placeholder:text-gray-400  outline-none ${
           error ? "border-red-500" : "border-gray-300"
         }`}
         {...register(name, { required })}
@@ -43,6 +44,11 @@ function InputField({
       />
       {error && (
         <span className="text-red-500 text-sm mt-1">{error.message}</span>
+      )}
+      {errors?.stock?.length > 0 && name.startsWith("stock") && (
+        <span className="text-red-500 text-sm mt-1">
+          la informacion del stock debe estar completa
+        </span>
       )}
     </div>
   );

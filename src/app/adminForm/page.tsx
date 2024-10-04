@@ -1,47 +1,26 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { dataLeft } from "../admin/formData";
 import InputField from "@/components/FormComponents/Input";
+import SelectField from "@/components/FormComponents/Select";
 import SubmitButton from "@/components/Ui/SubmitButton";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import productCreationSchema from "./adminFormSchema";
+import sizeOptions from "./adminFormSize";
 
-const productCreationSchema = z.object({
-  category: z.string().min(1, { message: "Categorias requeridas" }),
-  seasson: z.string().min(1, { message: "Temporada requerida" }),
-  description_en: z
-    .string()
-    .min(1, { message: "Descripicion en ingles requerida" }),
-  description_es: z
-    .string()
-    .min(1, { message: "Descripicion en Español requerida" }),
-  name_en: z.string().min(1, { message: "Nombre en ingles requerido" }),
-  name_es: z.string().min(1, { message: "Nombre en Español requerido" }),
-  price_en: z.string().min(1, { message: "Precio en dolares requerido" }),
-  price_es: z.string().min(1, { message: "Precio en pesos requerido" }),
-  image0: z.string().min(1, { message: "Imagen requerida" }),
-  image1: z.string().min(1, { message: "Imagen requerida" }),
-  image2: z.string().min(1, { message: "Imagen requerida" }),
-  image3: z.string().min(1, { message: "Imagen requerida" }),
-  weight: z.string().min(1, { message: "Peso requerido" }),
-  stock: z.array(
-    z.object({
-      provider: z.string().min(1, { message: "Provider requerido" }),
-      provider_cost: z.string().min(1, { message: "Provider Coste requerido" }),
-      color: z.string().min(1, { message: "Color requerido" }),
-      size: z.string().min(1, { message: "Talla requerida" }),
-      quantity: z.string().min(1, { message: "Stock requerido" }),
-    }),
-  ),
-});
 function AdminForm() {
   const { handleSubmit, register, formState } = useForm({
     resolver: zodResolver(productCreationSchema),
   });
   const [formError, setFormError] = useState("");
-  const [addMoreClothes, setAddMoreClothes] = useState(4);
+  const [addMoreClothes, setAddMoreClothes] = useState(1);
+  const [category, setCategory] = useState<string>("");
+  const [sizes, setSizes] = useState<string[]>([]);
+
   const { errors } = formState;
+
+  console.log(formState.isValid);
 
   const handleSubmitFormI = async (data: any) => {
     console.log("Datos enviados:", data);
@@ -54,7 +33,10 @@ function AdminForm() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(data),
+          body: JSON.stringify({
+            ...data,
+            category,
+          }),
         },
       );
       if (res.ok) {
@@ -69,12 +51,9 @@ function AdminForm() {
     }
   };
 
-  useEffect(() => {
-    const adminData = localStorage.getItem("adminDetails");
-    if (!adminData) {
-      window.location.href = "/";
-    }
-  }, []);
+  const categoryOnChange = (e: any) => {
+    setCategory(e.target.value);
+  };
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center mx-auto mt-32 mb-10">
@@ -86,23 +65,40 @@ function AdminForm() {
           className="p-4 gap-4 bg-primary"
           onSubmit={handleSubmit((data: any) => {
             console.log("enviando form");
+            console.log(data);
             handleSubmitFormI(data);
           })}
         >
           <div className="md:grid md:grid-cols-2 gap-4 p-4">
             {dataLeft.map((item) => {
-              return (
-                <InputField
-                  key={item.name}
-                  label={item.label}
-                  name={item.name}
-                  type={item.type}
-                  register={register}
-                  errors={errors}
-                  required
-                  placeholder={item.placeholder}
-                />
-              );
+              if (item.name === "category") {
+                return (
+                  <SelectField
+                    errors={errors}
+                    key={item.name}
+                    onChange={categoryOnChange}
+                    label={item.label}
+                    name={item.name}
+                    value={category}
+                    defaultValue={item.defaultValue}
+                    register={register}
+                    options={item.options}
+                  />
+                );
+              } else {
+                return (
+                  <InputField
+                    key={item.name}
+                    label={item.label}
+                    name={item.name}
+                    type={item.type}
+                    register={register}
+                    errors={errors}
+                    required
+                    placeholder={item.placeholder ?? ""}
+                  />
+                );
+              }
             })}
           </div>
           {formError && <p className="text-red-500">{formError}</p>}
@@ -129,13 +125,20 @@ function AdminForm() {
                   placeholder="Coste del Proveedor sin $ *"
                 />
 
-                <InputField
-                  label="Talle"
+                <SelectField
+                  label="Talla"
                   name={`stock.${index}.size`}
                   register={register}
                   errors={errors}
-                  required
-                  placeholder="XL, L, M, S *"
+                  options={sizeOptions}
+                  value={`${sizes[index]}`} // agregar el value
+                  onChange={(e) => {
+                    setSizes((prev) => [
+                      ...prev.slice(0, index),
+                      e.target.value,
+                      ...prev.slice(index + 1),
+                    ]);
+                  }}
                 />
                 <InputField
                   label="Stock"
@@ -155,29 +158,33 @@ function AdminForm() {
                   />
                 </label>
                 <div className="flex flex-row ">
-                  <button
+                  <SubmitButton
+                    disabled={addMoreClothes !== index + 1}
                     type="button"
+                    label="Anadir items"
                     onClick={() => setAddMoreClothes(addMoreClothes + 1)}
-                    className="bg-black hover:bg-white hover:text-black hover:border-black hover:cursor-pointer hover:border-2 border-black border-2 text-white font-bold py-2 px-4 rounded-xl w-full  h-14"
-                  >
-                    añadir stock
-                  </button>
-                  <button
+                  />
+                  <SubmitButton
                     type="button"
                     onClick={() =>
                       setAddMoreClothes(
                         addMoreClothes > 1 ? addMoreClothes - 1 : 1,
                       )
                     }
-                    className="bg-red-500 hover:bg-white hover:text-black hover:border-black hover:cursor-pointer hover:border-2 border-black border-2 text-white font-bold py-1 px-4 rounded-xl w-full  h-14"
-                  >
-                    eliminar{" "}
-                  </button>
+                    label="Eliminar items"
+                    disabled={
+                      addMoreClothes !== index + 1 || addMoreClothes === 1
+                    }
+                  />
                 </div>
               </div>
             ))}
           </div>
-          <SubmitButton label="Crear" type="submit" disabled={false} />
+          <SubmitButton
+            label="CREAR PRODUCTO"
+            type="submit"
+            disabled={!formState.isValid}
+          />
         </form>
       </section>
     </div>

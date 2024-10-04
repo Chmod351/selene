@@ -141,13 +141,21 @@ function Sales() {
   };
   if (isLoading) {
     return (
-      <div className="text-3xl animate-pulse h-screen">
+      <div className="text-3xl animate-pulse h-screen flex items-center justify-center">
         <p>Loading...</p>
       </div>
     );
   }
   if (error) {
     return <ErrorScreen />;
+  }
+
+  if (data?.data.length === 0) {
+    return (
+      <div className="text-3xl h-screen flex items-center justify-center">
+        <p>No orders found :P</p>
+      </div>
+    );
   }
 
   const passIOtemToPanel = (item: Order) => {

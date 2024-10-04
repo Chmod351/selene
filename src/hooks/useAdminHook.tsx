@@ -53,6 +53,12 @@ function useAdminHook() {
       setIsLoading(false);
     }
   };
+  useEffect(() => {
+    const adminData = localStorage.getItem("adminDetails");
+    if (!adminData) {
+      window.location.href = "/";
+    }
+  }, []);
 
   useEffect(() => {
     const adminDetails = localStorage.getItem("adminDetails");

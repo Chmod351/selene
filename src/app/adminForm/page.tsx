@@ -1,27 +1,33 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { dataLeft } from "../admin/formData";
 import InputField from "@/components/FormComponents/Input";
 import SelectField from "@/components/FormComponents/Select";
 import SubmitButton from "@/components/Ui/SubmitButton";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import productCreationSchema from "./adminFormSchema";
 import sizeOptions from "./adminFormSize";
 
 function AdminForm() {
-  const { handleSubmit, register, formState } = useForm({
-    resolver: zodResolver(productCreationSchema),
-  });
+  const { handleSubmit, register, formState, reset, control, setValue } =
+    useForm({
+      resolver: zodResolver(productCreationSchema),
+    });
+
   const [formError, setFormError] = useState("");
   const [addMoreClothes, setAddMoreClothes] = useState(1);
-  const [category, setCategory] = useState<string>("");
-  const [sizes, setSizes] = useState<string[]>([]);
 
   const { errors } = formState;
 
   console.log(formState.isValid);
+  const selectCategory = useWatch({
+    control,
+    name: "category",
+    defaultValue: "",
+  });
 
+  console.log({ selectCategory });
   const handleSubmitFormI = async (data: any) => {
     console.log("Datos enviados:", data);
     setFormError("");
@@ -35,36 +41,46 @@ function AdminForm() {
           },
           body: JSON.stringify({
             ...data,
-            category,
           }),
         },
       );
+      console.log(res);
       if (res.ok) {
         console.log("enviado");
+        setFormError("");
+        reset();
       } else {
+        // i want to scroll up
         console.log("error");
-        setFormError("Error al crear el producto");
+        window.scrollTo(0, 0);
+        setFormError(
+          "Error al crear el producto, revisa los campos atentamente",
+        );
       }
     } catch (e: any) {
       console.log(e);
+      window.scrollTo(0, 0);
+
       setFormError(e.message);
     }
   };
 
-  const categoryOnChange = (e: any) => {
-    setCategory(e.target.value);
-  };
+  useEffect(() => {
+    const adminData = localStorage.getItem("adminDetails");
+    if (!adminData) {
+      window.location.href = "/";
+    }
+  }, []);
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center mx-auto mt-32 mb-10">
       <section className="container">
         <h1 className="text-3xl font-bold font-helvetica mx-auto text-center p-8">
-          Creacion de productos
+          {formError ? formError : "Formulario de creación de productos"}
         </h1>
         <form
-          className="p-4 gap-4 bg-primary"
+          className="p-4 gap-4 bg-primary rounded-lg font-helvetica"
           onSubmit={handleSubmit((data: any) => {
-            console.log("enviando form");
             console.log(data);
             handleSubmitFormI(data);
           })}
@@ -76,11 +92,10 @@ function AdminForm() {
                   <SelectField
                     errors={errors}
                     key={item.name}
-                    onChange={categoryOnChange}
+                    onChange={(e: any) => setValue("category", e.target.value)}
                     label={item.label}
                     name={item.name}
-                    value={category}
-                    defaultValue={item.defaultValue}
+                    defaultValue={"Tops"}
                     register={register}
                     options={item.options}
                   />
@@ -105,7 +120,7 @@ function AdminForm() {
           <h1 className="text-3xl font-bold font-helvetica">Manejo de Stock</h1>
           <div className="md:grid md:grid-cols-4 gap-4 p-4">
             {[...Array(addMoreClothes)].map((_, index) => (
-              <div key={index}>
+              <div key={index} className="flex flex-col gap-4">
                 <InputField
                   label="Proveedor"
                   name={`stock.${index}.provider`}
@@ -130,14 +145,10 @@ function AdminForm() {
                   name={`stock.${index}.size`}
                   register={register}
                   errors={errors}
+                  defaultValue={"XS"}
                   options={sizeOptions}
-                  value={`${sizes[index]}`} // agregar el value
                   onChange={(e) => {
-                    setSizes((prev) => [
-                      ...prev.slice(0, index),
-                      e.target.value,
-                      ...prev.slice(index + 1),
-                    ]);
+                    setValue(`stock.${index}.size`, e.target.value);
                   }}
                 />
                 <InputField
@@ -153,11 +164,12 @@ function AdminForm() {
                   Color
                   <input
                     type="color"
+                    className="w-full"
                     {...register(`stock.${index}.color`, { required: true })}
                     required
                   />
                 </label>
-                <div className="flex flex-row ">
+                <div className="flex flex-row gap-4">
                   <SubmitButton
                     disabled={addMoreClothes !== index + 1}
                     type="button"
@@ -171,7 +183,7 @@ function AdminForm() {
                         addMoreClothes > 1 ? addMoreClothes - 1 : 1,
                       )
                     }
-                    label="Eliminar items"
+                    label="Eliminar "
                     disabled={
                       addMoreClothes !== index + 1 || addMoreClothes === 1
                     }
@@ -181,9 +193,13 @@ function AdminForm() {
             ))}
           </div>
           <SubmitButton
-            label="CREAR PRODUCTO"
+            label={
+              !formState.isValid
+                ? "COMPLETA TODOS LOS CAMPOS"
+                : "CREAR PRODUCTO"
+            }
             type="submit"
-            disabled={!formState.isValid}
+            disabled={false}
           />
         </form>
       </section>

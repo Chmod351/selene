@@ -6,6 +6,7 @@ import React from "react";
 import SelectedProductCard from "./SelectedProductCard";
 import { IProduct } from "@/components/ProductComponents/types";
 import useIsMobile from "@/hooks/useIsMobile";
+import useIsAdmin from "@/hooks/useAdminHook";
 
 const LandingCard = React.memo(function LandingCard({
   product,
@@ -14,11 +15,12 @@ const LandingCard = React.memo(function LandingCard({
 }) {
   const { isMobile, isModalOpen, setIsModalOpen } = useIsMobile();
   const [imageSelected, setImageSelected] = useState<number>(0);
+  const { isAdmin } = useIsAdmin();
 
   const handleChangeImageOfProductsOnHover = () => {
     setImageSelected((imageSelected + 1) % product.image_url.length);
   };
-
+  console.log(isAdmin);
   return (
     <>
       <article
@@ -42,18 +44,31 @@ const LandingCard = React.memo(function LandingCard({
           </div>
         </div>
       </article>
-      <SlidingPane
-        className="z-40"
-        closeIcon={<div>X</div>}
-        isOpen={isModalOpen}
-        width={isMobile ? "95%" : "700px"}
-        onRequestClose={() => setIsModalOpen(false)}
-      >
-        <SelectedProductCard
-          productId={product._id}
-          setIsProductViewOpen={setIsModalOpen}
-        />
-      </SlidingPane>
+      {!isAdmin && product._id && (
+        <SlidingPane
+          className="z-40"
+          closeIcon={<div>X</div>}
+          isOpen={isModalOpen}
+          width={isMobile ? "95%" : "700px"}
+          onRequestClose={() => setIsModalOpen(false)}
+        >
+          <SelectedProductCard
+            productId={product._id}
+            setIsProductViewOpen={setIsModalOpen}
+          />
+        </SlidingPane>
+      )}
+      {isAdmin && product._id && (
+        <SlidingPane
+          className="z-40"
+          closeIcon={<div>X</div>}
+          isOpen={isModalOpen}
+          width={isMobile ? "95%" : "700px"}
+          onRequestClose={() => setIsModalOpen(false)}
+        >
+          <p>body</p>
+        </SlidingPane>
+      )}
     </>
   );
 });

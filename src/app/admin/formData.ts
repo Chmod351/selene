@@ -6,6 +6,10 @@ const dataLeft = [
     defaultValue: "Tops",
     options: [
       {
+        value: "none",
+        label: "Seleccione un campo",
+      },
+      {
         value: "Tops",
         label: "Tops",
       },

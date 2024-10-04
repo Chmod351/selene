@@ -5,29 +5,20 @@ import InputField from "@/components/FormComponents/Input";
 import SelectField from "@/components/FormComponents/Select";
 import SubmitButton from "@/components/Ui/SubmitButton";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, useWatch } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import productCreationSchema from "./adminFormSchema";
 import sizeOptions from "./adminFormSize";
 
 function AdminForm() {
-  const { handleSubmit, register, formState, reset, control, setValue } =
-    useForm({
-      resolver: zodResolver(productCreationSchema),
-    });
+  const { handleSubmit, register, formState, reset, setValue } = useForm({
+    resolver: zodResolver(productCreationSchema),
+  });
 
   const [formError, setFormError] = useState("");
   const [addMoreClothes, setAddMoreClothes] = useState(1);
 
   const { errors } = formState;
 
-  console.log(formState.isValid);
-  const selectCategory = useWatch({
-    control,
-    name: "category",
-    defaultValue: "",
-  });
-
-  console.log({ selectCategory });
   const handleSubmitFormI = async (data: any) => {
     console.log("Datos enviados:", data);
     setFormError("");

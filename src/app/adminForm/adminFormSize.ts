@@ -1,4 +1,8 @@
 const sizeOptions = [
+  {
+    value: "none",
+    label: "Seleccione un campo",
+  },
   { value: "XS", label: "XS" },
   { value: "S", label: "S" },
   { value: "M", label: "M" },

@@ -17,14 +17,19 @@ export default function SelectField({ ...props }: SelectFieldProps) {
         className="rounded  p-4"
         id={props.name}
         required={true}
-        {...props.register}
         name={props.name}
+        {...props.register}
+        // value={props.value}
         onChange={props.onChange}
-        // defaultValue={{ value: "", label: ""}}
-        defaultValue={props.defaultValue}
+        defaultValue={{ value: "", label: "" }}
+        // defaultValue={props.defaultValue}
       >
         {props.options.map((option: { label: string; value: string }) => (
-          <option key={option.value} value={option.value}>
+          <option
+            key={option.value}
+            value={option.value}
+            disabled={option.value === "none"}
+          >
             {option.label}
           </option>
         ))}

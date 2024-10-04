@@ -3,13 +3,13 @@ import React from "react";
 export interface SelectFieldProps {
   // eslint-disable-next-line no-unused-vars
   onChange: (event: any) => void;
-  errors: any;
   name: string;
   defaultValue?: string | number;
   label: string;
-  value: string | number;
+  value?: string | number;
   register: any;
-  options: { value: string | number; label: string }[];
+  errors: any;
+  options: any;
 }
 export interface FormProps {
   children: React.ReactNode;
@@ -18,7 +18,7 @@ export interface FormProps {
 export interface InputFieldProps {
   type: string;
   label: string;
-  placeholder: string;
+  placeholder?: string;
   name: string;
   value?: string | number;
   defaultValue?: string | number;

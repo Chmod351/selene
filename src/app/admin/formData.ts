@@ -3,8 +3,25 @@ const dataLeft = [
     label: "Categorias",
     name: "category",
     required: true,
-    type: "text",
-    placeholder: "Tops, Bottoms, Shoes, Accesories",
+    defaultValue: "Tops",
+    options: [
+      {
+        value: "Tops",
+        label: "Tops",
+      },
+      {
+        value: "Bottoms",
+        label: "Bottoms",
+      },
+      {
+        value: "Shoes",
+        label: "Shoes",
+      },
+      {
+        value: "Accesories",
+        label: "Accesories",
+      },
+    ],
   },
   {
     label: "Collecion/Season",

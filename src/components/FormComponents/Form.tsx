@@ -83,7 +83,7 @@ function Form({ children, setIsCheckoutForm }: FormProps) {
             </label>
           </div>
         </div>
-        <div className="w-1/2 "> asdsadas</div>
+        <div className="w-1/2 "></div>
       </div>
 
       <div className="w-full bg-white flex flex-col justify-between m-auto h-auto rounded-xl">

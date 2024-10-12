@@ -58,3 +58,38 @@ export interface SlidingPaneSearchProps {
   query: string | null;
   children: React.ReactNode;
 }
+
+type Color = string[];
+
+export interface StockInfo {
+  color: Color;
+  provider: string;
+  providerCost: number;
+  quantity: number;
+  size: string[];
+}
+
+export interface OrderItem {
+  productPrice: number;
+  product_id: string;
+  quantity: number;
+  stockInfo: StockInfo[];
+}
+
+export interface SaleOverviewItem {
+  _id: string;
+  orderItems: OrderItem[];
+}
+export interface Stock {
+  color: string[];
+  provider: string;
+  providerCost: number;
+  quantity: number;
+  size: string[];
+  _id: string;
+}
+
+export interface Product {
+  name: string;
+  stock: Stock[];
+}

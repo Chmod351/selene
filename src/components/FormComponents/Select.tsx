@@ -28,7 +28,7 @@ export default function SelectField({ ...props }: SelectFieldProps) {
           <option
             key={option.value}
             value={option.value}
-            disabled={option.value === "none"}
+            // disabled={option.value === "none"}
           >
             {option.label}
           </option>

@@ -1,14 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: [
-      "portalpopclub.com.br",
-      "cdn.shopify.com",
-      "www.nuevamujer.com",
-      "example.com",
-    ],
+    domains: ["https://postimg.cc/", "i.postimg.cc"],
   },
-  output: "export",
+  // output: "export",
 };
 
 export default nextConfig;

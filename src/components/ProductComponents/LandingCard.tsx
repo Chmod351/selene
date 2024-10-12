@@ -32,8 +32,9 @@ const LandingCard = React.memo(function LandingCard({
           alt={product.name_es}
           className="w-full h-[330px] object-cover rounded-lg"
           width="240"
-          height="330"
+          // layout="fill"
           objectFit="cover"
+          height="330"
           onMouseOver={handleChangeImageOfProductsOnHover}
           onMouseOut={() => setImageSelected(0)}
         />

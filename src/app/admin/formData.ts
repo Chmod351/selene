@@ -3,7 +3,7 @@ const dataLeft = [
     label: "Categorias",
     name: "category",
     required: true,
-    defaultValue: "Tops",
+    defaultValue: "none",
     options: [
       {
         value: "none",

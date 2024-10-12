@@ -15,6 +15,7 @@ function AdminForm() {
   });
 
   const [formError, setFormError] = useState("");
+  const [formSuccess, setFormSuccess] = useState("");
   const [addMoreClothes, setAddMoreClothes] = useState(1);
 
   const { errors } = formState;
@@ -22,6 +23,7 @@ function AdminForm() {
   const handleSubmitFormI = async (data: any) => {
     console.log("Datos enviados:", data);
     setFormError("");
+    console.log(data);
     try {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_REACT_APP_API}/products/create`,
@@ -32,6 +34,7 @@ function AdminForm() {
           },
           body: JSON.stringify({
             ...data,
+            image_url: [data.image0, data.image1, data.image2, data.image3],
           }),
         },
       );
@@ -39,6 +42,7 @@ function AdminForm() {
       if (res.ok) {
         console.log("enviado");
         setFormError("");
+        setFormSuccess("Prenda  cargada exitosamente");
         reset();
       } else {
         // i want to scroll up
@@ -86,7 +90,7 @@ function AdminForm() {
                     onChange={(e: any) => setValue("category", e.target.value)}
                     label={item.label}
                     name={item.name}
-                    defaultValue={"Tops"}
+                    defaultValue={"none"}
                     register={register}
                     options={item.options}
                   />
@@ -136,7 +140,7 @@ function AdminForm() {
                   name={`stock.${index}.size`}
                   register={register}
                   errors={errors}
-                  defaultValue={"XS"}
+                  defaultValue="none"
                   options={sizeOptions}
                   onChange={(e) => {
                     setValue(`stock.${index}.size`, e.target.value);
@@ -193,6 +197,9 @@ function AdminForm() {
             disabled={false}
           />
         </form>
+        {formSuccess && (
+          <p className="text-green-500 text-center p-4">{formSuccess}</p>
+        )}
       </section>
     </div>
   );

@@ -68,6 +68,8 @@ function SearchResultsLogic({
               <div className="flex flex-row max-w-full gap-4 overflow-x-auto">
                 <div className="w-[100px] h-[100px] flex-shrink-0 rounded-lg">
                   <Image
+                    layout="fill"
+                    objectFit="cover"
                     className="hover cursor-pointer h-full w-full object-cover rounded-lg"
                     src={product.image_url[0]}
                     alt={product.name_es}

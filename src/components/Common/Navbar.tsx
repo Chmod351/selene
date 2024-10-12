@@ -16,7 +16,7 @@ import Cart from "@/components/Ui/Cart";
 import useIsMobile from "@/hooks/useIsMobile";
 import useAdmin from "@/hooks/useAdminHook";
 
-function Navbar() {
+const Navbar = React.memo(function Navbar() {
   const { isMobile } = useIsMobile();
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -148,6 +148,6 @@ function Navbar() {
       </nav>
     </div>
   );
-}
+});
 
 export default Navbar;

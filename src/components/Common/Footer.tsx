@@ -10,7 +10,7 @@ import Image from "next/image";
 
 const calculateYear = new Date().getFullYear();
 
-export default function Footer() {
+const Footer = React.memo(function Footer() {
   return (
     <>
       <footer className="bg-primary w-full  font-helvetica md:h-[406px] md:py-0 pt-10 ">
@@ -80,4 +80,6 @@ export default function Footer() {
       <InfoBar text={`© ${calculateYear}. Todos los derechos reservados`} />
     </>
   );
-}
+});
+
+export default Footer;

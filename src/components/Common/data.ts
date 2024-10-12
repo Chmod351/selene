@@ -27,7 +27,7 @@ export const data2 = [
   },
   {
     name: "+54 9 11 3230-0253",
-    url: "+54 9 11 3230-0253",
+    url: "https://wa.me/+5491132300253",
   },
   {
     name: "email@selene.com",
@@ -38,15 +38,15 @@ export const data2 = [
 export const adminNavBar = [
   {
     name: "Creador",
-    url: "/adminForm",
+    url: "/admin/create",
   },
   {
     name: "Ventas",
-    url: "/sales",
+    url: "/admin/sales",
   },
   {
     name: "Dashboard",
-    url: "/dashboard",
+    url: "/admin/dashboard",
   },
 ];
 export default data;

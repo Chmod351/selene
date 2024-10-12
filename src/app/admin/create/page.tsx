@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { dataLeft } from "../admin/formData";
+import { dataLeft } from "./formData";
 import InputField from "@/components/FormComponents/Input";
 import SelectField from "@/components/FormComponents/Select";
 import SubmitButton from "@/components/Ui/SubmitButton";

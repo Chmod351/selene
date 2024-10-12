@@ -1,12 +1,21 @@
 import LandingCard from "./LandingCard";
+import React, { useMemo } from "react";
 import LandingCardLoading from "@/components/Ui/LandingCardLoading";
 import ErrorScreen from "@/components/Ui/ErrorScreen";
 import { IProduct } from "@/components/ProductComponents/types";
 import usePagination from "@/hooks/usePagination";
 
-export default function LandingCardContainer() {
+function LandingCardContainer() {
   const { currentPage, goToNextPage, products, error, isLoading, data } =
     usePagination();
+
+  const productCards = useMemo(() => {
+    return products.map((product: IProduct) => (
+      <div key={product._id}>
+        <LandingCard product={product} />
+      </div>
+    ));
+  }, [products]);
 
   if (error) {
     return <ErrorScreen />;
@@ -25,11 +34,7 @@ export default function LandingCardContainer() {
                   <LandingCardLoading />
                 </div>
               ))
-            : products.map((product: IProduct) => (
-                <div key={product._id}>
-                  <LandingCard product={product} />
-                </div>
-              ))}
+            : productCards}
         </div>
         <div className="w-full flex flex-row flex-wrap justify-center gap-5">
           {" "}
@@ -61,3 +66,4 @@ export default function LandingCardContainer() {
     </section>
   );
 }
+export default LandingCardContainer;

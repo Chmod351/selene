@@ -8,9 +8,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import productCreationSchema from "../../admin/create/adminFormSchema";
 import sizeOptions from "../../admin/create/adminFormSize";
-import { IProduct } from "@/components/ProductComponents/types";
+// import { IProduct } from "@/components/ProductComponents/types";
 
-function EditProduct({ product }: { product: IProduct }) {
+function EditProduct({ product }: { product: any }) {
   const { handleSubmit, register, formState, reset, setValue } = useForm({
     resolver: zodResolver(productCreationSchema),
   });

@@ -4,7 +4,7 @@ const nextConfig = {
     domains: ["https://postimg.cc/", "i.postimg.cc"],
   },
   trailingSlash: true,
-  // output: "export",
+  output: "export",
 };
 
 export default nextConfig;

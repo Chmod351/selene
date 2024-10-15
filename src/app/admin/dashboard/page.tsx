@@ -2,7 +2,6 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { SaleOverviewItem, Product } from "@/components/Ui/types";
-// import ProductStockChartComponent from "@/components/Ui/DashboardCharts";
 import dynamic from "next/dynamic";
 
 type SaleOverview = SaleOverviewItem[];

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { dataLeft } from "../../admin/create/formData";
 import InputField from "@/components/FormComponents/Input";
 import SelectField from "@/components/FormComponents/Select";
@@ -8,8 +8,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import productCreationSchema from "../../admin/create/adminFormSchema";
 import sizeOptions from "../../admin/create/adminFormSize";
+import { IProduct } from "@/components/ProductComponents/types";
 
-function EditProduct() {
+function EditProduct({ product }: { product: IProduct }) {
   const { handleSubmit, register, formState, reset, setValue } = useForm({
     resolver: zodResolver(productCreationSchema),
   });
@@ -59,19 +60,12 @@ function EditProduct() {
       setFormError(e.message);
     }
   };
-
-  useEffect(() => {
-    const adminData = localStorage.getItem("adminDetails");
-    if (!adminData) {
-      window.location.href = "/";
-    }
-  }, []);
-
+  console.log(product);
   return (
     <div className="w-full h-full flex flex-col items-center justify-center mx-auto mt-32 mb-10">
       <section className="container">
         <h1 className="text-3xl font-bold font-helvetica mx-auto text-center p-8">
-          {formError ? formError : "Formulario de creación de productos"}
+          {formError ? formError : "Formulario de EDICION de productos"}
         </h1>
         <form
           className="p-4 gap-4 bg-primary rounded-lg font-helvetica"
@@ -90,9 +84,23 @@ function EditProduct() {
                     onChange={(e: any) => setValue("category", e.target.value)}
                     label={item.label}
                     name={item.name}
-                    defaultValue={"none"}
+                    defaultValue={product?.category}
                     register={register}
                     options={item.options}
+                  />
+                );
+              } else if (item.name === "image_url") {
+                return (
+                  <InputField
+                    key={item.name}
+                    label={item.label}
+                    name={item.name}
+                    type={item.type}
+                    defaultValue={product?.image_url[0]}
+                    register={register}
+                    errors={errors}
+                    required
+                    placeholder={"asdlkajsdlkajdsklj" ?? ""}
                   />
                 );
               } else {
@@ -102,6 +110,7 @@ function EditProduct() {
                     label={item.label}
                     name={item.name}
                     type={item.type}
+                    defaultValue={product?.[item.name]}
                     register={register}
                     errors={errors}
                     required
@@ -121,6 +130,7 @@ function EditProduct() {
                   name={`stock.${index}.provider`}
                   register={register}
                   errors={errors}
+                  defaultValue={product?.stock?.[index]?.provider}
                   required
                   placeholder="Nombre del Proveedor"
                 />
@@ -131,6 +141,7 @@ function EditProduct() {
                   register={register}
                   type="number"
                   errors={errors}
+                  defaultValue={product?.stock?.[index]?.provider_cost}
                   required
                   placeholder="Coste del Proveedor sin $ *"
                 />
@@ -140,7 +151,7 @@ function EditProduct() {
                   name={`stock.${index}.size`}
                   register={register}
                   errors={errors}
-                  defaultValue="none"
+                  defaultValue={product?.stock?.[index]?.size}
                   options={sizeOptions}
                   onChange={(e) => {
                     setValue(`stock.${index}.size`, e.target.value);
@@ -153,6 +164,7 @@ function EditProduct() {
                   register={register}
                   errors={errors}
                   required
+                  defaultValue={product?.stock?.[index]?.quantity}
                   placeholder="stock *"
                 />
                 <label className="font-helvetica text-sm font-bold flex flex-col gap-4 my-4">

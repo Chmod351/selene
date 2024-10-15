@@ -21,8 +21,8 @@ export default function SelectField({ ...props }: SelectFieldProps) {
         {...props.register}
         // value={props.value}
         onChange={props.onChange}
-        defaultValue={{ value: "", label: "" }}
-        // defaultValue={props.defaultValue}
+        // defaultValue={{ value: "", label: "" }}
+        defaultValue={props.defaultValue}
       >
         {props.options.map((option: { label: string; value: string }) => (
           <option

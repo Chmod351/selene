@@ -6,28 +6,30 @@ import SelectField from "@/components/FormComponents/Select";
 import SubmitButton from "@/components/Ui/SubmitButton";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import productCreationSchema from "../../admin/create/adminFormSchema";
+import { productEditionSchema } from "../../admin/create/adminFormSchema";
 import sizeOptions from "../../admin/create/adminFormSize";
 // import { IProduct } from "@/components/ProductComponents/types";
 
 function EditProduct({ product }: { product: any }) {
   const { handleSubmit, register, formState, reset, setValue } = useForm({
-    resolver: zodResolver(productCreationSchema),
+    resolver: zodResolver(productEditionSchema),
   });
 
   const [formError, setFormError] = useState("");
   const [formSuccess, setFormSuccess] = useState("");
   const [addMoreClothes, setAddMoreClothes] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { errors } = formState;
   console.log("lkajdladjaskldlskadj");
   const handleSubmitFormI = async (data: any) => {
     console.log("Datos enviados:", data);
     setFormError("");
+    setIsLoading(true);
     console.log(data);
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_REACT_APP_API}/products/update`,
+        `${process.env.NEXT_PUBLIC_REACT_APP_API}/products/update/${product._id}`,
         {
           method: "PUT",
           headers: {
@@ -53,8 +55,11 @@ function EditProduct({ product }: { product: any }) {
           "Error al crear el producto, revisa los campos atentamente",
         );
       }
+      setIsLoading(false);
     } catch (e: any) {
       console.log(e);
+      setIsLoading(false);
+      // i want to scroll up
       window.scrollTo(0, 0);
 
       setFormError(e.message);
@@ -76,10 +81,12 @@ function EditProduct({ product }: { product: any }) {
         >
           <div className="md:grid md:grid-cols-2 gap-4 p-4">
             {dataLeft.map((item) => {
+              console.log(item);
               if (item.name === "category") {
                 return (
                   <SelectField
                     errors={errors}
+                    required={false}
                     key={item.name}
                     onChange={(e: any) => setValue("category", e.target.value)}
                     label={item.label}
@@ -89,7 +96,12 @@ function EditProduct({ product }: { product: any }) {
                     options={item.options}
                   />
                 );
-              } else if (item.name === "image_url") {
+              } else if (
+                item.name === "image0" ||
+                item.name === "image1" ||
+                item.name === "image2" ||
+                item.name === "image3"
+              ) {
                 return (
                   <InputField
                     key={item.name}
@@ -99,8 +111,8 @@ function EditProduct({ product }: { product: any }) {
                     defaultValue={product?.image_url[0]}
                     register={register}
                     errors={errors}
-                    required
-                    placeholder={"asdlkajsdlkajdsklj" ?? ""}
+                    required={false}
+                    placeholder={item.placeholder ?? ""}
                   />
                 );
               } else {
@@ -113,7 +125,7 @@ function EditProduct({ product }: { product: any }) {
                     defaultValue={product?.[item.name]}
                     register={register}
                     errors={errors}
-                    required
+                    required={false}
                     placeholder={item.placeholder ?? ""}
                   />
                 );
@@ -123,15 +135,15 @@ function EditProduct({ product }: { product: any }) {
           {formError && <p className="text-red-500">{formError}</p>}
           <h1 className="text-3xl font-bold font-helvetica">Manejo de Stock</h1>
           <div className="md:grid md:grid-cols-4 gap-4 p-4">
-            {[...Array(addMoreClothes)].map((_, index) => (
+            {product?.stock.map((p: any, index: number) => (
               <div key={index} className="flex flex-col gap-4">
                 <InputField
                   label="Proveedor"
                   name={`stock.${index}.provider`}
                   register={register}
                   errors={errors}
-                  defaultValue={product?.stock?.[index]?.provider}
-                  required
+                  defaultValue={p.provider}
+                  required={false}
                   placeholder="Nombre del Proveedor"
                 />
 
@@ -141,17 +153,18 @@ function EditProduct({ product }: { product: any }) {
                   register={register}
                   type="number"
                   errors={errors}
-                  defaultValue={product?.stock?.[index]?.provider_cost}
-                  required
+                  defaultValue={p.provider_cost}
+                  required={false}
                   placeholder="Coste del Proveedor sin $ *"
                 />
 
                 <SelectField
+                  required={false}
                   label="Talla"
                   name={`stock.${index}.size`}
                   register={register}
                   errors={errors}
-                  defaultValue={product?.stock?.[index]?.size}
+                  defaultValue={p.size[0]}
                   options={sizeOptions}
                   onChange={(e) => {
                     setValue(`stock.${index}.size`, e.target.value);
@@ -163,8 +176,8 @@ function EditProduct({ product }: { product: any }) {
                   type="number"
                   register={register}
                   errors={errors}
-                  required
-                  defaultValue={product?.stock?.[index]?.quantity}
+                  required={false}
+                  defaultValue={p.quantity}
                   placeholder="stock *"
                 />
                 <label className="font-helvetica text-sm font-bold flex flex-col gap-4 my-4">
@@ -173,7 +186,8 @@ function EditProduct({ product }: { product: any }) {
                     type="color"
                     className="w-full"
                     {...register(`stock.${index}.color`, { required: true })}
-                    required
+                    required={false}
+                    defaultValue={p.color[0]}
                   />
                 </label>
                 <div className="flex flex-row gap-4">
@@ -206,7 +220,7 @@ function EditProduct({ product }: { product: any }) {
                 : "CREAR PRODUCTO"
             }
             type="submit"
-            disabled={false}
+            disabled={isLoading}
           />
         </form>
         {formSuccess && (

@@ -16,7 +16,7 @@ export default function SelectField({ ...props }: SelectFieldProps) {
       <select
         className="rounded  p-4"
         id={props.name}
-        required={true}
+        required={props.required ?? true}
         name={props.name}
         {...props.register}
         // value={props.value}

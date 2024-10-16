@@ -79,3 +79,43 @@ const productCreationSchema = z.object({
 });
 
 export default productCreationSchema;
+
+export const productEditionSchema = z.object({
+  category: z.string({ required_error: "Categorias requeridas" }).optional(),
+  seasson: z.string({ required_error: "Temporada requerida" }).optional(),
+
+  description_en: z
+    .string({ required_error: "Descripicion en ingles requerida" })
+    .optional(),
+  description_es: z
+    .string({ required_error: "Descripicion en Español requerida" })
+    .optional(),
+  name_en: z
+    .string({ required_error: "Nombre en ingles requerido" })
+    .optional(),
+  name_es: z
+    .string({ required_error: "Nombre en Español requerido" })
+    .optional(),
+  price_en: z
+    .string({ required_error: "Precio en dolares requerido" })
+    .optional(),
+  price_es: z
+    .string({ required_error: "Precio en pesos requerido" })
+    .optional(),
+  image0: z.string({ required_error: "Imagen requerida" }).optional(),
+  image1: z.string({ required_error: "Imagen requerida" }).optional(),
+  image2: z.string({ required_error: "Imagen requerida" }).optional(),
+  image3: z.string({ required_error: "Imagen requerida" }).optional(),
+  weight: z.string({ required_error: "Peso requerido" }).optional(),
+  stock: z.array(
+    z.object({
+      provider: z.string().optional(),
+      provider_cost: z.string().optional(),
+      color: z.string().optional(),
+
+      size: z.string().optional(),
+
+      quantity: z.string().optional(),
+    }),
+  ),
+});

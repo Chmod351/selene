@@ -6,6 +6,7 @@ export interface SelectFieldProps {
   name: string;
   defaultValue?: string | number;
   label: string;
+  required?: boolean;
   value?: string | number;
   register: any;
   errors: any;

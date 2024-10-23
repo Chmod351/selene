@@ -75,6 +75,7 @@ function SearchResultsLogic({
                     alt={product.name_es}
                     width={100}
                     height={100}
+                    unoptimized
                   />
                 </div>
                 <aside>

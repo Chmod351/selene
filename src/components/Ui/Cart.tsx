@@ -36,6 +36,7 @@ function CartLogic({ cart, setIsCartOpen }: ICartProps) {
                   alt={item.name_es}
                   width={260}
                   height={260}
+                  unoptimized
                 />
               </div>
               <div className="flex flex-col gap-4">

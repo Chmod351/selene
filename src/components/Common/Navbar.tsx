@@ -42,27 +42,28 @@ const Navbar = React.memo(function Navbar() {
           <div className="container w-11/12 mx-auto mb-10 flex justify-between items-center h-full">
             <div className="flex items-center w-[100px] h-[100px]">
               {isMobile ? (
-                <Image
+                <img
                   className="cursor-pointer"
                   src="/logo.png"
                   alt="logo"
                   width={300}
                   height={300}
-                  layout="intrinsic"
+                  // unoptimized
+                  // layout="intrinsic"
                   style={{ width: "100%", height: "100%" }}
-                  objectFit="full"
+                  // objectFit="full"
                   onClick={() => setIsNavbarOpen(!isNavbarOpen)}
                 />
               ) : (
                 <NextLink href={"/"}>
-                  <Image
+                  <img
                     src="/logo.png"
                     alt="logo"
                     width={1000}
                     height={1000}
-                    layout="intrinsic"
+                    // layout="intrinsic"
                     style={{ width: "100%", height: "100%" }}
-                    objectFit="contain"
+                    // objectFit="contain"
                   />
                 </NextLink>
               )}

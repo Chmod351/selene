@@ -23,6 +23,7 @@ const Footer = React.memo(function Footer() {
               objectFit="contain"
               className="md:w-[300px] h-[220px]  rounded-lg md:p-0 md:my-0 my-8"
               src="/logo.png"
+              unoptimized
               alt="logo"
             />
             <ul className="flex flex-col space-y-4 my-8 md:my-0">

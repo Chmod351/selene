@@ -29,6 +29,7 @@ function LandingCard({ product }: { product: IProduct }) {
           alt={product.name_es}
           className="w-full h-[330px] object-cover rounded-lg"
           width="240"
+          unoptimized
           // layout="fill"
           objectFit="cover"
           height="330"

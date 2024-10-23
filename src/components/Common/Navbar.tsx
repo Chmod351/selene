@@ -1,6 +1,6 @@
 "use client";
 import React, { useContext } from "react";
-import Image from "next/image";
+// import Image from "next/image";
 import { useState } from "react";
 import InfoBar from "@/components/Ui/InfoBar";
 import data from "@/components/Common/data";

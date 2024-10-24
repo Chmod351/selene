@@ -146,7 +146,7 @@ const EcommerceProvider = ({ children }: any) => {
     setCart([]);
   };
 
-  const createOrder = async (paymentId: {
+  const createOrderMp = async (paymentId: {
     installments: number;
     paymentMethodId: string;
     payer: { email: string; identification: { type: string; number: string } };
@@ -187,6 +187,47 @@ const EcommerceProvider = ({ children }: any) => {
       return order._id;
     } catch (e) {
       /* handle error */
+      clearCart();
+      console.log(e);
+    }
+  };
+
+  const createOrder = async () => {
+    try {
+      const requestBody = {
+        mercadoPagoInfo: null,
+        orderItems: cart,
+        totalPrice: total,
+        deliveryMode: userData.deliveryMode,
+        paymentMethod: userData.paymentMethod,
+        shippingAddress1: userData.shippingAddress1,
+        userData: {
+          ...userData,
+          surname: userData.lastName,
+          name: userData.firstName,
+          phone: userData.phoneNumber,
+          dateOrdered: new Date(),
+        },
+      };
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_REACT_APP_API}/orders/create`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
+        },
+      );
+      if (!response.ok) {
+        throw new Error("Error creating order");
+      }
+      const order = await response.json();
+      clearCart();
+      return order._id;
+    } catch (e) {
+      /* handle error */
+      clearCart();
       console.log(e);
     }
   };
@@ -210,8 +251,9 @@ const EcommerceProvider = ({ children }: any) => {
         addToCart,
         removeFromCart,
         clearCart,
-        //@ts-ignore
+        createOrderMp,
         createOrder,
+        //@ts-ignore
         cart,
         total,
         userData,

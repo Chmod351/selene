@@ -18,10 +18,6 @@ const data = [
 ];
 export const data2 = [
   {
-    name: "TERMS & CONDITIONS",
-    url: "/terms_en",
-  },
-  {
     name: "PRIVACY POLICY",
     url: "/privacy_en",
   },

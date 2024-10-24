@@ -13,11 +13,14 @@ import useIsMobile from "@/hooks/useIsMobile";
 //const
 const mp = "Mercado Pago";
 const transfer = "Transferencia";
-
+console.log(process.env.NEXT_PUBLIC_ACCESS_TOKEN);
 function PaymentMethod() {
-  initMercadoPago(process.env.NEXT_PUBLIC_KEY || "");
+  useEffect(() => {
+    // Inicializamos el SDK
+    initMercadoPago(process.env.NEXT_PUBLIC_KEY!);
+  }, []);
   const { isMobile, isModalOpen, setIsModalOpen } = useIsMobile();
-  const { setUserData, userData, total, createOrder } =
+  const { setUserData, userData, total, createOrderMp, createOrder } =
     useContext(EcommerceContext);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -36,20 +39,26 @@ function PaymentMethod() {
       setIsErr(null);
 
       if (userData.paymentMethod !== mp) {
-        // @ts-ignore
         const id: any = await createOrder();
         setOrderId(id);
+      } else {
+        const id: any = await createOrderMp(mercadoPagoInfo);
+        if (!id) {
+          setIsErr(
+            "No hemos podido procesar el pago, por favor intentalo más tarde",
+          );
+          setTimeout(() => {
+            setIsModalOpen(false);
+            setIsErr(null);
+          }, 2000);
+        }
+        setOrderId(id);
+        setIsLoading(false);
       }
-      console.log(mercadoPagoInfo);
-      // @ts-ignore
-      const id = await createOrder(mercadoPagoInfo);
-      console.log(id);
-      setOrderId(id);
-
-      setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
       console.error(error);
+      setIsModalOpen(false);
       setIsErr("Error al procesar el pago");
     }
   };
@@ -89,7 +98,9 @@ function PaymentMethod() {
         width={isMobile ? "100%" : "700px"}
         onRequestClose={() => handleClose()}
       >
-        <p className="text-red-500 text-center">algo salio mal</p>
+        <div className="flex flex-col justify-center items-center">
+          <p className="text-red-500 text-center">{isErr}</p>
+        </div>
       </SlidingPane>
     );
   }
@@ -140,13 +151,11 @@ function PaymentMethod() {
           width={isMobile ? "100%" : "700px"}
           onRequestClose={() => handleClose()}
         >
-          {isLoading ? (
+          {isLoading && (
             <div className="flex flex-col gap-4 w-full h-full justify-center items-center">
               Cargando...
               <div className="w-10 h-10 bg-gray-400 animate-spin  "></div>
             </div>
-          ) : (
-            isErr && <div className="flex flex-col gap-4">{isErr}</div>
           )}
           <div id="cardPaymentBrick_container">
             {!isLoading &&

@@ -217,7 +217,9 @@ function SelectedProductCard({
               type="button"
             />
           </div>
-          <p>{data?.description_es}</p>
+          <p className="w-full overflow-visible pb-5 hyphens-auto break-words">
+            {data?.description_es}
+          </p>
         </aside>
       </div>
     </div>

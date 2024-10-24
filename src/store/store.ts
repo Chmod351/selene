@@ -24,7 +24,14 @@ const EcommerceContext = createContext({
   removeFromCart: (productId: string) => {},
   clearCart: () => {},
   // eslint-disable-next-line no-unused-vars
-  createOrder: (paymentId: string | null) => {},
+  createOrder: () => {},
+  createOrderMp: (paymentId: {
+    installments: number;
+    paymentMethodId: string;
+    payer: { email: string; identification: { type: string; number: string } };
+    token: string;
+    transaction_amount: number;
+  }) => {},
   cart: [],
   total: 0,
 

@@ -29,7 +29,9 @@ const Footer = React.memo(function Footer() {
             <ul className="flex flex-col space-y-4 my-8 md:my-0">
               {data.map((item) => (
                 <li key={item.name} className="m-auto md:m-0">
-                  <NextLink href={item.url}>{item.name}</NextLink>
+                  <a href={`/categories/?q=${item.url}`} key={item.url}>
+                    {item.name}
+                  </a>
                 </li>
               ))}
             </ul>
